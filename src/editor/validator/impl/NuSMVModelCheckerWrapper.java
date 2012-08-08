@@ -18,7 +18,6 @@ import javax.swing.filechooser.FileFilter;
 
 import util.fsmmodel.Fsm;
 import util.fsmmodel.State;
-
 import editor.validator.ConstraintValidator;
 import editor.validator.ValidationCanceledException;
 
@@ -72,15 +71,19 @@ public class NuSMVModelCheckerWrapper extends ConstraintValidator {
 				
 				return result;
 			} catch (Exception e) {
-				e.printStackTrace();
 				throw new ValidationCanceledException();
-//				System.err.println("Error during validation. Try again...");
 			} finally {
 				if (file!=null) file.delete();
 			}
 		}
 	}
 	
+	/**
+	 * Returns the path to the NuSMV.exe file. If not already set, the user may
+	 * be asked whether he wants to give the path of the model checker.
+	 * 
+	 * @return
+	 */
 	private String getNuSmvFile() {
 		if (this.nuSmvFile!=null && new File(this.nuSmvFile).isFile()) {
 			return this.nuSmvFile;
@@ -130,6 +133,14 @@ public class NuSMVModelCheckerWrapper extends ConstraintValidator {
 		return result;
 	}
 	
+	/**
+	 * Converts a state machine and a ltl formula to a NuSMV diagramm.
+	 * 
+	 * @param ltlFormula the formula to be checked.
+	 * @param model the state machine behavior.
+	 * @param replacementNames the replacements for state names.
+	 * @return
+	 */
 	private static String createNuSMVDiagram(String ltlFormula, Fsm model, Map<String, String> replacementNames) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("MODULE main\n");
@@ -175,6 +186,13 @@ public class NuSMVModelCheckerWrapper extends ConstraintValidator {
 		return sb.toString();
 	}
 	
+	/**
+	 * Writes a string to file.
+	 * 
+	 * @param content
+	 * @return
+	 * @throws IOException
+	 */
 	private static File writeToFile(String content) throws IOException {
 		File temp = File.createTempFile("rsmc",".smv");
 		temp.deleteOnExit();
@@ -186,6 +204,15 @@ public class NuSMVModelCheckerWrapper extends ConstraintValidator {
 		return temp;
 	}
 	
+	/**
+	 * Executes the model checker in a shell. This function will block until the
+	 * checking process is finished.
+	 * 
+	 * @param file the NuSMV diagram.
+	 * @param nuSmvFile path to NuSMV.exe.
+	 * @return result of the validation.
+	 * @throws Exception
+	 */
 	private static List<String> runShell(String file, String nuSmvFile) throws Exception {
 		ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c", nuSmvFile, file);
 	    processBuilder.directory(new File(System.getProperty("java.io.tmpdir")));
@@ -215,6 +242,9 @@ public class NuSMVModelCheckerWrapper extends ConstraintValidator {
 	    return result;
 	}
 	
+	/**
+	 * Tries to find te outcome of a validation.
+	 */
 	private static boolean evaluateResult(List<String> outputLines) {
 		for (String line : outputLines) {
 			if (line.startsWith("-- ")) {

@@ -3,11 +3,10 @@ package editor.validator;
 import java.util.ArrayList;
 import java.util.List;
 
-import util.fsmmodel.Fsm;
-import util.fsmmodel.State;
-
 import model.AbstractOperator;
 import model.NotCompleteException;
+import util.fsmmodel.Fsm;
+import util.fsmmodel.State;
 
 public abstract class ConstraintValidator {
 
@@ -18,7 +17,14 @@ public abstract class ConstraintValidator {
 	public abstract boolean validate(String ltl) throws ValidationCanceledException;
 	public abstract String getLTLForVariable(String variable);
 	
-	
+	/**
+	 * Validates an operator.
+	 * 
+	 * @param operator
+	 * @return validation result.
+	 * @throws NotCompleteException if the operator is not complete.
+	 * @throws ValidationCanceledException
+	 */
 	public boolean validate(AbstractOperator operator) throws NotCompleteException, ValidationCanceledException {
 		String ltl;
 		synchronized (this.monitor) {
