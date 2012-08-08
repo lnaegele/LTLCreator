@@ -23,6 +23,14 @@ import editor.toolpane.ToolPane;
 import editor.validator.ConstraintValidator;
 import editor.validator.impl.NuSMVModelCheckerWrapper;
 
+/**
+ * This class allows an easy integration of the LTLCreator tool into other swing
+ * based java programs. <a>Editor</a> is a component containing a tab bar for
+ * several dashboards and a tool bar for constraint creation.
+ * 
+ * @author ludwig
+ * 
+ */
 public class Editor extends JComponent {
 	private static final long serialVersionUID = 1L;
 	
@@ -30,6 +38,9 @@ public class Editor extends JComponent {
 	private GraphTabPane graphTabPane = new GraphTabPane();
 	private Map<GraphTab, OperatorAndModelChangeListener> graphTabs = new HashMap<GraphTab, OperatorAndModelChangeListener>();
 	
+	/**
+	 * Creates a new LTLCreator component. It can be added to any swing container.
+	 */
 	public Editor() {
 		this.setLayout(new BorderLayout());
 		
@@ -43,18 +54,44 @@ public class Editor extends JComponent {
 		this.add(new ScrollColumn(new ToolPane()), BorderLayout.EAST);
 	}
 	
+	/**
+	 * Sets the new model. It causes all constraints to be revalidated, and the
+	 * list from where all possible states can be choosen will be updated.
+	 * 
+	 * @param model
+	 *            the new model.
+	 */
 	public void setModel(Fsm model) {
 		this.validator.setModel(model);
 	}
 	
+	/**
+	 * Adds a new tab with an empty dashboard to the editor.
+	 * 
+	 * @param select
+	 *            determines whether the tab should become selected.
+	 */
 	public void addNewEmptyDashboard(boolean select) {
 		addNewDashboard(null, select);
 	}
 	
+	/**
+	 * Adds a new tab with a prefilled dashboard to the editor.
+	 * 
+	 * @param operator
+	 *            the constraint contained in the dashboard.
+	 * @param select
+	 *            determines whether the tab should become selected.
+	 */
 	public void addNewDashboard(AbstractOperator operator, boolean select) {
 		this.graphTabPane.addGraphTab(new OperatorTab(operator), select);
 	}
 	
+	/**
+	 * Returns a list of all operators, ordered in the same order as the tabs.
+	 * 
+	 * @return all operators of the editor.
+	 */
 	public List<AbstractOperator> getOperators() {
 		List<AbstractOperator> result = new ArrayList<AbstractOperator>();
 		for (GraphTab graphTab : this.graphTabPane.getGraphTabs()) result.add(((OperatorTab)graphTab).getDashboard().getOperator()); 

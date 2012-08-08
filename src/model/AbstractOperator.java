@@ -22,7 +22,13 @@ import util.Utils;
 import util.dnd.Draggable;
 import util.dnd.DropTarget;
 
-
+/**
+ * This class represents an abstract operator. Each operator can contain several
+ * child operators, but this depends on the specific subclass.
+ * 
+ * @author ludwig
+ * 
+ */
 public abstract class AbstractOperator extends JComponent implements Draggable {
 	private static final long serialVersionUID = 1L;
 
@@ -48,9 +54,30 @@ public abstract class AbstractOperator extends JComponent implements Draggable {
 		};
 	}
 	
+	/**
+	 * Returns the corresponding LTL formula for this operator and all
+	 * suboperators.
+	 * 
+	 * @return the corresponding LTL formula for this operator.
+	 * @throws NotCompleteException
+	 *             if at least one (sub-)operator is not complete.
+	 */
 	public abstract String getLTL() throws NotCompleteException;
+	
+	/**
+	 * Returns the specific color of the implemented operator type.
+	 * 
+	 * @return the specific color of the implemented operator type.
+	 */
 	public abstract Color getColor();
+	
+	/**
+	 * Creates a new instance of the implemented operator type.
+	 * 
+	 * @return a new instance of the implemented operator type.
+	 */
 	public abstract AbstractOperator createNewInstance();
+	
 	protected abstract void paintOperator(Graphics2D g, boolean considerHighlighting);
 	protected abstract void layoutBuckets();
 	protected abstract int getCenterLineX();
@@ -123,6 +150,18 @@ public abstract class AbstractOperator extends JComponent implements Draggable {
 		paintOperator(g, true, false, false);
 	}
 	
+	/**
+	 * This function paints this operator on a graphics object.
+	 * 
+	 * @param g
+	 *            the graphics object.
+	 * @param considerHighlighting
+	 *            determines, whether mouse hover effects shall be painted.
+	 * @param recursive
+	 *            if true, all suboperators will be painted recursively.
+	 * @param doLayout
+	 *            causes the operator to lay out before painting.
+	 */
 	public void paintOperator(Graphics g, boolean considerHighlighting, boolean recursive, boolean doLayout) {
 		if (doLayout) this.doLayout();
 		
@@ -187,6 +226,13 @@ public abstract class AbstractOperator extends JComponent implements Draggable {
 		return false;
 	}
 	
+	/**
+	 * Returns whether this operator is similar to another one.
+	 * 
+	 * @param op
+	 *            the operator to compare with.
+	 * @return true, if this operator is similar to <a>op</a>
+	 */
 	public boolean isSimilar(AbstractOperator op) {
 		if (!op.getClass().equals(this.getClass())) return false;
 		
@@ -220,16 +266,36 @@ public abstract class AbstractOperator extends JComponent implements Draggable {
 	}
 	
 	private List<OperatorChangeListener> operatorChangeListeners = new ArrayList<OperatorChangeListener>();
+	
+	/**
+	 * Add a <a>ChangeListener</a> to this operator. It will be notified about
+	 * all changes within this or all sub-operators.
+	 * 
+	 * @param l
+	 *            the <a>ChangeListener</a> to add.
+	 */
 	public void addChangeListener(OperatorChangeListener l) {
 		synchronized(this.operatorChangeListeners) {
 			this.operatorChangeListeners.add(l);
 		}
 	}
+	
+	/**
+	 * Removes a <a>ChangeListener</a>.
+	 * 
+	 * @param l
+	 *            the <a>ChangeListener</a> to remove.
+	 */
 	public void removeChangeListener(OperatorChangeListener l) {
 		synchronized(this.operatorChangeListeners) {
 			this.operatorChangeListeners.remove(l);
 		}
 	}
+	
+	/**
+	 * Notifies all <a>ChangeListener</a>s about a change within this or any
+	 * sub-operator.
+	 */
 	public void notifyChangeListeners_operatorChanged() {
 		synchronized(this.operatorChangeListeners) {
 			for (OperatorChangeListener l : this.operatorChangeListeners) {
