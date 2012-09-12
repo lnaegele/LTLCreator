@@ -616,11 +616,10 @@ The visual language has support for eight operator types and one proposition as 
 
 
 
-To meet the requirements the visual language should be very easy to use, especially for non-experts. Furthermore it should provide an intuitive application which is ideally learnable within little time. So there are some design decisions an editor for this visual language must fulfill:
+To meet the requirements the visual language should be very easy to use, especially for non-experts. Furthermore it should provide an intuitive application which is ideally learnable within little time. So there are some design decisions an editor for this visual language must fulfill~\cite{moody-physics-of-notations}:
 
 \begin{itemize}
 	\item Each operator has a different significant visual appearance; in this case we have used color. This kind of classification enables a faster subconscious identification by the user.
-	%** COMMENT: can you refer to a GUI design text book regarding this? And how about colour blindness? Don't get me wrong; I am very happy with it; just could do with some citation about it. **
 	\item All editing is performed only by simple drag and drop. Operators and propositions can be moved and dropped onto other operators. A tool bar provides all operator and proposition types to be instantiated and there is a trash can for deleting existing operators.
 	\item The layout of constraints (nested operators) has two dimensions with a certain meaning. Figure~\ref{fig:directions} demonstrates the ``logical'' vertical read direction as well as the time releveant horizontal line.
 	\item In order to simplify the reading of constraints an operator can be hovered over by the mouse pointer. All higher operators become bleached out so that the hovered operator and its children appear highlighted. It's intended to be similar to line coloring when reading a digital text.
@@ -839,7 +838,7 @@ Constraint \emph{a)} ensures the ``Polling'' state is always eventually visited 
 
 We showed that the subgraph approach is working for the medication reminder application, and there was even one more reasonable constraint found by the heuristic: Constraint \emph{c)} ensures that during the medication intake process the program can not switch back to the menu or other services such as entertainment or blood pressure measurement.
 
-** COMMENT: Possible comment here about the scalability and practicality about constraint generation; do you think it will explode in larger cases? Either way a comment might be useful. **
+%** COMMENT: Possible comment here about the scalability and practicality about constraint generation; do you think it will explode in larger cases? Either way a comment might be useful. **
 
 \begin{figure}[htbp]
   \centering
