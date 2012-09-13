@@ -568,7 +568,8 @@ Since the particular domain semantics distinguish the significance of constraint
 
 \begin{itemize}
 	\item The program will always eventually check the database for new reminder jobs. Thus we ensure that pending reminders are processed.
-	\item Either a reminded medication is taken properly, or caregivers are notified that the patient refused medication intake.
+%	\item Either a reminded medication is taken properly, or caregivers are notified that the patient refused medication intake.
+	\item Whenever there is a pending reminder, medication will be finally taken or caregivers will get notified in case of the patient refusing medication intake.
 % The next item is left out so that we can say, our heuristic found one we didn't think about yet :)
 %	\item During the medication intake process the program can not switch to other services such as entertainment mode ore blood pressure measurement, for example.
 \end{itemize}
@@ -616,14 +617,19 @@ The visual language has support for eight operator types and one proposition as 
 
 
 
-To meet the requirements the visual language should be very easy to use, especially for non-experts. Furthermore it should provide an intuitive application which is ideally learnable within little time. So there are some design decisions an editor for this visual language must fulfill~\cite{moody-physics-of-notations}:
+To meet the requirements the visual language should be very easy to use, especially for non-experts. Furthermore it should provide an intuitive application which is ideally learnable within little time. So there are some design decisions this visual language must fulfill~\cite{moody-physics-of-notations}:
 
 \begin{itemize}
 	\item Each operator has a different significant visual appearance; in this case we have used color. This kind of classification enables a faster subconscious identification by the user.
-	\item All editing is performed only by simple drag and drop. Operators and propositions can be moved and dropped onto other operators. A tool bar provides all operator and proposition types to be instantiated and there is a trash can for deleting existing operators.
 	\item The layout of constraints (nested operators) has two dimensions with a certain meaning. Figure~\ref{fig:directions} demonstrates the ``logical'' vertical read direction as well as the time releveant horizontal line.
-	\item In order to simplify the reading of constraints an operator can be hovered over by the mouse pointer. All higher operators become bleached out so that the hovered operator and its children appear highlighted. It's intended to be similar to line coloring when reading a digital text.
 	\item Multiple nested operators of the same kind which have no order priorities such as \emph{OR} or \emph{AND} appear unnecessarily complex. These operators can be merged as shown in figure~\ref{fig:nested_and}.
+\end{itemize}
+
+Also an editor for this visual language can contribute to usability and clarity. Some requirements are as follows:
+
+\begin{itemize}	
+	\item All editing is performed only by simple drag and drop. Operators and propositions can be moved and dropped onto other operators. A tool bar provides all operator and proposition types to be instantiated and there is a trash can for deleting existing operators.
+	\item In order to simplify the reading of constraints an operator can be hovered over by the mouse pointer. All higher operators become bleached out so that the hovered operator and its children appear highlighted. It's intended to be similar to line coloring when reading a digital text.
 	\item Every edit to either the constraint or the underlying state machine results in an automatically (re-)validation of the constraint. The result is immediately displayed to the user.
 	\item There is no button for constraint creation / editing except operator and proposition providers, which let the developer create new instances. Having no additional buttons reduces complexity and keeps it simple.
 \end{itemize}
@@ -664,12 +670,12 @@ Regarding the postulated constraints in the requirements in section~\ref{sec:req
 	\item All States immediately before $\beta$ states ($\gamma$-states).
 \end{enumerate}
 
-In order to compute the required constraints automatically, and possibly additional ones, we manage a set of subgraphs defined as follows:
+In order to compute the required constraints automatically, and possibly additional ones, we manage a set of subgraphs defined as follows. A graphical example of a subgraph is shown in figure~\ref{fig:subgraph}.
 %Um die in requirements definierten constraints und vielleicht noch mehr zu finden, behelfen wir uns 
 %Each $\alpha$-, the corresponding $\beta$- and several $\gamma$-states form a part of a state set called \emph{subgraph}. In order to retreive valid constraints a subgraph is defined by the following requirements: %as follows
 
 \begin{itemize}
-	\item It has a start state ($\alpha$-state) with at least two outgoing transitions.
+	\item A subgraph has a start state ($\alpha$-state) with at least two outgoing transitions.
 	\item There is one end state ($\beta$-state) in which all possible paths starting from start state come together again.
 	\item All states between the start and end states have no other incoming transitions than the ones originally coming from the start state. That means there is no path to visit these states except through the start state.
 	\item The start state may have incoming transitions from states not contained in the subgraph.
@@ -686,17 +692,19 @@ In order to compute the required constraints automatically, and possibly additio
   
 	\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=15mm]
 	
+	
 	  \node[statein] (1) {$\alpha$};
 	  \node[state] (2) [above left of=1] {};
-	  \node[state] (3) [above right of=1] {};
-	  \node[statein] (4) [below left of=1] {};
-	  \node[statein] (6) [below of=4] {$\gamma$};
-	  \node[statein] (7) [below right of=4] {$\gamma$};
+	  \node[state] (3) [below left of=1] {};
+	  \node[statein] (4) [above right of=1] {};
 	  \node[statein] (5) [below right of=1] {};
-	  \node[statein] (8) [below of=5] {$\gamma$};
-	  \node[statein] (9) [below of=7] {$\beta$};
-	  \node[state] (10) [right of=9] {};
-	  \node[state] (11) [below left of=9] {};
+	  \node[statein] (8) [right of=5] {$\gamma$};
+	  \node[statein] (6) [right of=4] {$\gamma$};
+	  \node[statein] (7) [below right of=4] {$\gamma$};
+	  
+	  \node[statein] (9) [right of=7] {$\beta$};
+	  \node[state] (10) [above of=9] {};
+	  \node[state] (11) [above right of=9] {};
 	  \node[state] (12) [below right of=9] {};
 	  
 	  \path[dashed]
@@ -715,6 +723,37 @@ In order to compute the required constraints automatically, and possibly additio
 	    (7) edge node [left] {} (9)
 	    (8) edge node [left] {} (9)
 	    ;
+	    
+	    
+%	  \node[statein] (1) {$\alpha$};
+%	  \node[state] (2) [above left of=1] {};
+%	  \node[state] (3) [above right of=1] {};
+%	  \node[statein] (4) [below left of=1] {};
+%	  \node[statein] (6) [below of=4] {$\gamma$};
+%	  \node[statein] (7) [below right of=4] {$\gamma$};
+%	  \node[statein] (5) [below right of=1] {};
+%	  \node[statein] (8) [below of=5] {$\gamma$};
+%	  \node[statein] (9) [below of=7] {$\beta$};
+%	  \node[state] (10) [right of=9] {};
+%	  \node[state] (11) [below left of=9] {};
+%	  \node[state] (12) [below right of=9] {};
+%	  
+%	  \path[dashed]
+%	    (2) edge node [left] {} (1)
+%	    (3) edge node [left] {} (1)
+%	    (10) edge node [left] {} (9)
+%	    (9) edge node [left] {} (11)
+%	    (9) edge node [left] {} (12);
+%		\path[]
+%	  	(1) edge node [left] {} (4)
+%	        edge node [left] {} (5)
+%	    (4) edge node [left] {} (6)
+%	        edge node [left] {} (7)
+%	    (5) edge node [left] {} (8)
+%	    (6) edge node [left] {} (9)
+%	    (7) edge node [left] {} (9)
+%	    (8) edge node [left] {} (9)
+%	    ;
 	
 	\end{tikzpicture}
   \caption{Example for a subgraph.}
@@ -797,11 +836,10 @@ In order to evaluate the proposed safety functionality the tool was integrated i
 
 \subsection{Visual constraints}
 
-Before we can start creating constraints it might be useful to think about a reasonable term we want to express. Let's take the example ``Either a reminded medication is taken properly or caregivers get notified whenever a patient refuses medication intake'' given in the requirements in section~\ref{sec:requirements}.
+Before we can start creating constraints it might be useful to think about a reasonable term we want to express. Let's take the example ``Whenever there is a pending reminder, medication will be finally taken or caregivers will get notified in case of the patient refusing medication intake.'' given in the requirements in section~\ref{sec:requirements}.
 
-In order to find a corresponding graphical constraint the sentence has to be modified a little bit so that it fits the underlying state machine: ``Whenever there is a pending reminder, medication will be finally taken or caregivers will get notified in case of refuse''.
-Since ``whenever'' is a semantic equivalent to ``always if'' first of all a \emph{GLOBALLY} operator gets dragged to the dashboard directly followed by an \emph{IF} as shown in figure~\ref{fig:sampleconstraint}. The condition for this \emph{IF} is that there is a pending reminder, so a state ``Not taken yet'' has to be added to the upper bucket of the \emph{IF} operator.
-Whenever the just mentioned condition becomes true, there also has to be true in future: Medication is taken properly or caregivers get notified about refuse. Accordingly a \emph{FUTURE} operator containing an \emph{OR} forms the second part of the \emph{IF} operator. Finally two states 'Well done!' and 'Staff notified' get added to the disjunction. The resulting visual constraint can now be translated to the corresponding LTL formula by the editor:
+In order to find a corresponding graphical constraint the sentence has to be analyzed just as you read it. Since ``whenever'' is a semantic equivalent to ``always if'' first of all a \emph{GLOBALLY} operator gets dragged to the dashboard directly followed by an \emph{IF} as shown in figure~\ref{fig:sampleconstraint}. The condition for this \emph{IF} is that there is a pending reminder, so a state ``Not taken yet'' has to be added to the upper bucket of the \emph{IF} operator.
+Whenever the just mentioned condition becomes true, there also has to be true in future: Medication is taken properly or caregivers get notified about refuse. Accordingly a \emph{FUTURE} operator containing an \emph{OR} forms the second part of the \emph{IF} operator. Finally two states 'Well done!' and 'Staff notified' get added to the disjunction. The resulting visual constraint can now automatically be translated to the corresponding LTL formula by the editor:
 
 \begin{equation} \label{eq:sampleconstraint}
   \models G (\textnormal{'Not taken yet'} \Rightarrow F (\textnormal{'Well done!'} \vee \textnormal{'Staff notified'}))
