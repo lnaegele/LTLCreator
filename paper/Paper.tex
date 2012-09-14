@@ -365,10 +365,16 @@
 % use a multiple column layout for up to three different
 % affiliations
 \author{\IEEEauthorblockN{Ludwig N\"{a}gele}
-\IEEEauthorblockA{Department of Software Engineering and\\Programming Languages\\ 
+\IEEEauthorblockA{Department of Software Engineering\\ 
 University of Augsburg\\
 86135 Augsburg, Germany\\
 Email: mail@ludwig-naegele.de}
+\and
+\IEEEauthorblockN{Andreas Angerer}
+\IEEEauthorblockA{Department of Software Engineering\\ 
+University of Augsburg\\
+86135 Augsburg, Germany\\
+Email: angerer@informatik.uni-augsburg.de}
 \and
 \IEEEauthorblockN{Bruce A. MacDonald}
 \IEEEauthorblockA{Department of Electrical Engineering\\ 
@@ -420,7 +426,7 @@ Email: b.macdonald@auckland.ac.nz}
 
 \begin{abstract}
 %\boldmath
-Nowadays robotic applications are no longer confined to only industrial use but increasingly assigned to jobs within human workspaces. Even the programming of robots is shifting from experienced software developers to the consumers themselves who need to customize the robot's behavior in order to match the user's individual tasks and requirements.
+Nowadays robots are no longer confined to only industrial use but increasingly assigned to jobs within human workspaces. Even the programming of robots is shifting from experienced software developers to the consumers themselves who need to customize the robot's behavior in order to match individual requirements.
 However both the human robot collaboration as well as the behavior definition by non experts may be a risk to humans within the robots' environment.
 Thus special thinking is needed about how to cope with safety requirements for robot behavior specification by consumers.
 %about how safety could be achieved in this scope.
@@ -478,22 +484,18 @@ A graphical editor has been developed which demonstrates both visual constraint 
 \section{Introduction}
 
 %\IEEEPARstart{S}{afety}
-Safety critical applications require extensive testing or formal verification in order to achieve adequate safe and predictable behavior.
-Even if a more highlevel program has no physical movements and thus cannot directly cause any damage, its output might still be a trigger for dangerous actions executed by interacting actors.
+Safety critical robot applications require extensive testing or formal verification in order to achieve adequate safe and predictable behavior.
+Even if a program does not control actuators itself and thus cannot directly cause any damage, its output might still be a trigger for dangerous actions involving several actors.
 %Even if a more highlevel program has no physical actors and thus cannot cause any damage, it might still have dangerous effects on the environment.
-Imagine a medication reminder application which guides a person through the process of medication intake, such as the healthcare robotics project at the University of Auckland, New Zealand \cite{jayawardena12:_desig}. All interaction is by showing textual instructions on a display, and by speech generation. An error in the program logic could cause an already taken medication to be reminded again and may injure a patient with Alzheimer's disease by causing a medication overdose.
+Imagine a medication reminder application which guides a person through the process of medication intake, such as the healthcare robotics project at the University of Auckland, New Zealand \cite{jayawardena12:_desig}. All interaction is guided by showing textual instructions on a display, and by speech generation. An error in the program logic could cause an already taken medication to be reminded again and may injure a patient with Alzheimer's disease by causing a medication overdose.
 Scientists are working on applications such as the medication reminder~\cite{p11:_feasib} which run on mobile robots serving in nursing homes for the elderly. Equipped with a touch display and several external devices such as a blood pressure measurement tool the robots aim to support and entertain the elderly in their daily activities~\cite{jayawardena12:_desig,5649910}.
-The applications are intended to be developed by healthcare professionals using Robostudio~\cite{robostudio}, a visual programming environment for rapid authoring and customization of complex services on a personal service robot.
+The applications are intended to be developed by healthcare professionals using Robostudio~\cite{robostudio}, a visual programming environment for rapid authoring and customization of complex robot services.
 %state machine based processes and a graphical tool for the designing of human robot interaction.
-Generally these people don't have profound knowledge of the complex mathematical syntax used for formal verification methods such as computation tree logic (CTL) or linear temporal logic (LTL). Nevertheless certain safety guarantees must somehow be delivered in order to gain users' trust and to prevent any harm or injuries by the healthcare robots.
-In case of the medication reminder mentioned above it might be important to ensure notifications are sent to staff members whenever medication is not taken by the patient, or to avoid duplicate reminders for medications which have already been taken.
-
-So a mechanism is needed for the specification of such safety constraints; one that does not require special or expert knowledge and thus is easy to use for all kind of programmers. A visual language intended to fill this gap is presented in section~\ref{sec:visualformalism}.
+Generally these people don't have profound knowledge of the complex mathematical syntax used for formal temporal logic such as computation tree logic (CTL) or linear temporal logic (LTL). Nevertheless certain safety guarantees must somehow be delivered in order to gain users' trust and to prevent any harm or injuries by the healthcare robots.
+In case of the medication reminder mentioned above it might be important to ensure notifications are sent to staff members whenever medication is not taken by the patient, or to avoid duplicate reminders for medications which have already been taken. So a mechanism is needed for the specification of such safety constraints; one that does not require special or expert knowledge and thus is easy to use for all kind of programmers. A visual language intended to fill this gap is presented in section~\ref{sec:visualformalism}.
 
 Unfortunately the supply of an easy-to-use editor for constraint creation doesn't guarantee adequate thinking about sufficent constraints by the developer. Unmotivated or just unexperienced developers may miss important constraints needed in order to achieve a certain safety level.
-To support the user in finding significant constraints it might be useful to automatically compute constraint suggestions which make true testimonies about the current designed program. First of all the generated constraints provide an opportunity for the developer to identify reasonable constraints as well as contradictions between constraints and specification. The latter would mean there are errors in the program which lead to undesired constraints. Furthermore once constraints are created and checked for sanity they can be validated after every program change and thus ensure integrity during the development process.
-
-In section~\ref{sec:automatedconstraintgeneration} we introduce an heuristic for finding reasonable safety constraints based on a state machine in the healthcare robotics domain.
+To support the user in finding significant constraints it might be useful to automatically compute constraint suggestions which make true testimonies about the current designed program. First of all the generated constraints provide an opportunity for the developer to identify reasonable constraints as well as contradictions between constraints and specification. The latter would mean there are errors in the program which lead to undesired constraints. Furthermore once constraints are created and checked for sanity they can be validated after every program change and thus ensure integrity during the development process. In Sect.~\ref{sec:automatedconstraintgeneration} we introduce a heuristic for finding reasonable safety constraints based on state machine descriptions that describe robots' behaviors.
 
 %Once such constraints are defined, they determine the grade of safety coverage. Unfortunately, the program may still contain errors if there is at least one significant constraint missed out. To support the user in finding such ones the tool could furthermore automatically compute suggestions for possible constraints based on the designed statemachine. These are displayed to the programmer and may help him identifying reasonable constraints as well as contradictions between program and specification.
 
@@ -533,17 +535,11 @@ In section~\ref{sec:automatedconstraintgeneration} we introduce an heuristic for
 % 2007 A Visual Editor to Support the Use of Temporal Logic for ADL Monitoring
 
 
-A first step towards a graphical tool for the designing of safety constraints is taken by Sisiruca and Ionescu~\cite{332301}. They developed an object-oriented graphical environment for visually creating temporal logic sentences and rules. The tool presents temporal operators as logical modules with boolean inputs and outputs which can be connected to one big expression graph.
-
-Also Del Bimbo {\em et al} worked on a visual tool for temporal logic, but with a special focus on hierarchical representations of formulas~\cite{520786}. Here each node of a tree is described by an abstract operator whose subformulas are branches to their replacement operators. Thus the root node represents the entire formula. They also explored the formula trees' 3D representation within a virtual space.
-
-Both approaches are different fundamental ideas of representing temporal formulas. Whereas having a graph and inputs and outputs seems not to be applicable for our approach, the idea of hirarchical operator representation of Del Bimbo {\em et al} will be a good basis for our concept of constraint creation and understanding.
+A first step towards a graphical tool for designing safety constraints is taken by Sisiruca and Ionescu~\cite{332301}. They developed an object-oriented graphical environment for visually creating temporal logic sentences and rules. The tool presents temporal operators as logical modules with boolean inputs and outputs which can be connected to one big expression graph. Del Bimbo et al. worked on a visual tool for temporal logic, but with a special focus on hierarchical representation of formulas~\cite{520786}. Here each node of a tree is described by an abstract operator whose subformulas are branches to their replacement operators. Thus the root node represents the entire formula. They also explored the formula trees' 3D representation within a virtual space. Both approaches are different fundamental ideas of representing temporal formulas. Whereas having a graph  seems not to be applicable for our approach, the idea of hirarchical operator representation of Del Bimbo et al. will be a good basis for our concept of constraint creation and understanding.
 
 %aim for simplifying the development of constraints, but they still demand knowledge of the underlying mathematical formalism of temporal logic.
 
-The step towards a more abstract level of development is taken by HomeTL~\cite{4341725}, a visual formalism for the design of home based care. It allows healthcare professionals to specify rules and sequences of user actions in a quite nontechnical manner. Based on these conditions a monitoring system in a patient's home environment can detect and report abnormal situations within the daily routine.
-
-Even though this approach touches the subject of healthcare it barely matches our problem. HomeTL focuses more on monitoring temporal boundaries of a patient's behavior than on ensuring functional safety of an implemented program. It does depict how nontechnical constraint design can be realised and its graphical design is a good example of handling time dependencies.
+The step towards a more abstract level of development is taken by HomeTL~\cite{4341725}, a visual formalism for the design of home based care. It allows healthcare professionals to specify rules and sequences of user actions in a quite nontechnical manner. Based on these conditions a monitoring system in a patient's home environment can detect and report abnormal situations within the daily routine. Even though this approach touches the subject of healthcare it barely matches our problem. HomeTL focuses more on monitoring temporal boundaries of a patient's behavior than on ensuring functional safety of an implemented program. It does depict how nontechnical constraint design can be realised and its graphical design is a good example of handling time dependencies.
 
 %There are already works about constraint generation such as one approach of NASA [4], for example. They used test oracles in order to achieve consistency between program code and specification during development. 
 % Das wollen wir auch erzielen mit unseren automatisch generierten constraints...
@@ -553,21 +549,22 @@ Even though this approach touches the subject of healthcare it barely matches ou
 
 
 %----------------------------------------------------------------------
-% SECTION II: Requirements
+% SECTION II: Requirements (renamed this to 'Goals' to perhaps better reflect the content)
 %----------------------------------------------------------------------
-\section{Requirements}
+\section{Goals}
 \label{sec:requirements}
 
 % soll hier noch gesagt werden, dass wir davon ausgehen, dass es keine endzust�nde gibt?
 
 We want to introduce a visual language for defining safety constraints in state machine definitions of robot behaviour, that is suitable for people who are not experts in formal methods. The visual language should be easy to use and intuitive to read, in order to facilitate maintainability.
-Hence, the graphical formalism should abstract from the usually complex and mathematical concept of conventional formal methods but still be unreduced in expressiveness compared to LTL, so far as possible.
+Hence, the graphical formalism should abstract from the usually complex and mathematical concept of conventional temporal logic but still be significantly expressive.
  
-Furthermore a heuristic should be developed, which identifies reasonable constraints on an underlying state machine program. 
-Since the particular domain semantics distinguish the significance of constraints, it may be difficult to show a universal heuristic. Hence, in this paper the concept of development support by constraint generation is examined within the domain of healthcare robotics. As a special requirement for the heuristic at least the following constraints are to be found for the medication reminder application:
+Furthermore we want to integrate some mechanism to support users in finding suitable constraints for a certain application. We assume that applications are modeled by state transition graphs. This modeling paradigm is used in many healthcare robots that employ dialogue systems for communicating with users~\cite{Bickmore2006}. Other possible fields might be shop assistant robots or entertainment robots. For such kinds of robots, our approach is suitable. It is based on heuristically analyzing state transition graphs and deriving constraints related to the graph structure. In this work, we want to investigate a particular heuristic as a first step towards user support. 
+
+Furthermore, we will present some results of applying this heuristics to the medication reminder example described before. The minimum goal that should be achieved was the identification of the following constraints:
 
 \begin{itemize}
-	\item The program will always eventually check the database for new reminder jobs. Thus we ensure that pending reminders are processed.
+	\item The application will always eventually check the database for new reminder jobs. Thus we ensure that pending reminders are processed.
 %	\item Either a reminded medication is taken properly, or caregivers are notified that the patient refused medication intake.
 	\item Whenever there is a pending reminder, medication will be finally taken or caregivers will get notified in case of the patient refusing medication intake.
 % The next item is left out so that we can say, our heuristic found one we didn't think about yet :)
@@ -588,9 +585,7 @@ Some of the statements do not make sense if patients lie or pretend to take thei
 \subsection{Visual formalism}
 \label{sec:visualformalism}
 
-The presented visual language is designed to express constraints for state machines. To provide the required functionality, the fundamental logical operators are required, as shown in (a) though (e) below. In addition the visual language should be capable of expressing constraints about future steps, both (h) any future state and (g) the next state, that (f) events should always happen, and that (i) a property must be true until some future event.
-
- Like Del Bimbo {\em et al's} formula representation~\cite{520786}, a constraint consists of nested operators and propositions in a hierarchy. However we surrender the three dimensional idea and focus on two dimensional blocks and their compositions instead, what is also used by HomeTL~\cite{4341725}.
+The presented visual language is designed to express constraints for state machines. To provide the required functionality, the fundamental logical operators are required, as shown in (a) though (e) below. In addition the visual language should be capable of expressing constraints about future steps, both (h) any future state and (g) the next state, that (f) events should always happen, and that (i) a property must be true until some future event. Like in Del Bimbo et al.'s formula representation~\cite{520786}, a constraint consists of nested operators and propositions in a hierarchy. However we surrender the three dimensional idea and focus on two dimensional blocks and their compositions instead, what is also used by HomeTL~\cite{4341725}.
 Each block represents either an operator or a proposition and has its specified semantics. Thus a visual formula can be recursively translated to a linear temporal logic (LTL) sentence and be checked using any ordinary model checker. 
 
 The visual language has support for eight operator types and one proposition as shown in figure~\ref{fig:operators}. 
@@ -601,9 +596,9 @@ The visual language has support for eight operator types and one proposition as 
 	\item[(c)] \emph{IF} operator: $\varphi \Rightarrow \psi$.\\Instead of an \emph{IMPLIES} operator an \emph{IF} operator is provided. Its meaning seems to be more intuitive for non-experts since it is a common construct in almost every programming language.
 	\item[(d)] \emph{NOT} operator: $\neg \varphi$.
 	\item[(e)] Proposition: $\rho$.\\Until now there is only the \emph{state proposition} type, which gives evidence about the currently active state. Other types such as numeric or string equations may be added but are less important for our healthcare subject.
-	\item[(f)] \emph{FUTURE} operator: $F \varphi$.\\At least one time -- now or in a later state -- $\varphi$ must be true.
-	\item[(g)] \emph{ALWAYS} operator: $G \varphi$.\\$\varphi$ must be true now and in all following states.
-	\item[(h)] \emph{NEXT} operator: $X \varphi$.\\$\varphi$ has to be true in the next state.
+	\item[(f)] \emph{ALWAYS} operator: $G \varphi$.\\$\varphi$ must be true now and in all following states.
+	\item[(g)] \emph{NEXT} operator: $X \varphi$.\\$\varphi$ has to be true in the next state.
+	\item[(h)] \emph{FUTURE} operator: $F \varphi$.\\At least one time -- now or in a later state -- $\varphi$ must be true.
 	\item[(i)] \emph{UNTIL} operator: $[\varphi U \psi]$.\\Now and in all following states $\varphi$ must be true until there is a state with $\psi$ being true. In addition eventually there has to be a future state with $\psi$ being true.
 \end{description}
 
@@ -622,7 +617,7 @@ To meet the requirements the visual language should be very easy to use, especia
 \begin{itemize}
 	\item Each operator has a different significant visual appearance; in this case we have used color. This kind of classification enables a faster subconscious identification by the user.
 	\item The layout of constraints (nested operators) has two dimensions with a certain meaning. Figure~\ref{fig:directions} demonstrates the ``logical'' vertical read direction as well as the time releveant horizontal line.
-	\item Multiple nested operators of the same kind which have no order priorities such as \emph{OR} or \emph{AND} appear unnecessarily complex. These operators can be merged as shown in figure~\ref{fig:nested_and}.
+	\item Multiple nested operators of the same kind which have no order priorities such as \emph{OR} or \emph{AND} appear unnecessarily complex. These operators can be merged (cf.~Fig.~\ref{fig:nested_and}).
 \end{itemize}
 
 Also an editor for this visual language can contribute to usability and clarity. Some requirements are as follows:
@@ -644,7 +639,7 @@ Also an editor for this visual language can contribute to usability and clarity.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[scale=0.5]{and_simplify} %width=0.7\linewidth
+  \includegraphics[scale=0.4]{and_simplify} %width=0.7\linewidth
   \caption{In order to simplify the appearance of constraints certain operators might be merged. Merged nested \emph{AND} operators (center) are less complex as default ones (left). However nested \emph{AND} operators with mouse over (right) are displayed separated in order to retain full editability.}
   \label{fig:nested_and}
 \end{figure}
@@ -661,7 +656,7 @@ Also an editor for this visual language can contribute to usability and clarity.
 \label{sec:automatedconstraintgeneration}
 
 In order to support the developer in specifying safety constraints, automated generation and suggestion of constraints might be helpful. But it's helpful only if the suggested constraints are relevant and reasonable. This however depends on the domain and use case.
-Regarding the postulated constraints in the requirements in section~\ref{sec:requirements} all the relevant states have one of the following characteristics:
+Regarding the important constraints postulated in Sect.~\ref{sec:requirements}, all the relevant states fall into one of the following categories:
 %following types of states are of a special interest:
 
 \begin{enumerate}
@@ -670,12 +665,12 @@ Regarding the postulated constraints in the requirements in section~\ref{sec:req
 	\item All States immediately before $\beta$ states ($\gamma$-states).
 \end{enumerate}
 
-In order to compute the required constraints automatically, and possibly additional ones, we manage a set of subgraphs defined as follows. A graphical example of a subgraph is shown in figure~\ref{fig:subgraph}.
+In order to compute the required constraints automatically, and possibly additional ones, we deal with subgraphs defined as follows:
 %Um die in requirements definierten constraints und vielleicht noch mehr zu finden, behelfen wir uns 
 %Each $\alpha$-, the corresponding $\beta$- and several $\gamma$-states form a part of a state set called \emph{subgraph}. In order to retreive valid constraints a subgraph is defined by the following requirements: %as follows
 
 \begin{itemize}
-	\item A subgraph has a start state ($\alpha$-state) with at least two outgoing transitions.
+	\item There is a start state ($\alpha$-state) with at least two outgoing transitions.
 	\item There is one end state ($\beta$-state) in which all possible paths starting from start state come together again.
 	\item All states between the start and end states have no other incoming transitions than the ones originally coming from the start state. That means there is no path to visit these states except through the start state.
 	\item The start state may have incoming transitions from states not contained in the subgraph.
@@ -760,7 +755,7 @@ In order to compute the required constraints automatically, and possibly additio
   \label{fig:subgraph}
 \end{figure}
 
-Using this specification all possible such subgraphs can be detected within a state machine. If the subgraph contains neither inner (infinite) loops nor final states (states having no outgoing transition) we can derive the following valid LTL formulas for each subgraph (with $\alpha$ as proposition for ``$\alpha$ is current state'' and similarily for $\beta$ and all $\gamma$'s):
+A graphical example of such a subgraph is shown in Fig.~\ref{fig:subgraph}. Using this specification all possible such subgraphs can be detected within a state machine. If the subgraph contains neither inner (infinite) loops nor final states (states having no outgoing transition) we can derive the following valid LTL formulas for each subgraph (with $\alpha$ as proposition for ``$\alpha$ is current state'' and similarly for $\beta$ and $\gamma$):
 
 \begin{equation} \label{eq:first}
   \models G (\alpha \Rightarrow F \beta)
@@ -774,22 +769,22 @@ Using this specification all possible such subgraphs can be detected within a st
   \models G (\alpha \Rightarrow [\neg \beta U \bigvee_{\gamma} \gamma])
 \end{equation}
 
-Additionaly for all states not contained in the subgraph (let's call them $\delta$-states, and the proposition $\delta$ stands for ``$\delta$ is current state'') the following formula is true: 
+Additionally, for all states not contained in the subgraph (let's call them $\delta$-states, and the proposition $\delta$ stands for ``$\delta$ is current state'') the following formula is true: 
 
 \begin{equation} \label{eq:fourth}
   \models G (\alpha \Rightarrow [(\bigwedge_{\delta} \neg \delta) U \beta])
 \end{equation}
 
-In case of $\alpha = \beta$ -- i.e. when all paths starting from $\alpha$-state eventually return again (cycle) -- even one more constraint can be assumed to be true:
+In case of $\alpha = \beta$ -- i.e. when all paths starting from $\alpha$-state eventually return again (cycle) -- even another constraint can be assumed to be true:
 
 \begin{equation} \label{eq:fifth}
   \models G F \alpha
 \end{equation}
  
 
-These five constraints apply for each subgraph matching the conditions mentioned above. Formula~\ref{eq:first} says that an $\alpha$-state is always eventually followed by a $\beta$-state. Formula~\ref{eq:second} ensures that there will be always at least one $\gamma$-state be visited after each visit of an $\alpha$-state. The quite similar but stricter formula~\ref{eq:third} demands additionally a visit of at least one $\gamma$-state before the $\beta$-state can be reached. Formula~\ref{eq:fourth} simply says that a state not contained in the subgraph can't be visited between $\alpha$- and $\beta$-states. That the $\alpha$-state will always eventually be visited again is expressed by formula~\ref{eq:fifth}.
+These five constraints apply to each subgraph matching the conditions mentioned above. Formula~\ref{eq:first} says that an $\alpha$-state is always eventually followed by a $\beta$-state. Formula~\ref{eq:second} ensures that there will be always at least one $\gamma$-state be visited after each visit of an $\alpha$-state. The quite similar but stricter formula~\ref{eq:third} demands additionally a visit of at least one $\gamma$-state before the $\beta$-state can be reached. Formula~\ref{eq:fourth} simply says that a state not contained in the subgraph can't be visited between $\alpha$- and $\beta$-states. The constraint that the $\alpha$-state will always eventually be visited again is expressed by formula~\ref{eq:fifth}.
 
-All formulas can be translated to the visual formalism presented in section~\ref{sec:visualformalism} and shown to the user. The appropriate LTL formulas for the postulated constraints in section~\ref{sec:requirements} belong to number \ref{eq:second} and \ref{eq:fifth} of the subgraph based formula templates and are as follows:
+All formulas can be translated to the visual formalism presented in section~\ref{sec:visualformalism} and shown to the user. The appropriate LTL formulas for the constraints postulated in section~\ref{sec:requirements} relate to number \ref{eq:second} and \ref{eq:fifth} of the subgraph based formula templates and are as follows:
 
 \begin{equation}
   \models G F \textnormal{'Polling'}
@@ -807,10 +802,9 @@ All formulas can be translated to the visual formalism presented in section~\ref
 %----------------------------------------------------------------------
 \section{Prototype and evaluation}
 
-To explore and evaluate the visual formalism as well as the usefulness of constraint generation we developed an editor which provides all proposed functionality while taking the requirements into account.
-The implementation is a java swing component, making it easy to integrate the visual language into other java applications. An API enables an underlying state machine which also influences the state propositions available for constraint editing. Furthermore a particular model checker can be specified for constraint validation. As a default, the symbolic model checker NuSMV~\cite{springerlink:10.1007/s100090050046,NuSMV2} is used.
+As stated in Sect.~\ref{sec:requirements}, appropriate support by a graphical editor is important for the usefulness of the developed visual language. We therefore designed and implemented a prototype of such an editor. The proposed constraint generation heuristics is integrated in this prototype as well and could thus be evaluated. The implementation is a java swing component, making it easy to integrate the visual language into other java applications. An API enables an underlying state machine which also influences the state propositions available for constraint editing. Furthermore a particular model checker can be specified for constraint validation. As a default, the symbolic model checker NuSMV~\cite{springerlink:10.1007/s100090050046,NuSMV2} is used.
 
-Figure~\ref{fig:editor} shows a snapshot of the editor's environment: All functionality needed for constraint editing is provided in the tool bar on the right which contains drag providers for the creating of all operator and proposition types as well as a trashcan for deleting. Constraints can be composed in the dashboard in the middle of the editor by drag and drop. The tab functionality on the left allows several constraints to be managed. Each tab shows a small thumbnail of the constraint and a symbol indicating its validity, which is a warning shield for ``incomplete'', a green shield for ``valid'', a red cross for ``invalid'' or an animated ring for ``validation in progress.'' The magic wand button within the tab pane triggers the constraint generation.
+Fig.~\ref{fig:editor} shows a snapshot of the editor's environment: All functionality needed for constraint editing is provided in the tool bar on the right. It contains draggable elements for creating all operator and proposition types as well as a trashcan for deleting. Constraints can be composed in the dashboard in the center of the editor by drag\&drop. The tab functionality on the left allows multiple constraints to be managed. Each tab shows a small thumbnail of the constraint and a symbol indicating its validity (a warning shield for ``incomplete'', a green shield for ``valid'', a red cross for ``invalid'' or an animated ring for ``validation in progress.'') The magic wand button within the tab pane triggers the constraint generation.
 
 \begin{figure}[htbp]
   \centering
@@ -819,7 +813,7 @@ Figure~\ref{fig:editor} shows a snapshot of the editor's environment: All functi
   \label{fig:editor}
 \end{figure}
 
-In order to evaluate the proposed safety functionality the tool was integrated into Robostudio~\cite{robostudio}. It allows the specification of state machine based programs whose behaviour can then be examined by visual constraints. As an example we consider the simplified medication reminder application whose underlying screen-flow is explained in figure~\ref{fig:medicationreminder}. Starting from ``Menu'' the user can choose from several services such as blood pressure measurement or entertainment. In the given example these services are simplified to just one state ``additional services'' since we want to focus only on the medication reminder part. In ``Polling'' the database is checked for a pending reminder, and if there is one the medication intake guidance is triggered. The patient can state if he or she has already taken the medication, or decide whether to take it or not. In the latter he or she may give a reason for it and a caregiver is notified about this incident. Otherwise it will result in ``Well done!'' after completing intake.
+In order to evaluate the proposed safety functionality the tool was integrated into Robostudio~\cite{robostudio}. This Visual Programming Environment allows the specification of state machine based programs whose behaviour can then be examined by visual constraints. As an example we consider the simplified medication reminder application whose underlying screen-flow is explained in Fig.~\ref{fig:medicationreminder}. Starting from ``Menu'' the user can choose from several services such as blood pressure measurement or entertainment. In the given example these services are simplified to just one state ``additional services'' since we want to focus only on the medication reminder part. In ``Polling'' the database is checked for a pending reminder, and if there is one the medication intake guidance is triggered. The patient can state if he or she has already taken the medication, or decide whether to take it or not. In the latter he or she may give a reason for it and a caregiver is notified about this incident. Otherwise it will result in ``Well done!'' after completing intake.
 
 \begin{figure}[htbp]
   \centering
@@ -849,28 +843,28 @@ Whenever the just mentioned condition becomes true, there also has to be true in
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[scale=0.5]{sampleconstraint}
+  \includegraphics[scale=0.4]{sampleconstraint}
   \caption{Visual constraint creation for LTL formula ~\ref{eq:sampleconstraint}.}
   \label{fig:sampleconstraint}
 \end{figure}
 
-After each change within the dashboard the constraint is automatically recompiled and revalidated by using the underlying model checker. As long as the constraint is not completed an ``incomplete'' sign is displayed in the regarding tab. Otherwise an animated ring indicates validation in progress what finally results in either a ``valid'' or ``invalid'' sign.
+After each change in the dashboard, the constraint is automatically recompiled and revalidated by using the underlying model checker. For syntactically invalid constraints, an ``incomplete'' sign is displayed in the respective tab. Otherwise, an animated ring indicates that validation is in progress and will finally result in either a ``valid'' or ``invalid'' sign.
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[scale=0.5]{results}
-  \caption{Status indicators displayed during or after validation: incomplete, validation in progress, invalid and valid.}
-  \label{fig:results}
-\end{figure}
+%\begin{figure}[htbp]
+%  \centering
+%  \includegraphics[scale=0.5]{results}
+%  \caption{Status indicators displayed during or after validation: incomplete, validation in progress, invalid and valid.}
+%  \label{fig:results}
+%\end{figure}
 
-NuSMV performs well so even the validation of constraints on huge and complex programs is fast and allows rapid feedback. In addition, the validation itself runs in the background without locking the dashboard. Therefore we have removed waiting times and disruptions during constraint development, which would be likely with conventional model checking where constraint development and constraint validation are alternating processes. Thus we consider our tools an improvement for the users' experience.
+Due to the optimized performance of NuSMV, even the validation of constraints on huge and complex programs is fast and allows rapid feedback. In addition, the validation itself runs in the background without locking the dashboard. Therefore we avoid waiting times and disruptions during constraint development, which would be likely with conventional model checking where constraint development and constraint validation are alternating processes. Thus we consider our tool an improvement for the user experience.
 
 
 \subsection{Constraint generation}
 \label{sec:prototypeandevaluation_constraintgeneration}
 
-The automated constraint generation can be triggered by a click on the magic wand button in the tab area. After activation a dashboard is opened in a new tab for each found constraint, and validation is initiated immediately. For the medication reminder application six constraints are found, including \emph{a)} and \emph{b)} shown in figure~\ref{fig:generatedconstraints} which match the postulations in the requirements in section~\ref{sec:requirements}.
-The constraint used for demonstration in the previous section is also generated, however \emph{b)} forms an intensified restriction of it.
+The automated constraint generation can be triggered by a click on the magic wand button in the tab area. After activation a dashboard is opened in a new tab for each found constraint, and validation is initiated immediately. For the medication reminder application six constraints are found, including \emph{a)} and \emph{b)} shown in Fig.~\ref{fig:generatedconstraints} which match the postulations in the requirements in Sect.~\ref{sec:requirements}.
+The constraint used for demonstration in the previous section is also generated, however \emph{b)} forms an intensified restriction of it. 
 
 Constraint \emph{a)} ensures the ``Polling'' state is always eventually visited again. If a pending medication is not already taken, constraint \emph{b)} guarantees intake or staff notification before the next reminders can be read from the database.
 
@@ -895,9 +889,16 @@ We showed that the subgraph approach is working for the medication reminder appl
 %----------------------------------------------------------------------
 % SECTION III: Prototype and evaluation
 %----------------------------------------------------------------------
-\section{Future work}
 
-The editor presented in this paper proves validity of all constraints and presents the result \emph{valid} or \emph{invalid} to the user. But in contrast to conventional model checking no additional explanation for the outcome such as a counter example is given. It can be considered to extend the visual language with support for bug identification by a visualization of counter examples, for example.
+\section{Conclusion and Future Work}
+
+In this paper we presented a visual formalism for the defining of safety constraints and first steps towards a concept of automatic constraint generation. Both features are implemented and assembled in an editor for standalone or integrated use. The visual language is reasonably simple which makes it accessible to a wider range of software developers. Nevertheless it is reasonably expressive and allows serious model checking.
+
+The concept of applying hueristics for proposing possible constraints to users of the visual language produced very good results in our use case, the medication reminder application. All postulated constraints were found and we even discovered a new reasonable constraint. Thus we are convinced that this approach, as well as the visual language for defining constraints itself, has the potential to really support users in development of safety critical robot applications in the healthcare domain and also other domains.
+
+Perhaps the most important next step we identified is the application of the language and the constraint generation heuristic to other domains and applications. This will reveal if the identified subgraph-based heuristic for constraint generation provides reasonable results also in different scenarios. Most likely, it will be necessary to identify further heuristics and integrate them in the visual language editor to improve user support. A study among a group of users from the healthcare robotics domain could indicate the potential of usability improvements.
+
+Some improvements on the feature side of the language or the editor were already identified. For example, the state proposition (currently the only supported proposition type) used in constraint formulation might be not enough for other domains. Supporting propositions based on strings or mumerical equations might be necessary. Finally, the only result of constraint checking presented to the user currently is whether the constraint is valid or invalid. In contrast to conventional model checking no additional explanation for the outcome such as a counter example is given. It can be considered to extend the visual language with support for bug identification by a visualization of counter examples, for example.
 %\item Substitution of parts of constraints would be nice in order to make it easier to understand. (A simple operator which abstracts from a more complex operator). It's comparable to composite states of hirachical state machines.
 
 %\item A feature which can display an counter example in case a constraint is not valid. It would make the user comprehend the reason in what situation a constraint fails.
@@ -905,10 +906,15 @@ The editor presented in this paper proves validity of all constraints and presen
 %	\item constraints bewerten (nach gewichtung?) und nur wichtige vorschlagen? Oder zumindest sortieren
 
 
-Since we focus on the healthcare domain in this paper the only proposition type for constraint creation is the state proposition. But to suit other domains additional proposition types such as number or string equations might be added. Also the portability of the constraint generation heuristic to other domains should be examined and different methods than subgraph based constraint finding might be elaborated.
+% conference papers do not normally have an appendix
 
 
-A more systematic evaluation of the tool is required, however this is beyond the scope of the current project. Now that a visual language and tool have been proposed, the next step is to evaluate the tool on a number of applications, make any required modications, then evaluate the tool in a user study for healthcare robotic applications. 	
+% use section* for acknowledgement
+\section*{Acknowledgment}
+
+This work evolved from a master thesis project provided by the Elite Graduate Program Software Engineering. 
+For the received support the authors would like to thank the people of this program and the three patron universities: University of Augsburg, Technical University Munich and Ludwig-Maximilians-University Munich.
+
 
 %\begin{itemize}
 %	\item As already mentioned
@@ -1023,23 +1029,6 @@ A more systematic evaluation of the tool is required, however this is beyond the
 
 
 
-\section{Conclusion}
-
-In this paper we represented a visual formalism for the defining of safety constraints and a concept of automated constraint generation. Both features are implemented and assembled in an editor for standalone or integrated use. The visual language is reasonably simple which makes it accessible to a wider range of software developers. Nevertheless it is reasonably expressive and allows serious model checking.
-
-The concept of constraint generation worked very well for our use case, the medication reminder application, and all postulated constraints were found. Since we even discovered a new reasonable constraint we are convinced this concept as well as the visual language for defining constraints has the potential to support development of safety critical healthcare robot applications.
-
-
-
-
-% conference papers do not normally have an appendix
-
-
-% use section* for acknowledgement
-\section*{Acknowledgment}
-
-This work evolved from a master thesis project provided by the Elite Graduate Program Software Engineering. 
-For the received support the authors would like to thank the people of this program and the three patron universities: University of Augsburg, Technical University Munich and Ludwig-Maximilians-University Munich.
  
 %The authors would like to thank for support received from the  which is held by the tree universities .
 
