@@ -352,6 +352,10 @@
 
 \usepackage{amsmath}
 
+% LTL Symbols
+\usepackage{latexsym}
+\usepackage{MnSymbol}
+
 %\usepackage{natbib}
 
 \begin{document}
@@ -596,10 +600,11 @@ The visual language has support for eight operator types and one proposition as 
 	\item[(c)] \emph{IF} operator: $\varphi \Rightarrow \psi$.\\Instead of an \emph{IMPLIES} operator an \emph{IF} operator is provided. Its meaning seems to be more intuitive for non-experts since it is a common construct in almost every programming language.
 	\item[(d)] \emph{NOT} operator: $\neg \varphi$.
 	\item[(e)] Proposition: $\rho$.\\Until now there is only the \emph{state proposition} type, which gives evidence about the currently active state. Other types such as numeric or string equations may be added but are less important for our healthcare subject.
-	\item[(f)] \emph{ALWAYS} operator: $G \varphi$.\\$\varphi$ must be true now and in all following states.
-	\item[(g)] \emph{NEXT} operator: $X \varphi$.\\$\varphi$ has to be true in the next state.
-	\item[(h)] \emph{FUTURE} operator: $F \varphi$.\\At least one time -- now or in a later state -- $\varphi$ must be true.
-	\item[(i)] \emph{UNTIL} operator: $[\varphi U \psi]$.\\Now and in all following states $\varphi$ must be true until there is a state with $\psi$ being true. In addition eventually there has to be a future state with $\psi$ being true.
+	\item[(f)] \emph{ALWAYS} operator: $\Box \varphi$.\\$\varphi$ must be true now and in all following states.
+	%\Box \Diamond \medcircle
+	\item[(g)] \emph{NEXT} operator: $\medcircle \varphi$.\\$\varphi$ has to be true in the next state.
+	\item[(h)] \emph{FUTURE} operator: $\Diamond \varphi$.\\At least one time -- now or in a later state -- $\varphi$ must be true.
+	\item[(i)] \emph{UNTIL} operator: $[\varphi \mathcal{U} \psi]$.\\Now and in all following states $\varphi$ must be true until there is a state with $\psi$ being true. In addition eventually there has to be a future state with $\psi$ being true.
 \end{description}
 
 
@@ -758,27 +763,27 @@ In order to compute the required constraints automatically, and possibly additio
 A graphical example of such a subgraph is shown in Fig.~\ref{fig:subgraph}. Using this specification all possible such subgraphs can be detected within a state machine. If the subgraph contains neither inner (infinite) loops nor final states (states having no outgoing transition) we can derive the following valid LTL formulas for each subgraph (with $\alpha$ as proposition for ``$\alpha$ is current state'' and similarly for $\beta$ and $\gamma$):
 
 \begin{equation} \label{eq:first}
-  \models G (\alpha \Rightarrow F \beta)
+  \models \Box (\alpha \Rightarrow \Diamond \beta)
 \end{equation}
 
 \begin{equation} \label{eq:second}
-  \models G (\alpha \Rightarrow F (\bigvee_{\gamma} \gamma))
+  \models \Box (\alpha \Rightarrow \Diamond (\bigvee_{\gamma} \gamma))
 \end{equation}
 
 \begin{equation} \label{eq:third}
-  \models G (\alpha \Rightarrow [\neg \beta U \bigvee_{\gamma} \gamma])
+  \models \Box (\alpha \Rightarrow [\neg \beta \mathcal{U} \bigvee_{\gamma} \gamma])
 \end{equation}
 
 Additionally, for all states not contained in the subgraph (let's call them $\delta$-states, and the proposition $\delta$ stands for ``$\delta$ is current state'') the following formula is true: 
 
 \begin{equation} \label{eq:fourth}
-  \models G (\alpha \Rightarrow [(\bigwedge_{\delta} \neg \delta) U \beta])
+  \models \Box (\alpha \Rightarrow [(\bigwedge_{\delta} \neg \delta) \mathcal{U} \beta])
 \end{equation}
 
 In case of $\alpha = \beta$ -- i.e. when all paths starting from $\alpha$-state eventually return again (cycle) -- even another constraint can be assumed to be true:
 
 \begin{equation} \label{eq:fifth}
-  \models G F \alpha
+  \models \Box \Diamond \alpha
 \end{equation}
  
 
@@ -787,11 +792,11 @@ These five constraints apply to each subgraph matching the conditions mentioned 
 All formulas can be translated to the visual formalism presented in section~\ref{sec:visualformalism} and shown to the user. The appropriate LTL formulas for the constraints postulated in section~\ref{sec:requirements} relate to number \ref{eq:second} and \ref{eq:fifth} of the subgraph based formula templates and are as follows:
 
 \begin{equation}
-  \models G F \textnormal{'Polling'}
+  \models \Box \Diamond \textnormal{'Polling'}
 \end{equation}
 
 \begin{equation}
-	\models G (\textnormal{'Not taken yet'} \Rightarrow F (\textnormal{'Well done!'} \vee \textnormal{'Staff notified'})
+	\models \Box (\textnormal{'Not taken yet'} \Rightarrow \Diamond (\textnormal{'Well done!'} \vee \textnormal{'Staff notified'})
 \end{equation}
 %	\item The program will always eventually check the database for new reminder jobs. Thus we avoid that pending reminder are never processed.
 %	\item Either a reminded medication is taken properly or caregivers get notified whenever a patient refuses medication intake.
@@ -836,7 +841,7 @@ In order to find a corresponding graphical constraint the sentence has to be ana
 Whenever the just mentioned condition becomes true, there also has to be true in future: Medication is taken properly or caregivers get notified about refuse. Accordingly a \emph{FUTURE} operator containing an \emph{OR} forms the second part of the \emph{IF} operator. Finally two states 'Well done!' and 'Staff notified' get added to the disjunction. The resulting visual constraint can now automatically be translated to the corresponding LTL formula by the editor:
 
 \begin{equation} \label{eq:sampleconstraint}
-  \models G (\textnormal{'Not taken yet'} \Rightarrow F (\textnormal{'Well done!'} \vee \textnormal{'Staff notified'}))
+  \models \Box (\textnormal{'Not taken yet'} \Rightarrow \Diamond (\textnormal{'Well done!'} \vee \textnormal{'Staff notified'}))
 \end{equation}
 
 %This expression can now be translated to the visual form as we just have to break down the formula from the outside to the inside. A surrounding \emph{GLOBALLY} encapsulates an \emph{IF} block since it is the substitution for \emph{IMPLIES}. Its first operator is a proposition \emph{'Not taken yet'} whereas the second parameter has to be a \emph{FOLLOWS} block containing a disjunction of two propositions \emph{'Well done!'} and \emph{'Staff notified'}. The resulting visual constraint is shown in figure~\ref{fig:sampleconstraint}.
