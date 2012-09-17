@@ -622,7 +622,7 @@ To meet the requirements the visual language should be very easy to use, especia
 \begin{itemize}
 	\item Each operator has a different significant visual appearance; in this case we have used color. This kind of classification enables a faster subconscious identification by the user.
 	\item The layout of constraints (nested operators) has two dimensions with a certain meaning. Figure~\ref{fig:directions} demonstrates the ``logical'' vertical read direction as well as the time releveant horizontal line.
-	\item Multiple nested operators of the same kind which have no order priorities such as \emph{OR} or \emph{AND} appear unnecessarily complex. These operators can be merged (cf.~Fig.~\ref{fig:nested_and}).
+	\item Multiple nested operators of the same kind which have no order priorities such as \emph{OR} or \emph{AND} appear unnecessarily complex. These operators can be merged.
 \end{itemize}
 
 Also an editor for this visual language can contribute to usability and clarity. Some requirements are as follows:
@@ -642,12 +642,12 @@ Also an editor for this visual language can contribute to usability and clarity.
   \label{fig:directions}
 \end{figure}
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[scale=0.4]{and_simplify} %width=0.7\linewidth
-  \caption{In order to simplify the appearance of constraints certain operators might be merged. Merged nested \emph{AND} operators (center) are less complex as default ones (left). However nested \emph{AND} operators with mouse over (right) are displayed separated in order to retain full editability.}
-  \label{fig:nested_and}
-\end{figure}
+%\begin{figure}[htbp]
+  %\centering
+  %\includegraphics[scale=0.4]{and_simplify} %width=0.7\linewidth
+  %\caption{In order to simplify the appearance of constraints certain operators might be merged. Merged nested \emph{AND} operators (center) are less complex as default ones (left). However nested \emph{AND} operators with mouse over (right) are displayed separated in order to retain full editability.}
+  %\label{fig:nested_and}
+%\end{figure}
 
 
 
@@ -837,7 +837,7 @@ In order to evaluate the proposed safety functionality the tool was integrated i
 
 Before we can start creating constraints it might be useful to think about a reasonable term we want to express. Let's take the example ``Whenever there is a pending reminder, medication will be finally taken or caregivers will get notified in case of the patient refusing medication intake.'' given in the requirements in section~\ref{sec:requirements}.
 
-In order to find a corresponding graphical constraint the sentence has to be analyzed just as you read it. Since ``whenever'' is a semantic equivalent to ``always if'' first of all a \emph{GLOBALLY} operator gets dragged to the dashboard directly followed by an \emph{IF} as shown in figure~\ref{fig:sampleconstraint}. The condition for this \emph{IF} is that there is a pending reminder, so a state ``Not taken yet'' has to be added to the upper bucket of the \emph{IF} operator.
+In order to find a corresponding graphical constraint the sentence has to be analyzed just as you read it. Since ``whenever'' is a semantic equivalent to ``always if'' first of all a \emph{ALWAYS} operator gets dragged to the dashboard directly followed by an \emph{IF} as shown in figure~\ref{fig:sampleconstraint}. The condition for this \emph{IF} is that there is a pending reminder, so a state ``Not taken yet'' has to be added to the upper bucket of the \emph{IF} operator.
 Whenever the just mentioned condition becomes true, there also has to be true in future: Medication is taken properly or caregivers get notified about refuse. Accordingly a \emph{FUTURE} operator containing an \emph{OR} forms the second part of the \emph{IF} operator. Finally two states 'Well done!' and 'Staff notified' get added to the disjunction. The resulting visual constraint can now automatically be translated to the corresponding LTL formula by the editor:
 
 \begin{equation} \label{eq:sampleconstraint}
