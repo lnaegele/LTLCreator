@@ -1,35 +1,23 @@
 \chapter{Test scenario and evaluation}
 \label{chap:testscenarioandevaluation}
 
-case study, eventuell grosses Beispiel erwaehnen? wenn constraints generiert werden, verlaesst man sich darauf? Hoert man dann auf, selbst mitzudenken? Ist die menge der constraints noch handelbar?
-
-As stated in Sect.~\ref{sec:goals}, appropriate support by a graphical editor is important for the usefulness of the developed visual language. We therefore designed and implemented a prototype of such an editor. The proposed constraint generation heuristics is integrated in this prototype as well and could thus be evaluated. The implementation is a java swing component, making it easy to integrate the visual language into other java applications. An API enables an underlying state machine which also influences the state propositions available for constraint editing. Furthermore a particular model checker can be specified for constraint validation. As a default, the symbolic model checker NuSMV~\cite{springerlink:10.1007/s100090050046,NuSMV2} is used.
-
-Fig.~\ref{fig:editor} shows a snapshot of the editor's environment: All functionality needed for constraint editing is provided in the tool bar on the right. It contains draggable elements for creating all operator and proposition types as well as a trashcan for deleting. Constraints can be composed in the dashboard in the center of the editor by drag\&drop. The tab functionality on the left allows multiple constraints to be managed. Each tab shows a small thumbnail of the constraint and a symbol indicating its validity (a warning shield for ``incomplete'', a green shield for ``valid'', a red cross for ``invalid'' or an animated ring for ``validation in progress.'') The magic wand button within the tab pane triggers the constraint generation.
+In order to evaluate the proposed safety functionality we use the Robostudio version where we already integrated LTLCreator in. This visual programming environment allows the specification of state machine based programs whose behaviour can then be examined by visual constraints.
+As a test scenario we consider the simplified medication reminder application whose underlying screen-flow is explained in figure~\ref{fig:medicationreminder}. Starting from ``Menu'' the user can choose from several services such as blood pressure measurement or entertainment. In the given example these services are simplified to just one state ``additional services'' since we want to focus only on the medication reminder part. In ``Polling'' the database is checked for a pending reminder, and if there is one the medication intake guidance is triggered. The patient can state if he or she has already taken the medication, or decide whether to take it or not. In the latter he or she may give a reason for it and a caregiver is notified about this incident. Otherwise it will result in ``Well done!'' after completing intake.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\linewidth]{editor} 
-  \caption{Snapshot of the visual editor.}
-  \label{fig:editor}
-\end{figure}
-
-In order to evaluate the proposed safety functionality the tool was integrated into Robostudio~\cite{robostudio}. This Visual Programming Environment allows the specification of state machine based programs whose behaviour can then be examined by visual constraints. As an example we consider the simplified medication reminder application whose underlying screen-flow is explained in Fig.~\ref{fig:medicationreminder}. Starting from ``Menu'' the user can choose from several services such as blood pressure measurement or entertainment. In the given example these services are simplified to just one state ``additional services'' since we want to focus only on the medication reminder part. In ``Polling'' the database is checked for a pending reminder, and if there is one the medication intake guidance is triggered. The patient can state if he or she has already taken the medication, or decide whether to take it or not. In the latter he or she may give a reason for it and a caregiver is notified about this incident. Otherwise it will result in ``Well done!'' after completing intake.
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\linewidth]{stm.pdf} %width=0.7\linewidth
+  \includegraphics[width=\linewidth]{stm.pdf}
   \caption{Simplified screen-flow of the medication reminder application.}
   \label{fig:medicationreminder}
 \end{figure}
 
-
+This state machine with all its states, transitions and screen dialogs has been implemented in Robostudio and in the following sections we will evaluate the visual language as well as the capability of constraint generation. In section~\ref{sec:reliability} a short statement about reliability of the features is given.
 
 
 
 \section{Operator constraints}
 
-Before we can start creating constraints it might be useful to think about a reasonable term we want to express. Let's take the example ``Whenever there is a pending reminder, medication will be finally taken or caregivers will get notified in case of the patient refusing medication intake.'' given in the requirements in section~\ref{sec:requirements}.
+Before we can start creating constraints it might be useful to think about a reasonable term we want to express. Let's take the example ``Whenever there is a pending reminder, medication will be finally taken or caregivers will get notified in case of the patient refusing medication intake.'' given as a requirement in chapter~\ref{chap:goals}.
 
 In order to find a corresponding graphical constraint the sentence has to be analyzed just as you read it. Since ``whenever'' is a semantic equivalent to ``always if'' first of all a \emph{ALWAYS} operator gets dragged to the dashboard directly followed by an \emph{IF} as shown in figure~\ref{fig:sampleconstraint}. The condition for this \emph{IF} is that there is a pending reminder, so a state ``Not taken yet'' has to be added to the upper bucket of the \emph{IF} operator.
 Whenever the just mentioned condition becomes true, there also has to be true in future: Medication is taken properly or caregivers get notified about refuse. Accordingly a \emph{FUTURE} operator containing an \emph{OR} forms the second part of the \emph{IF} operator. Finally two states 'Well done!' and 'Staff notified' get added to the disjunction. The resulting visual constraint can now automatically be translated to the corresponding LTL formula by the editor:
@@ -51,6 +39,9 @@ After each change in the dashboard, the constraint is automatically recompiled a
 
 Due to the optimized performance of NuSMV, even the validation of constraints on huge and complex programs is fast and allows rapid feedback. In addition, the validation itself runs in the background without locking the dashboard. Therefore we avoid waiting times and disruptions during constraint development, which would be likely with conventional model checking where constraint development and constraint validation are alternating processes. Thus we consider our tool an improvement for the user experience.
 
+We observed the different color flavours of the visual operators to be a good support for fast reading and understanding of constraints. Also the two dimensional composition and the round shapes of the operators turned out to 
+give the language a schematic but not too rectangular look. Besides it is considered eye-candy what is the best motivation for using this visual language.
+
 
 
 
@@ -63,43 +54,71 @@ Ausdruckssärke gleich zu LTL, das heißt, dass lediglich Möglichkeiten nicht ausg
 \begin{figure}[htbp]
   \centering
   \includegraphics[scale=0.65]{example_propositions}
-  \caption{Possible proposition extensions: numeric and string equation.}
+  \caption{Possible proposition extensions: numeric and string equations.}
   \label{fig:example_propositions}
 \end{figure}
 
 
 
-\section{Automated Constraint generation}
+\section{Automated constraint generation}
 
-The automated constraint generation can be triggered by a click on the magic wand button in the tab area. After activation a dashboard is opened in a new tab for each found constraint, and validation is initiated immediately. For the medication reminder application six constraints are found, including \emph{a)} and \emph{b)} shown in Fig.~\ref{fig:generatedconstraints} which match the postulations in the requirements in Sect.~\ref{sec:requirements}.
+The automated constraint generation can be triggered by a click on the magic wand button in the tab area. After activation a dashboard is opened in a new tab for each found constraint, and validation is initiated immediately. For the medication reminder application six constraints are found, including \emph{a)} and \emph{b)} shown in figure~\ref{fig:generatedconstraints} which match the postulations in the requirements in chapter~\ref{chap:goals}.
 The constraint used for demonstration in the previous section is also generated, however \emph{b)} forms an intensified restriction of it. 
-
 Constraint \emph{a)} ensures the ``Polling'' state is always eventually visited again. If a pending medication is not already taken, constraint \emph{b)} guarantees intake or staff notification before the next reminders can be read from the database.
+
+The search and generation process finishes within less than a second and thus doesn't make the developer wait a long time.
 
 We showed that the subgraph approach is working for the medication reminder application, and there was even one more reasonable constraint found by the heuristic: Constraint \emph{c)} ensures that during the medication intake process the program can not switch back to the menu or other services such as entertainment or blood pressure measurement.
 
-%** COMMENT: Possible comment here about the scalability and practicality about constraint generation; do you think it will explode in larger cases? Either way a comment might be useful. **
+
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[scale=0.65]{generatedconstraints} %width=0.7\linewidth
-  \caption{Automatically generated constraints which match the postulations in the requirements.}
+  \includegraphics[scale=0.65]{generatedconstraints}
+  \caption{Automatically generated constraints which match the required postulations.}
   \label{fig:generatedconstraints}
 \end{figure}
 
 
 
-%Da der subgraph-finde-algorithmus als brute force algorithmus implementiert wurde kann bei groï¿½en programmen (ab ca. 1000 Zustï¿½nden und sehr vielen Verzweigungen) der findeprozess teils sehr lange (mehrere Minuten) dauern. Um den warteprozess ertrï¿½glicher zu machen wird wï¿½hrend der findung ein dialog mit dem aktuellen fortschritt und einem abbrechen button angezeigt.
-% hat uns die automatische generierung geholfen? Wuhu, wir haben noch einen constraint gefunden, der auch sinn macht
 
 
 
 \subsection{Performance}
 
- (on huge state machines) (brute force algorithm)
+In order to examine the performance of sub graph finding and constraint generation, we need to have a second look at the implementation details again. The sub graph finding algorithm is realized as a depth-first search. Indeed all healthcare programs are infinite and contain cycles and a depth-first walk-through would never end, but the algorithm doesn't go deeper at already visited states.
+
+The performance of this algorithm is of course highly dependend on the grade of branching. Nevertheless, such a depth-first search has an estimated wost case execution time of $O(|V|+|E|)$ in which $|V|$ is the number of states and $|E|$ number of edges respective transitions in our case.
+Since we cope with state machines and thus have directed edges rather than undirected ones, each state can have $|E|=|V|$ transitions; $|V-1|$ to other ones and one to itself. As worst case ececution time for the depth-first search we obtain the following result:
+
+\begin{equation}
+O(\textnormal{``depth-first search''})=O(|V|)+O(|V|-1)=O(|V|)
+\end{equation}
+
+In order to find a sub graph with our presented algorithm the depth-first search has to be startet on a start state of a sub graph. Since we don't know in beforehand which states might be possible candidates for such start states, the algorithm has to be applied on every single state of the program which has two ore more outgoing transitions. In the worst case all $|V|$ states match this condition, so the depth-first search has to be executed $|V|$ times. This implies for our estimated worst case execution time:
+
+\begin{equation}
+O(\textnormal{``sub graph finding''})=O(|V|)*O(|V|)=O(|V|^2)
+\end{equation}
+
+
 
 \subsection{Scalability}
 
+For all the healthcare applications the presented algorithm works brilliant and speedy. But their program sizes are still quite manageable.
+Of course an exponential execution time is bad if the number of states arises. A clear slowdown can be felt when the algorithm runs on larger state machines with plenty of states and high grade of branching.
+
+However, sholud this algorithm regardless its tailoring to the healthcare domain be used for other huge programs, it keeps a lot of potential to be improved in efficiency. With a sophisticated approach it might be enough to execute just one depth-first search for finding all sub graphs at once what would lead to a linear execution time.
+% wenn noch schreiben will, dann: linear ist cool, weil das tool eh die gefundenen constraints gleich anzeigt und nicht erst am ende alles geballt bringt.
+
+
 \subsection{Reasonability of generated constraints}
 
+% hat uns die automatische generierung geholfen? Wuhu, wir haben noch einen constraint gefunden, der auch sinn macht
+%practicality of constraints
+
+
+
+
 \section{Reliability}
+\label{sec:reliability}

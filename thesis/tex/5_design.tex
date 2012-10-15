@@ -24,7 +24,7 @@ In this chapter we introduce a first approach of a visual formalism and later st
 \section{Visual formalisms}
 \label{sec:visualformalisms}
 
-One main difficulty in finding a proper visual formalism was to glean the right level between abstraction and expressiveness since this two characteristics appeared to be mutually exclusive in some points. A first approach, so called template constraints, and its disadvantages are described in section~\ref{sec:templateconstraints}. Subsequently an improved design is presented, which tends to a more abstract direction.
+One main difficulty in finding a proper visual formalism is to glean the right level between abstraction and expressiveness since this two characteristics appeared to be mutually exclusive in some points. A first approach, so called template constraints, and its disadvantages are described in section~\ref{sec:templateconstraints}. Subsequently an improved design is presented, which tends to a more abstract direction.
 
 
 
@@ -316,10 +316,12 @@ All formulas can be translated to the visual formalism presented in section~\ref
 \label{sec:coalescence}
 
 Both features the visual language presented in section~\ref{sec:operatorconstraints} and the automated constraint generation in section~\ref{sec:automatedconstraintgeneration} shall be assembled in one tool, the LTLCreator. It shall provide a dashboart with the possibility to manage several constraints, such as a tab panel, and displays for indicating validation results. Besides a button is needed for triggering constraint generation.
-The LTLCreator should be available for other state machine based programming environments for integration.
+LTLCreator should be available for other state machine based programming environments for integration.
 The implementation as a java swing component and a clear API enables the tool for a wide range of use.
 
-Figure~\ref{fig:coalescence} points out how interaction between LTLCreator and programming environments where it is integrated in can be. The programming environment provides the state machine model and notifies the LTLCreator component about all changes made to the program. It will automatically revalidate all existing constraints and provide the up-to-date model for constraint generation.
+Figure~\ref{fig:coalescence} points out how interaction between LTLCreator and programming environments where it is integrated in can be.
+LTLCreator consists of a dashboard where constraints can be edited visually and an graphical output of validation results. The constraint generator as well as the validator are non UI parts of LTLCreator.
+The programming environment provides the state machine model and notifies the LTLCreator component about all changes made to the program. This will automatically revalidate all existing constraints and always provide the up-to-date model for constraint generation.
 For load and save functionality, all existing constraints can be received and new ones can be added to the LTLCreator component programmatically.
 
 \begin{figure}[htbp]
@@ -329,7 +331,6 @@ For load and save functionality, all existing constraints can be received and ne
   \label{fig:coalescence}
 \end{figure}
 
-TODO: NuSMV hier auch wichtig?
 
 
 
@@ -337,4 +338,4 @@ TODO: NuSMV hier auch wichtig?
 \section{Integration into Robostudio}
 \label{sec:integrationintorobostudio}
 
-Robostudio uses NetBeans as a platform, and all tools and features are organized in windows. Thus also the LTLCreator has to be put into a window and added to the Robostudio platform. Since the defining of safety constraints is an important part while developing service robot behavior, the LTLCreator window shall appear in the center of the platform.
+Robostudio uses NetBeans as a platform, and all tools and features are organized in windows. Thus also LTLCreator has to be put into a window and added to the Robostudio platform. Since the defining of safety constraints is an important part not only after but also during the process of developing service robot behavior, the LTLCreator window as a vital tool shall be placed in the center of the platform where currently also the UI Component Layout Editor Window is. As already proposed in the previous section, all changes to the state machine program made within robostudio must of course cause the LTLCreator window to revalidate all existing constraints.
