@@ -53,7 +53,7 @@ public class DndHandler implements AWTEventListener {
 		return true;		
 	}
 	
-	public void startDragging(Draggable draggable, Point mousePositionRelativeToDraggable) {
+	private void startDragging(Draggable draggable, Point mousePositionRelativeToDraggable) {
 		if (draggable==null) throw new RuntimeException("Parameter can not be null.");
 		draggedOperator = draggable;
 		this.mousePositionRelativeToDraggable = mousePositionRelativeToDraggable;
