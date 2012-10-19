@@ -1,37 +1,27 @@
-\chapter{Design}
-\label{chap:design}
-
-%On our way towards an useful and simple concept for the defining of safety criteria 
-
-%wichtig:
-%1. VL
-%2. Constraint generierung
-%3. integrierung in Robostudio 
-
-%different ideas came up
-
-%In this chapter we will intruduce the final design of the visual language and compare it to a first idea of a visual formalism.
-
-In this chapter we introduce a first approach of a visual formalism and later state the final desing of the visual language. Furthermore the idea of automated constraint generation is presented in section~\ref{sec:automatedconstraintgeneration}. The assembly of all the previous features in one tool is described in section~\ref{sec:coalescence}. However, the tool's functionality shall also be available in Robostudio in order to provide safety mechanisms for the healthcare service robots. Section~\ref{sec:integrationintorobostudio} gives a main idea how an integration into Robostudio ought to be. 
-
-%The challenge now is to find a similar intuitive and nonmathematical way of representing reasonable safety constraints for the healthbot domain and to figure out how to translate it to corresponding textual expressions. The new concept will be integrated into Robostudio, a design tool for statemachines, in order to enable the user to create safety constraints visually. A common LTL model checker will be added to it as well which fulfils the verification of the translated constraints on the designed statemachine. In case of verification failures the concerning constraints and a visual counter example can be presented.
+%\chapter{Design}
+%\label{chap:design}
+%
+%
+%In this chapter we introduce a first approach of a visual formalism and later state the final desing of the visual language. Furthermore the idea of automated constraint generation is presented in section~\ref{sec:automatedconstraintgeneration}. The assembly of all the previous features in one tool is described in section~\ref{sec:coalescence}. However, the tool's functionality shall also be available in Robostudio in order to provide safety mechanisms for the healthcare service robots. Section~\ref{sec:integrationintorobostudio} gives a main idea how an integration into Robostudio ought to be. 
+%
+%%The challenge now is to find a similar intuitive and nonmathematical way of representing reasonable safety constraints for the healthbot domain and to figure out how to translate it to corresponding textual expressions. The new concept will be integrated into Robostudio, a design tool for statemachines, in order to enable the user to create safety constraints visually. A common LTL model checker will be added to it as well which fulfils the verification of the translated constraints on the designed statemachine. In case of verification failures the concerning constraints and a visual counter example can be presented.
 
 
 
 
+\chapter{Visual formalisms}
+\label{chap:visualformalisms}
+
+In this chapter we introduce two different approaches of visual formalisms and later state the final desing of the visual language.
+One main difficulty in finding a proper visual formalism is to glean the right level between abstraction and expressiveness since this two characteristics appear to be mutually exclusive in some points. A first approach, so called template constraints and its pros and cons are described in section~\ref{sec:templateconstraints}. Subsequently an improved design is presented, which tends to a more abstract direction.
 
 
-\section{Visual formalisms}
-\label{sec:visualformalisms}
-
-One main difficulty in finding a proper visual formalism is to glean the right level between abstraction and expressiveness since this two characteristics appeared to be mutually exclusive in some points. A first approach, so called template constraints, and its disadvantages are described in section~\ref{sec:templateconstraints}. Subsequently an improved design is presented, which tends to a more abstract direction.
 
 
-
-
-\subsection{Template constraints}
+\section{Template constraints}
 \label{sec:templateconstraints}
 
+%It is not a trivial issue to find a
 What visual presentation of constraints would suit a healthbot application developer and what are the main types of safety constraints he could want to check?
 % TODO: wir haben gedacht, dass es einfach zu benutzen ist
 Leaded by this question, we developed a visual language based on templates. These templates make different propositions about states and their relations. The user can choose from several graphical constraint types and customize them by parameterizing state variables. So far there are two different kinds of template constraints:
@@ -65,8 +55,8 @@ Figure~\ref{fig:templateconstraints} gives a visual suggestion how the two const
   \label{fig:templateconstraint_dropdown}
 \end{figure}
 
-This visual language was presented to potential users for evaluation and feedbak. Soon it turned out that there are some problems and disagreements. The presented constraints were interpreted differently, the semantic seemd to be unclear and not unique.
-A try to solve this problem was to equipp both constraint templates with textual explanations which are updated automatically whenever there is a change in parameterization. These additional expressions are also shown in figure~\ref{fig:templateconstraints}.
+This visual language was presented to potential users for evaluation and feedbak. Though most of them named it a good concept, soon it turned out that there are some problems and disagreements. The presented constraints were interpreted differently, the semantic seemd to be unclear and not unique.
+A try to solve this problem was to equip both constraint templates with textual explanations which are updated automatically whenever there is a change in parameterization. These additional expressions are also shown in figure~\ref{fig:templateconstraints}.
 But unfortunately even the textual eplanations don't seem to be a satisfying solution. For example, one question came up whether the first constraint template allows state (x) to be visited more than once before state (z) is reached.
 
 However, there is a second lack with the template constraints.
@@ -81,7 +71,7 @@ Whereas lots of safety constraints specific to the healthcare domain mentioned i
 
 
 
-\subsection{Operator constraints}
+\section{Operator constraints}
 \label{sec:operatorconstraints}
 
 With our second approach we try to gain more expressiveness and uniqueness for the visual language. For this we decided to decrease the abstraction level and design a visual formalism for linear temporal logic (LTL, see~section~\ref{sec:modelcheckingandltl}). Since the visual constraints can be directly mapped to LTL expressions, the visual language is equal to LTL in expressiveness. If it is considered as easy to use, two birds get killed with one stone: Non-experts can use it as well as experts.
@@ -161,14 +151,25 @@ Also an editor for this visual language can contribute to usability and clarity.
 
 
 
-\section{Automated constraint generation}
-\label{sec:automatedconstraintgeneration}
 
-As already mentioned before, it might be difficult to find all reasonable safety constraints needed for full safety covery. Hence it also can happen, that a prior software version was correct and over time mistakes crept in because of minor adjustments once in a while.
+
+%\section{Automated constraint generation}
+%\label{sec:automatedconstraintgeneration}
+\chapter{Automated constraint generation}
+\label{chap:automatedconstraintgeneration}
+
+As already mentioned before, it might be difficult for developers to find all reasonable safety constraints by hand which are needed for full safety covery. Hence it also can happen, that a prior software version was correct and over time mistakes crept in because of minor adjustments once in a while.
 To help prevent this to happen, we introduce the concept of automated constraint generation for state machines. Once a program reaches a complete condition, constraint suggestions which are valid on the current program can be computed fully automatically. On the one hand they may help the developer identifying reasonable constraints he didn't think about as well as contradictions between program and specification, eg. if a computed constraint doesn't make sense at all. On the other hand all constraints can be revalidated after each change to the software and thus ensure consistency.
 
-In order to support the developer in developing safe programs, automated generation and suggestion of constraints might be helpful. But it's helpful only if the suggested constraints are relevant and reasonable. This however depends on the domain and use case. It has to be mentioned that our approach presented in this work has a special focus on the healtcare use cases and may not be applicable for other domains.
-Regarding the important constraints postulated in chapter~\ref{chap:goals}, all the relevant states fall into one of the following categories:
+In order to support the developer in developing safe programs, automated generation and suggestion of constraints might be helpful. But it's helpful only if the suggested constraints are relevant and reasonable.
+
+
+\section{Sub graph definition}
+
+Whether suggested constraints are relevant and reasonable
+%This however
+depends on the domain and use case. It has to be mentioned that our approach of finding an algorithm for constraint finding presented in this work has a special focus on the healtcare use cases and may not be applicable for other domains.
+Regarding the important constraints postulated in chapter~\ref{chap:goals}, we found out that all all the relevant states fall into one of the following categories:
 
 \begin{enumerate}
 	\item States having two or more outgoing transitions ($\alpha$-states).
@@ -199,49 +200,18 @@ In order to compute the required constraints automatically, and possibly additio
 	\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=15mm]
 	
 	
-	  \node[statein] (1) {$\alpha$};
-	  \node[state] (2) [above left of=1] {};
-	  \node[state] (3) [below left of=1] {};
-	  \node[statein] (4) [above right of=1] {};
-	  \node[statein] (5) [below right of=1] {};
-	  \node[statein] (8) [right of=5] {$\gamma$};
-	  \node[statein] (6) [right of=4] {$\gamma$};
-	  \node[statein] (7) [below right of=4] {$\gamma$};
-	  
-	  \node[statein] (9) [right of=7] {$\beta$};
-	  \node[state] (10) [above of=9] {};
-	  \node[state] (11) [above right of=9] {};
-	  \node[state] (12) [below right of=9] {};
-	  
-	  \path[dashed]
-	    (2) edge node [left] {} (1)
-	    (3) edge node [left] {} (1)
-	    (10) edge node [left] {} (9)
-	    (9) edge node [left] {} (11)
-	    (9) edge node [left] {} (12);
-		\path[]
-	  	(1) edge node [left] {} (4)
-	        edge node [left] {} (5)
-	    (4) edge node [left] {} (6)
-	        edge node [left] {} (7)
-	    (5) edge node [left] {} (8)
-	    (6) edge node [left] {} (9)
-	    (7) edge node [left] {} (9)
-	    (8) edge node [left] {} (9)
-	    ;
-	    
-	    
 %	  \node[statein] (1) {$\alpha$};
 %	  \node[state] (2) [above left of=1] {};
-%	  \node[state] (3) [above right of=1] {};
-%	  \node[statein] (4) [below left of=1] {};
-%	  \node[statein] (6) [below of=4] {$\gamma$};
-%	  \node[statein] (7) [below right of=4] {$\gamma$};
+%	  \node[state] (3) [below left of=1] {};
+%	  \node[statein] (4) [above right of=1] {};
 %	  \node[statein] (5) [below right of=1] {};
-%	  \node[statein] (8) [below of=5] {$\gamma$};
-%	  \node[statein] (9) [below of=7] {$\beta$};
-%	  \node[state] (10) [right of=9] {};
-%	  \node[state] (11) [below left of=9] {};
+%	  \node[statein] (8) [right of=5] {$\gamma$};
+%	  \node[statein] (6) [right of=4] {$\gamma$};
+%	  \node[statein] (7) [below right of=4] {$\gamma$};
+%	  
+%	  \node[statein] (9) [right of=7] {$\beta$};
+%	  \node[state] (10) [above of=9] {};
+%	  \node[state] (11) [above right of=9] {};
 %	  \node[state] (12) [below right of=9] {};
 %	  
 %	  \path[dashed]
@@ -260,13 +230,50 @@ In order to compute the required constraints automatically, and possibly additio
 %	    (7) edge node [left] {} (9)
 %	    (8) edge node [left] {} (9)
 %	    ;
+	    
+	    
+	  \node[statein] (1) {$\alpha$};
+	  \node[state] (2) [above left of=1] {};
+	  \node[state] (3) [above right of=1] {};
+	  \node[statein] (4) [below left of=1] {};
+	  \node[statein] (6) [below of=4] {$\gamma$};
+	  \node[statein] (7) [below right of=4] {$\gamma$};
+	  \node[statein] (5) [below right of=1] {};
+	  \node[statein] (8) [below of=5] {$\gamma$};
+	  \node[statein] (9) [below of=7] {$\beta$};
+	  \node[state] (10) [right of=9] {};
+	  \node[state] (11) [below left of=9] {};
+	  \node[state] (12) [below right of=9] {};
+	  
+	  \path[dashed]
+	    (2) edge node [left] {} (1)
+	    (3) edge node [left] {} (1)
+	    (10) edge node [left] {} (9)
+	    (9) edge node [left] {} (11)
+	    (9) edge node [left] {} (12);
+		\path[]
+	  	(1) edge node [left] {} (4)
+	        edge node [left] {} (5)
+	    (4) edge node [left] {} (6)
+	        edge node [left] {} (7)
+	    (5) edge node [left] {} (8)
+	    (6) edge node [left] {} (9)
+	    (7) edge node [left] {} (9)
+	    (8) edge node [left] {} (9)
+	    ;
 	
 	\end{tikzpicture}
   \caption{Example for a subgraph.}
   \label{fig:subgraph}
 \end{figure}
 
-A graphical example of such a subgraph is shown in Fig.~\ref{fig:subgraph}. Using this specification all possible such subgraphs can be detected within a state machine. If the subgraph contains neither inner (infinite) loops nor final states (states having no outgoing transition) we can derive the following valid LTL formulas for each subgraph (with $\alpha$ as proposition for ``$\alpha$ is current state'' and similarly for $\beta$ and $\gamma$):
+A graphical example of such a subgraph is shown in Fig.~\ref{fig:subgraph}. Using this specification all possible such subgraphs can be detected within a state machine.
+
+
+
+\section{Constraint determination}
+
+If the subgraph contains neither inner (infinite) loops nor final states (states having no outgoing transition) we can derive the following valid LTL formulas for each subgraph (with $\alpha$ as proposition for ``$\alpha$ is current state'' and similarly for $\beta$ and $\gamma$):
 
 \begin{equation} \label{eq:first}
   \models \Box (\alpha \Rightarrow \Diamond \beta)
@@ -306,36 +313,3 @@ All formulas can be translated to the visual formalism presented in section~\ref
 \end{equation}
 %	\item The program will always eventually check the database for new reminder jobs. Thus we avoid that pending reminder are never processed.
 %	\item Either a reminded medication is taken properly or caregivers get notified whenever a patient refuses medication intake.
-
-
-
-
-
-
-\section{Coalescence}
-\label{sec:coalescence}
-
-Both features the visual language presented in section~\ref{sec:operatorconstraints} and the automated constraint generation in section~\ref{sec:automatedconstraintgeneration} shall be assembled in one tool, the LTLCreator. It shall provide a dashboart with the possibility to manage several constraints, such as a tab panel, and displays for indicating validation results. Besides a button is needed for triggering constraint generation.
-LTLCreator should be available for other state machine based programming environments for integration.
-The implementation as a java swing component and a clear API enables the tool for a wide range of use.
-
-Figure~\ref{fig:coalescence} points out how interaction between LTLCreator and programming environments where it is integrated in can be.
-LTLCreator consists of a dashboard where constraints can be edited visually and an graphical output of validation results. The constraint generator as well as the validator are non UI parts of LTLCreator.
-The programming environment provides the state machine model and notifies the LTLCreator component about all changes made to the program. This will automatically revalidate all existing constraints and always provide the up-to-date model for constraint generation.
-For load and save functionality, all existing constraints can be received and new ones can be added to the LTLCreator component programmatically.
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.7\linewidth]{coalescence}
-  \caption{Interaction between LTLCreator and programming environment.}
-  \label{fig:coalescence}
-\end{figure}
-
-
-
-
-
-\section{Integration into Robostudio}
-\label{sec:integrationintorobostudio}
-
-Robostudio uses NetBeans as a platform, and all tools and features are organized in windows. Thus also LTLCreator has to be put into a window and added to the Robostudio platform. Since the defining of safety constraints is an important part not only after but also during the process of developing service robot behavior, the LTLCreator window as a vital tool shall be placed in the center of the platform where currently also the UI Component Layout Editor Window is. As already proposed in the previous section, all changes to the state machine program made within robostudio must of course cause the LTLCreator window to revalidate all existing constraints.

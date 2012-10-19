@@ -1,4 +1,4 @@
-\documentclass[10pt,a4paper,headsepline,footsepline,DIV13,BCOR12mm]{scrbook}
+\documentclass[12pt,a4paper,headsepline,footsepline,DIV13,BCOR12mm]{scrbook}
 \usepackage[english,ngerman]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[latin1]{inputenc}
@@ -6,6 +6,8 @@
 \pagestyle{scrheadings}
 
 \usepackage{graphicx}
+
+\usepackage{setspace}
 
 \usepackage{tikz}
 \usetikzlibrary{arrows}
@@ -31,7 +33,41 @@
 %PREFACE
 \selectlanguage{ngerman}
 \input{titlepage} 
+
+
+
+
+\onehalfspacing
 \newpage
+\thispagestyle{empty}
+
+\centerline{\bfseries ERKLÄRUNG}
+
+\vspace{5cm}
+Hiermit versichere ich, dass ich diese Masterarbeit selbständig verfasst habe.
+Ich habe dazu keine anderen als die angegebenen Quellen und Hilfsmittel
+verwendet.
+
+\vspace{1cm}
+\begin{flushleft}
+%select german for formatting the date
+\selectlanguage{ngerman}
+Augsburg, den \today \hfill Ludwig Nägele
+\end{flushleft}
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+
+
+
+
+
+
+\newpage
+
+
 %select english as language!
 \selectlanguage{english}
 %\pagenumbering{roman}

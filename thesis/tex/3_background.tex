@@ -16,27 +16,28 @@ Aiming for fillig the constantly increasing gap in professional personnel for he
 There are lots of possible tasks a robot could do such as taking the blood pressure, guiding medication intake, detecting falls or just entertaining with music, video or internet.
 This challenge as a goal, the healtcare robotics team at the University of Auckland researches this topic and builds service robots for supporting the elderlies in their daily life.
 
-%\begin{wrapfigure}{r}{0.58\textwidth}
+The two newest robots IrobiQ and Cafero are shown in figure~\ref{fig:irobiq_cafero}.
+%\begin{figure}[htbp]
 %  \centering
-%  \includegraphics[width=0.56\textwidth]{irobiq_cafero}
+%  \includegraphics[width=0.6\linewidth]{irobiq_cafero} 
 %  \caption{IrobiQ and Cafero, two robots of the healtcare project.}
 %  \label{fig:irobiq_cafero}
-%\end{wrapfigure}
-The two newest robots IrobiQ and Cafero are shown in figure~\ref{fig:robots}.
-\begin{figure}[htbp]
+%\end{figure}
+These mobile 
+\begin{wrapfigure}{r}{0.60\textwidth}
   \centering
-  \includegraphics[width=0.6\linewidth]{irobiq_cafero} 
+  \includegraphics[width=0.56\textwidth]{irobiq_cafero}
   \caption{IrobiQ and Cafero, two robots of the healtcare project.}
-  \label{fig:robots}
-\end{figure}
-These mobile robots have got a touch display for presenting screens and receiving user input. Furthermore they are equipped with additional external tools such as the blood pressure measurement device.
+  \label{fig:irobiq_cafero}
+\end{wrapfigure}
+robots have got a touch display for presenting screens and receiving user input. Furthermore they are equipped with additional external tools such as the blood pressure measurement device.
 Applications running on the robot use the touch display to present screen dialogs to the user and use speech synthesis in order to give also accoustic feedbak. User inputs or response from devices cause dialogs to change. Figure~\ref{fig:screenflow_example} presents a little example of such a screen-flow based application, which uses response from a camera and user input for navigating through the screen-flow.
 
 %, and they can access devices such as the camera for face recognition or the blood pressure measurement tool. 
 
 There is a program interpreter running on the robots which can load and execute program files. Screen dialogs get generated and displayed on the touch screen.
 %This makes the program behavior replaceable and maintenance can be done easily.
-The interpreter processes programs written in Robot Behavior Description Language (RBDL), a particular DSL based on XML, which has been developed specially for the healthcare robotic applications. It allows defining state machine based program behavior and creating UI elements for screen visualizations. An example implementation of one state in RBDL is shown in listing~\ref{lst:RBDL}.
+The interpreter processes programs written in Robot Behavior Description Language (RBDL), a particular DSL based on XML, which has been developed particularly for the healthcare robotic applications. It allows defining state machine based program behavior and creating UI elements for screen visualizations. An example implementation of one state in RBDL is shown in listing~\ref{lst:RBDL}.
 
 \begin{figure}[htbp]
   \centering
@@ -45,6 +46,8 @@ The interpreter processes programs written in Robot Behavior Description Languag
   \label{fig:screenflow_example}
 \end{figure}
 
+
+\singlespacing
 \lstset{
   basicstyle=\ttfamily,
   columns=fullflexible,
@@ -65,7 +68,7 @@ The interpreter processes programs written in Robot Behavior Description Languag
 }
 
 %\lstset{language=XML}
-\begin{lstlisting}[language=XML, captionpos=b, breaklines=true, showspaces=false, showtabs=false, tabsize=2, caption=Example of a state defined by RBDL~\cite{robostudio}., label=lst:RBDL]
+\begin{lstlisting}[float = htbp, language=XML, captionpos=b, breaklines=true, showspaces=false, showtabs=false, tabsize=2, caption=Example of a state defined by RBDL~\cite{robostudio}., label=lst:RBDL]
 <state no="84">
 	<backgroundactions>
 		<rocosmessage type="EVENT MESSAGE" senderid="RCP" receiverid="NA" name="FDSessionStart">
@@ -102,11 +105,13 @@ The interpreter processes programs written in Robot Behavior Description Languag
 </state>
 \end{lstlisting}
 
-For each state of the program, backgroundactions can be defined. They are are transparent to the user and run in background. Text messages can be sent or external devices can be acessed, for example. The latter is realized with web services to obtain a modular design.
+\onehalfspacing
+
+For each state of the program, backgroundactions can be defined. They are transparent to the user and run in background. Text messages can be sent or external devices can be acessed, for example. The latter is realized with web services to obtain a modular design.
 Some states can also have screen definitions with buttons, messages, videos, etc. on it. These are displayed to the user when the particular state is active. Once displayed, buttons can be clicked and trigger events.
 The behavior of events can be mapped in the expectedevents tag. It lists all events which are processable by the current state and defines the correspondend behavior such as triggering transitions to other states.
 
-For this work the most important thing about the RBLD to remember is, that it can define state machine behavior with states, transitions and events. This fact was basement for later decisions regarding used safety mechanisms.
+For this work the most important thing about the RBDL to remember is, that it can define state machine behavior with states, transitions and events. This fact was basement for later decisions regarding used safety mechanisms.
 
 
 
