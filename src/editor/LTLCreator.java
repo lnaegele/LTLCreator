@@ -31,7 +31,7 @@ import editor.validator.impl.NuSMVModelCheckerWrapper;
  * @author ludwig
  * 
  */
-public class Editor extends JComponent {
+public class LTLCreator extends JComponent {
 	private static final long serialVersionUID = 1L;
 	
 	private ConstraintValidator validator = new NuSMVModelCheckerWrapper();
@@ -41,7 +41,7 @@ public class Editor extends JComponent {
 	/**
 	 * Creates a new LTLCreator component. It can be added to any swing container.
 	 */
-	public Editor() {
+	public LTLCreator() {
 		this.setLayout(new BorderLayout());
 		
 		DndHandler.getInstance().registerTopLevelComponent(this);
@@ -107,10 +107,10 @@ public class Editor extends JComponent {
 			final OperatorTab operatorTab = (OperatorTab)graphTab;
 			
 			// Every dashboard has its own listener for changes on either the constraint or the model.
-			OperatorAndModelChangeListener l = new OperatorAndModelChangeListener(operatorTab, Editor.this.validator);
+			OperatorAndModelChangeListener l = new OperatorAndModelChangeListener(operatorTab, LTLCreator.this.validator);
 			operatorTab.getDashboard().addChangeListener(l);
-			Editor.this.validator.addModelChangeListener(l);
-			Editor.this.graphTabs.put(graphTab, l);
+			LTLCreator.this.validator.addModelChangeListener(l);
+			LTLCreator.this.graphTabs.put(graphTab, l);
 			
 			// initial validation
 			SwingUtilities.invokeLater(new Runnable() {
@@ -124,8 +124,8 @@ public class Editor extends JComponent {
 		@Override
 		public void graphTabRemoved(GraphTab graphTab) {
 			OperatorTab operatorTab = (OperatorTab)graphTab;
-			OperatorAndModelChangeListener l = Editor.this.graphTabs.remove(graphTab);
-			Editor.this.validator.removeModelChangeListener(l);
+			OperatorAndModelChangeListener l = LTLCreator.this.graphTabs.remove(graphTab);
+			LTLCreator.this.validator.removeModelChangeListener(l);
 			operatorTab.getDashboard().removeChangeListener(l);
 		}
 	}

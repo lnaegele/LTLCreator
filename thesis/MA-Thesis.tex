@@ -25,6 +25,13 @@
 \definecolor{darkblue}{rgb}{0.0,0.0,0.6}
 \definecolor{cyan}{rgb}{0.0,0.6,0.6}
 
+%for bookmark bar
+\usepackage[colorlinks,pdfpagelabels,pdfstartview=FitH,bookmarksopen=false,bookmarksnumbered=false,linkcolor=black,plainpages=false,hypertexnames=false,citecolor=black]{hyperref}
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+
 
 \begin{document}
 
@@ -72,11 +79,14 @@ Augsburg, den \today \hfill Ludwig Nägele
 \selectlanguage{english}
 %\pagenumbering{roman}
 \pagenumbering{arabic}
+
+\pdfbookmark[1]{Inhaltsverzeichnis}{toc}
 \tableofcontents
 \newpage
 \listoffigures
 \newpage
-\listoftables
+%\listoftables
+\lstlistoflistings
 %\pagenumbering{arabic}
 
 \graphicspath{{./images/}}

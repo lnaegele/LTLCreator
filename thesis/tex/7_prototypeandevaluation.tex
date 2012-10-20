@@ -86,7 +86,7 @@ We showed that the subgraph approach is working for the medication reminder appl
 
 \subsection{Performance}
 
-In order to examine the performance of sub graph finding and constraint generation, we need to have a second look at the implementation details again. The sub graph finding algorithm is realized as a depth-first search. Indeed all healthcare programs are infinite and contain cycles and a depth-first walk-through would never end, but the algorithm doesn't go deeper at already visited states.
+In order to examine the performance of subgraph finding and constraint generation, we need to have a second look at the implementation details again. The subgraph finding algorithm is realized as a depth-first search. Indeed all healthcare programs are infinite and contain cycles and a depth-first walk-through would never end, but the algorithm doesn't go deeper at already visited states.
 
 The performance of this algorithm is of course highly dependend on the grade of branching. Nevertheless, such a depth-first search has an estimated wost case execution time of $O(|V|+|E|)$ in which $|V|$ is the number of states and $|E|$ number of edges respective transitions in our case.
 Since we cope with state machines and thus have directed edges rather than undirected ones, each state can have $|V|$ transitions; $|V-1|$ to other ones and one to itself. For the contained tree without cycles for depth-first search we retreive $|E|=|V|$ edges.
@@ -96,10 +96,10 @@ As worst case ececution time for the depth-first search we obtain the following 
 O(\textnormal{``depth-first search''})=O(|V|)+O(|V|-1)=O(|V|)
 \end{equation}
 
-In order to find a sub graph with our presented algorithm the depth-first search has to be startet on a start state of a sub graph. Since we don't know in beforehand which states might be possible candidates for such start states, the algorithm has to be applied on every single state of the program which has two ore more outgoing transitions. In the worst case all $|V|$ states match this condition, so the depth-first search has to be executed $|V|$ times. This implies for our estimated worst case execution time:
+In order to find a subgraph with our presented algorithm the depth-first search has to be startet on a start state of a subgraph. Since we don't know in beforehand which states might be possible candidates for such start states, the algorithm has to be applied on every single state of the program which has two ore more outgoing transitions. In the worst case all $|V|$ states match this condition, so the depth-first search has to be executed $|V|$ times. This implies for our estimated worst case execution time:
 
 \begin{equation}
-O(\textnormal{``sub graph finding''})=O(|V|)*O(|V|)=O(|V|^2)
+O(\textnormal{``subgraph finding''})=O(|V|)*O(|V|)=O(|V|^2)
 \end{equation}
 
 
@@ -109,7 +109,7 @@ O(\textnormal{``sub graph finding''})=O(|V|)*O(|V|)=O(|V|^2)
 For all the healthcare applications the presented algorithm works efficient and fast. But their program sizes are still quite manageable. Our test program has eleven states, an average branch grade and a constraint finding execution time of a split second on a standard pc.
 Of course an exponential execution time is bad if the number of states arises. A clear slowdown can be felt when the algorithm runs on larger state machines with plenty of states and high grade of branching. A test on a state machine with over two hundred and fifty states and partially high branch grade resulted in approximately five minutes execution time.
 
-However, sholud this algorithm regardless its tailoring to the healthcare domain be used for other huge programs, it keeps a lot of potential to be improved in efficiency. With a sophisticated approach it might be enough to execute just one depth-first search for finding all sub graphs at once what would lead to a linear execution time.
+However, sholud this algorithm regardless its tailoring to the healthcare domain be used for other huge programs, it keeps a lot of potential to be improved in efficiency. With a sophisticated approach it might be enough to execute just one depth-first search for finding all subgraphs at once what would lead to a linear execution time.
 % wenn noch schreiben will, dann: linear ist cool, weil das tool eh die gefundenen constraints gleich anzeigt und nicht erst am ende alles geballt bringt.
 
 

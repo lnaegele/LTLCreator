@@ -47,9 +47,9 @@ public class Test {
 	 * 
 	 * @return a new <b>Editor</b>.
 	 */
-	private Editor createEditorComponent() {
-		Editor editor = new Editor();
-		editor.addNewEmptyDashboard(false);
+	private LTLCreator createEditorComponent() {
+		LTLCreator lTLCreator = new LTLCreator();
+		lTLCreator.addNewEmptyDashboard(false);
 		
 		/* medication reminder example */
 		Fsm model = new Fsm();
@@ -86,9 +86,9 @@ public class Test {
 		nohelp.addTransition(welldone);
 		
 		model.setInitialState(menu);
-		editor.setModel(model);
+		lTLCreator.setModel(model);
 		
-		return editor;
+		return lTLCreator;
 	}
 	
 }

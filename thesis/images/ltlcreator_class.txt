@@ -1,0 +1,5 @@
+yuml.me
+
+
+[;LTLCreator||+ setModel(Fsm) : void;+ addNewEmptyDashboard(boolean) : void;+ addNewDashboard(AbstractOperator boolean) : void;+ getOperators() : List-AbstractOperator-]
+[dummy]
