@@ -1,7 +1,11 @@
 \chapter{Background}
 \label{chap:background}
 
-Das Thema dieser Arbeit hat sich aus der Situation heraus entwickelt, dass die healthbots der UoA mit sicherheitsmechanismen ausgestattet werden sollen. Die Motivation hierfür, die Roboter mitsamt ihrer Anwendungen und deren technischer Hintergrund werden in Section 1 beschrieben. Auf das VPE, dass die Programmierung dieser Roboter ermöglicht, wird in section 2 eingegangen. Zum Verständnis der sicherstellungskonzepte für sicherheit, auf die diese Arbeit aufbaut, gibt Section 3 eine kurze Einführung in die Welt der funktionalen Sicherheit. In Section 4 werden andere Arbeiten und Programme untersucht, die sich ebenfalls mit Sicherheitüberprüfung beschäftigen.
+The subject of this work evolved from the situation, that the healthcare robotic applications of the University of Auckland should be equipped with mechanisms for ensuring safety.
+The motivation for it is described in section~\ref{sec:healthbotapplication} as well as the robots, the kind of applications running on them, and their technical background.
+
+The visual programming environment used for the programming of these robots is presented in section~\ref{sec:robostudio}.
+For the understanding of safety concepts which this work is based on, a short introduction into the world of functional safety is given in section~\ref{sec:behaviourchecking}. In section~\ref{sec:relatedwork} other works and programs related to this work's topic are examined which also deal with safety aspects.
 
 
 
@@ -118,6 +122,7 @@ For this work the most important thing about the RBDL to remember is, that it ca
 
 
 \section{Robostudio}
+\label{sec:robostudio}
 
 In the beginning all programming of the robot behaviour was done by directly editing the XML code mentioned in the previous section by using a text editor. But huge code files and occasional code edits made further maintenance and change requests difficult up to impossible to realise. For this reason Chandan Datta, PhD student at the University of Auckland, developed a visual programming environment for developing robot behaviour on top of RBDL: Robostudio~\cite{robostudio} allows to easily edit the program behaviour on a visual layer and generates the corresponding program file containing the RBDL code fully automatically. This file can be downloaded to the robot and executed by the interpreter. Figure~\ref{fig:robostudio_proceeding} illustrates what the steps of robot behaviour development are.
 
@@ -154,6 +159,7 @@ TODO: Vlt herausstellen, dass eine Schwierigkeit darin bestand, Verhaltensmodell
 
 
 \section{Behaviour checking}
+\label{sec:behaviourchecking}
 TODO: Begriffserklärung: Funktionale Sicherheit
 
 
@@ -169,7 +175,13 @@ TODO: Begriffserklärung: Funktionale Sicherheit
 
 NuSMV erwaehnen, erklaeren warum nicht CTL? ltl passt fuer healthcare besser
 
+
+
+
+
+
 \section{Related work}
+\label{sec:relatedwork}
 
 
 %Was gibt es schon alles?

@@ -3,7 +3,7 @@
 
 % soll hier noch gesagt werden, dass wir davon ausgehen, dass es keine endzustï¿½nde gibt?
 
-Ausgehend vom Ziel, die healthcare applikationen des healthcare projects der Universität Auckland gewissen Sicherheitsstandards näher zu bringen und somit einen Schritt in Richtung Sicherheitszertifizierung zu machen, sollen dem VPE Robostudio hierfür notwendige Werkzeuge hinzugefügt werden. Dieses Tool(VPE) wird zur Entwicklung von Roboterapplikationen in Form von Zustandsmaschinen verwendet und soll zukünftig eine neue Schnittstelle bieten, über die der Programmierer das Roboterverhalten auf funktinale Sicherheit hin überprüfen kann. Diese Erweiterung soll zum einen nahtlos in Robostudio integriert sein, zum anderen soll es so umgesetzt sein, dass es über eine übersichtliche API auch in andere Programme einfach eingebunden werden kann.
+Based on the purpose to bring the healthcare applications of the University of Auckland's healthcare project and certain safety standards closer together, and thereby to lay the foundation of aspired safety certifications, Robostudio is to be extended with therefor essential tools. The visual programming environment is used for developing robotic applications in the form of state machines and shall provide a new interface in the future, which can be used by the developer for evaluating safety functionality of robot behaviour. On the one hand this extension shall be seamlessly integrated in Robostudio. On the other hand it should provide a clear API which allows easy integration also into other program environments. Thus the new concepts are to be universal and not confined to Robostudio.
 
 We want to introduce a visual language for defining safety constraints in state machine definitions of robot behaviour, that is suitable for people who are not experts in formal methods. The visual language should be easy to use and intuitive to read, in order to facilitate maintainability.
 Hence, the graphical formalism should abstract from the usually complex and mathematical concept of conventional temporal logic but still be significantly expressive.
@@ -22,5 +22,4 @@ Finally, we will present some results of applying this heuristics to the medicat
 
 Some of the statements do not make sense if patients lie or pretend to take their medication but don't take it. As our approach validates state machine behaviour rather than human attitudes we assume there is either cooperation from the patient or a separate tool that can verify medication intake. Furthermore we assume the correctness of external services used by the medication reminder such as the database module holding all reminders.
 
-% Bruce: I'm not sure we need this sentence. I think you have integrated it now anyway.
-% All the functionality mentioned above shall be combined in one editor and for evaluation purpose later be integrated into a programming environment for state machine editing.
+All the functionality mentioned above shall be combined in one editor and for evaluation purpose later be integrated into Robostudio, a programming environment for state machine editing.

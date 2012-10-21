@@ -26,8 +26,6 @@ Whenever the just mentioned condition becomes true, there also has to be true in
   \models \Box (\textnormal{'Not taken yet'} \Rightarrow \Diamond (\textnormal{'Well done!'} \vee \textnormal{'Staff notified'}))
 \end{equation}
 
-%This expression can now be translated to the visual form as we just have to break down the formula from the outside to the inside. A surrounding \emph{GLOBALLY} encapsulates an \emph{IF} block since it is the substitution for \emph{IMPLIES}. Its first operator is a proposition \emph{'Not taken yet'} whereas the second parameter has to be a \emph{FOLLOWS} block containing a disjunction of two propositions \emph{'Well done!'} and \emph{'Staff notified'}. The resulting visual constraint is shown in figure~\ref{fig:sampleconstraint}.
-
 \begin{figure}[htbp]
   \centering
   \includegraphics[scale=0.65]{sampleconstraint}
@@ -48,8 +46,9 @@ give the language a schematic but not too rectangular look. Besides it is consid
 
 \subsection{Expressiveness}
 
-Ausdruckssärke gleich zu LTL, das heißt, dass lediglich Möglichkeiten nicht ausgedrückt werden können. Zudem gilt eine weitere Einschränkung, dass als bedingungen bisher nur Aussagen der Form ``ist in Zustand x'' verwendet werden können. Da die Validierung der healtbot anwendungen derzeit ausschließlich diesen typ braucht, sind andere Bedingungen wie Stringvergleich oder numerische Gleichheit bisher mit der visuellen Sprache nicht möglich. In Figure~\ref{fig:example_propositions} ist aufgezeigt, wie eine Erweiterung des LTLCreators um weitere Bedingungstypen aussehen könnte.
-
+Due to its basing on LTL, the visual language's expressivenes is equivalent to LTL's one of course. More precisely this means any logic formula can be expresssed except potentiality.
+Furthermore there is one more limitation in the current visual language with the variety of available proposition operators. The visual language was originally designed for validating healthcare applications where just one kind of proposition is needed: ``currently state x is active''. Thus other propositions such as equations, greater than etc. are not implemented yet, but can be easily extended.
+Figure~\ref{fig:example_propositions} depicts how an extention of \emph{LTLCreator} with additional proposition operators could be realised.
 
 \begin{figure}[htbp]
   \centering
