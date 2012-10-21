@@ -36,8 +36,8 @@ Applications running on the robot use the touch display to present screen dialog
 %, and they can access devices such as the camera for face recognition or the blood pressure measurement tool. 
 
 There is a program interpreter running on the robots which can load and execute program files. Screen dialogs get generated and displayed on the touch screen.
-%This makes the program behavior replaceable and maintenance can be done easily.
-The interpreter processes programs written in Robot Behavior Description Language (RBDL), a particular DSL based on XML, which has been developed particularly for the healthcare robotic applications. It allows defining state machine based program behavior and creating UI elements for screen visualizations. An example implementation of one state in RBDL is shown in listing~\ref{lst:RBDL}.
+%This makes the program behaviour replaceable and maintenance can be done easily.
+The interpreter processes programs written in Robot Behaviour Description Language (RBDL), a particular DSL based on XML, which has been developed particularly for the healthcare robotic applications. It allows defining state machine based program behaviour and creating UI elements for screen visualizations. An example implementation of one state in RBDL is shown in listing~\ref{lst:RBDL}.
 
 \begin{figure}[htbp]
   \centering
@@ -46,8 +46,6 @@ The interpreter processes programs written in Robot Behavior Description Languag
   \label{fig:screenflow_example}
 \end{figure}
 
-
-\singlespacing
 \lstset{
   basicstyle=\ttfamily,
   columns=fullflexible,
@@ -105,13 +103,11 @@ The interpreter processes programs written in Robot Behavior Description Languag
 </state>
 \end{lstlisting}
 
-\onehalfspacing
-
 For each state of the program, backgroundactions can be defined. They are transparent to the user and run in background. Text messages can be sent or external devices can be acessed, for example. The latter is realized with web services to obtain a modular design.
 Some states can also have screen definitions with buttons, messages, videos, etc. on it. These are displayed to the user when the particular state is active. Once displayed, buttons can be clicked and trigger events.
-The behavior of events can be mapped in the expectedevents tag. It lists all events which are processable by the current state and defines the correspondend behavior such as triggering transitions to other states.
+The behaviour of events can be mapped in the expectedevents tag. It lists all events which are processable by the current state and defines the correspondend behaviour such as triggering transitions to other states.
 
-For this work the most important thing about the RBDL to remember is, that it can define state machine behavior with states, transitions and events. This fact was basement for later decisions regarding used safety mechanisms.
+For this work the most important thing about the RBDL to remember is, that it can define state machine behaviour with states, transitions and events. This fact was basement for later decisions regarding used safety mechanisms.
 
 
 
@@ -123,12 +119,12 @@ For this work the most important thing about the RBDL to remember is, that it ca
 
 \section{Robostudio}
 
-In the beginning all programming of the robot behavior was done by directly editing the XML code mentioned in the previous section by using a text editor. But huge code files and occasional code edits made further maintenance and change requests difficult up to impossible to realise. For this reason Chandan Datta, PhD student at the University of Auckland, developed a visual programming environment for developing robot behavior on top of RBDL: Robostudio~\cite{robostudio} allows to easily edit the program behavior on a visual layer and generates the corresponding program file containing the RBDL code fully automatically. This file can be downloaded to the robot and executed by the interpreter. Figure~\ref{fig:robostudio_proceeding} illustrates what the steps of robot behavior development are.
+In the beginning all programming of the robot behaviour was done by directly editing the XML code mentioned in the previous section by using a text editor. But huge code files and occasional code edits made further maintenance and change requests difficult up to impossible to realise. For this reason Chandan Datta, PhD student at the University of Auckland, developed a visual programming environment for developing robot behaviour on top of RBDL: Robostudio~\cite{robostudio} allows to easily edit the program behaviour on a visual layer and generates the corresponding program file containing the RBDL code fully automatically. This file can be downloaded to the robot and executed by the interpreter. Figure~\ref{fig:robostudio_proceeding} illustrates what the steps of robot behaviour development are.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\linewidth]{robostudio_proceeding} 
-  \caption{How Robostudio is used for robot behavior development.}
+  \caption{How Robostudio is used for robot behaviour development.}
   \label{fig:robostudio_proceeding}
 \end{figure}
 
@@ -136,12 +132,12 @@ In the beginning all programming of the robot behavior was done by directly edit
 
 
 Robostudio is an editor fully written in Java and implemented as a NetBeans rich client application.
-In several windows and views there are visual tools for editing and understanding robot behavior as well as screen dialog design. As depicted in figure~\ref{fig:robostudio_vpe} the editor has got a State Navigator Window (1) in the top left corner where all existing states are listed. Underneath an overview about all incoming and outgoing transitions is given. New states can be created and existing states can be deleted. A click on one particular state id in the State Navigator Window will cause all other components to show all possible information regarding to the selected state.
+In several windows and views there are visual tools for editing and understanding robot behaviour as well as screen dialog design. As depicted in figure~\ref{fig:robostudio_vpe} the editor has got a State Navigator Window (1) in the top left corner where all existing states are listed. Underneath an overview about all incoming and outgoing transitions is given. New states can be created and existing states can be deleted. A click on one particular state id in the State Navigator Window will cause all other components to show all possible information regarding to the selected state.
 The Expected Events Editor Window (2) in the bottom left provides specifying the expected events and their effects.
 Heart and center of the editor is the UI Component Layout Editor Window (3). It renders the screen dialog of the selected state and gives a preview of the screen presented on the robot during runtime. Components such as buttons, text boxes or images can be added, changed or removed via drag and drop.
 They are provided by the UI Components Palette Window (4) on the right side where the user can choose from all supported UI components.
 The Background Actions Editor Window (5) lets the user define background actions, which are executed trasparently to the user such as accessing external devices or sending messages.
-Aiming for supporting the developer with helpful graphical tools the State Transition Visualization Window (6) gives an overview about all connections towards and from the selected state. It helps to quickly get an understanding of the local program behavior.
+Aiming for supporting the developer with helpful graphical tools the State Transition Visualization Window (6) gives an overview about all connections towards and from the selected state. It helps to quickly get an understanding of the local program behaviour.
 
 \begin{figure}[htbp]
   \centering
@@ -157,7 +153,7 @@ TODO: Vlt herausstellen, dass eine Schwierigkeit darin bestand, Verhaltensmodell
 
 
 
-\section{Behavior checking}
+\section{Behaviour checking}
 TODO: Begriffserklärung: Funktionale Sicherheit
 
 
@@ -188,7 +184,7 @@ A first step towards a graphical tool for designing safety constraints is taken 
 
 %aim for simplifying the development of constraints, but they still demand knowledge of the underlying mathematical formalism of temporal logic.
 
-The step towards a more abstract level of development is taken by HomeTL~\cite{4341725}, a visual formalism for the design of home based care. It allows healthcare professionals to specify rules and sequences of user actions in a quite nontechnical manner. Based on these conditions a monitoring system in a patient's home environment can detect and report abnormal situations within the daily routine. Even though this approach touches the subject of healthcare it barely matches our problem. HomeTL focuses more on monitoring temporal boundaries of a patient's behavior than on ensuring functional safety of an implemented program. It does depict how nontechnical constraint design can be realised and its graphical design is a good example of handling time dependencies.
+The step towards a more abstract level of development is taken by HomeTL~\cite{4341725}, a visual formalism for the design of home based care. It allows healthcare professionals to specify rules and sequences of user actions in a quite nontechnical manner. Based on these conditions a monitoring system in a patient's home environment can detect and report abnormal situations within the daily routine. Even though this approach touches the subject of healthcare it barely matches our problem. HomeTL focuses more on monitoring temporal boundaries of a patient's behaviour than on ensuring functional safety of an implemented program. It does depict how nontechnical constraint design can be realised and its graphical design is a good example of handling time dependencies.
 
 %There are already works about constraint generation such as one approach of NASA [4], for example. They used test oracles in order to achieve consistency between program code and specification during development. 
 % Das wollen wir auch erzielen mit unseren automatisch generierten constraints...

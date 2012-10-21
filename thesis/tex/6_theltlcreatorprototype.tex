@@ -309,7 +309,7 @@ Figure~\ref{fig:editor} shows a snapshot of the editor's environment: All functi
 
 One main requirement of the LTLCreator tool is that all constraints can be validated immediately and allow fast feedback about the correctness of programs. For this a \emph{ConstraintValidator} class has been defined which provides a method \emph{validate(AbstractOperator)} for proving constraints.
 For the constraint validation itself a particular model checker can be specified. As a default, the symbolic model checker NuSMV~\cite{springerlink:10.1007/s100090050046,NuSMV2} is used. It is an open source project and has been designed to be an open architecture for model checking. NuSMV doesn't have a java API but it can be externally accessed over command line. For this both the state machine program and the LTL formulas have to be put into file which has to match a NuSMV specific format. An example of this input language is given in listing~\ref{lst:nusmv}.
-\singlespacing
+
 \lstset{
   basicstyle=\ttfamily,
   columns=fullflexible,
@@ -363,6 +363,7 @@ An identifier is used for each constraint what enables elimination of duplicate 
 
 
 \subsection{Ease of integration}
+\label{sec:easeofintegration}
 
 LTLCreator should be available for other state machine based programming environments for integration what is ensured by its implementation as a java swing component and a clear API enabling the tool for a wide range of use.
 
@@ -394,30 +395,31 @@ All this functionality can be accessed through methods provided by the component
 \section{Integration into Robostudio}
 \label{sec:integrationintorobostudio}
 
-kurz erläutern, warum das gemaacht werden soll
+As statet in the previous section the LTLCreator provides an API for integration into other java based applications. Robostudio is such an application which shall be used for evaluating the visual language as well as the automated constraint generation feature and is also supposed to provide all this functionality for development of service robot behaviour in future.
 
-Robostudio uses NetBeans as a platform, and all tools and features are organized in windows. Thus also LTLCreator has to be put into a window and added to the Robostudio platform. Since the defining of safety constraints is an important part not only after but also during the process of developing service robot behavior, the LTLCreator window as a vital tool shall be placed in the center of the platform where currently also the UI Component Layout Editor Window is. As already proposed in the previous section, all changes to the state machine program made within robostudio must of course cause the LTLCreator window to revalidate all existing constraints.
+Robostudio uses NetBeans~\cite{netbeans} as a platform and organizes all tools and features in windows. Thus also LTLCreator has to be put into a window and added to the Robostudio platform. This is done by placing it into a NetBeans module which is added to Robostudio's modules. This module imports the as jar archived LTLCreator tool and further consists of only two classes: \emph{LTLCreatorTopComponent} and \emph{XmlDataToLTLEditorDataWrapper}. The former implements the \emph{TopComponent} provided by NetBeans which can be used for displaying UI elements. In order to visualize the LTLCreator component it is directly placed on the \emph{LTLCreatorTopComponent}. It retreives changes of the model and passes them to the \emph{LTLCreator} component. Since the defining of safety constraints is an important issue not only after but also during the process of developing service robot behaviour, the LTLCreator window as a vital tool has been positioned in the center of the platform where also the \emph{UI Component Layout Editor Window} is.
+The \emph{XmlDataToLTLEditorDataWrapper} forms the bridge between Robostudio's own model and the state machine model used by \emph{LTLCreator}. All complex data coming from Robostudio has to be detached from unimportant graphical information and transformed to an elementary state machine representation before it can be processed by \emph{LTLCreator}.
 
 
 
-
-allein benutzbar, oder ueber robostudio, automatische synchronisierung mit model
-
-%Since Robostudio uses NetBeans as a platform, the LTLCreator has to be integrated as a NetBeans component. Die Datenanbindung zum Austausch des modells (Zustandsmaschine) und der Constraints erfolgt hierbei durch öffentliche
-
+%TODO: load and save
 
 
 
 \subsection{Problems}
 
-(auto-revalidation, model-errors, ...?)
-nicht EINE zentrale stelle für modeländerungen => zer\-pflück\-te programmierung, wenn man alle änderungen haben will
+As already proposed in section~\ref{sec:easeofintegration}, all changes to the state machine program made within Robostudio must of course cause the LTLCreator window to revalidate all existing constraints. This demands a concept of change notification management which is responsible for receiving all chages and making this information available as a service. Thus we tried to extend all parts of the code where model changes are made with short code snippets.
+However this is not as easy to realise in Robostudio since some of the relevant code was generated or imported as external jars what forbids code manipulation.
+
+A second challenge is the current data handling policy in Robostudio. Since this platform is mainly made for developers who used to edit RBDL xml code manually, Robostudio aims for visual rapid editing rather than syntax checks. Thus syntax errors are not detected or even avoided by static analysis ore input restrictions. In fact, such features haven't been requirements for Robostudio. During integration of \emph{LTLCreator} into Robostudio we encountered problems like transitions leading to non existing states, transitions leading to nowhere (null) or transitions whose target is depending on runtime facts.
+Well, this characteristic seems to be a problem for the \emph{LTLCreator} which needs a complete state machine as input and doesn't know how to cope with inconsistend data retrieved from Robostudio.
 
 
 
 
 \subsection{Solutions}
 
-(pre-checker)
+To guarantee any all model change causes the constraints to revalidate, all relevant code parts have to report on this. But modification of the code hasn't been possible in all cases. Whereas all state changes are announced, transition changes stay unnoticed. This decision is straight for the prototype, but for later the developers of Robostudio announced an adapted architecture to solve this problem in the next version.
 
-statische analyse
+
+The problem with inconsistend data could be solved by plausibility and syntax checks during the transformation process of \emph{XmlDataToLTLEditorDataWrapper}. After successful transformation the state machine is passed to the \emph{LTLCreator} component. Otherwise no validation result is displayed for constraints and an appearing dialog lists all identified syntax errors. In matter of safety and reliability a restrictive approach which gives no result at all seemed more applicable than an attempt to interprete the inconsistent data. 
