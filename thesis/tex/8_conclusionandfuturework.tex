@@ -1,7 +1,7 @@
 \chapter{Conclusion \& future work}
 \label{chap:conclusionandfuturework}
 
-first step towards safety certification
+%first step towards safety certification
 
 In this paper we presented a visual formalism for the defining of safety constraints and first steps towards a concept of automatic constraint generation. Both features are implemented and assembled in an editor for standalone or integrated use. The visual language is reasonably simple which makes it accessible to a wider range of software developers. Nevertheless it is reasonably expressive and allows serious model checking.
 
@@ -9,7 +9,9 @@ The concept of applying hueristics for proposing possible constraints to users o
 
 Perhaps the most important next step we identified is the application of the language and the constraint generation heuristic to other domains and applications. This will reveal if the identified subgraph-based heuristic for constraint generation provides reasonable results also in different scenarios. Most likely, it will be necessary to identify further heuristics and integrate them in the visual language editor to improve user support. A study among a group of users from the healthcare robotics domain could indicate the potential of usability improvements.
 
-Some improvements on the feature side of the language or the editor were already identified. For example, the state proposition (currently the only supported proposition type) used in constraint formulation might be not enough for other domains. Supporting propositions based on strings or mumerical equations might be necessary. Finally, the only result of constraint checking presented to the user currently is whether the constraint is valid or invalid. In contrast to conventional model checking no additional explanation for the outcome such as a counter example is given. It can be considered to extend the visual language with support for bug identification by a visualization of counter examples, for example.
+Some improvements on the feature side of the language or the editor were already identified. For example, the state proposition (currently the only supported proposition type) used in constraint formulation might be not enough for other domains. Supporting propositions based on strings or mumerical equations might be necessary.
+For reasons of enhancing the visual language, a substitution operator could be provided. Already existing constraints could be reused as parts of more complex constraints and thus simplify the overall look.
+Finally, the only result of constraint checking presented to the user currently is whether the constraint is valid or invalid. In contrast to conventional model checking no additional explanation for the outcome such as a counter example is given. It can be considered to extend the visual language with support for bug identification by a visualization of counter examples, for example.
 %\item Substitution of parts of constraints would be nice in order to make it easier to understand. (A simple operator which abstracts from a more complex operator). It's comparable to composite states of hirachical state machines.
 
 %\item A feature which can display an counter example in case a constraint is not valid. It would make the user comprehend the reason in what situation a constraint fails.

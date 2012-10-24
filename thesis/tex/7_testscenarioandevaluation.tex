@@ -125,24 +125,31 @@ To put it in a nutshell, all automatically generated constraints are practical, 
 \section{Practical experiences}
 \label{sec:practicalexperiences}
 
-eher schreiben: wurde einigen Leuten vorgestellt. Generell blabla... Darunter auch alina kracker...
+Some parts of the healthcare robot's behaviour are appropriate to be specified by non-programmers, and that's the purpose of the presented visual language as well. Different tools and environments, among Robostudio and LTLCreator, try to provide a particular interface suitable for such people. Now, it might be interesting to find out about user's experiences and how they get along when using these tools.
 
-Alina Kracker, 21 Jahre alt aus Friedberg und Studentin der Erziehungswissenschaften, arbeitet neben dem Studium als Pflegehilfskraft in einer Kurzzteitplfege. Dort betreut sie ältere Damen und Herren, die dort kurz- bis mittelfristig untergebracht sind. In dieser Einrichtung wohnen Personen mit unterschiedlichsten Krankheiten und Bedürfnissen, von zu beobachtenden aber gesunden Menschen bis hin zu Alzeimerpatienten.
+The LTLCreator has been presented to several people, technical engineers as well as ordinary persons. The overall feedback was good and the idea and realisation of the visual language was well-received. One of the laypersons who have been introduced to LTLCreator was Alina Kracker. The 21 yeras old german student of educational science is also working for the elderly in a care facility since more than five years. In this social institution Ms Kracker takes care of persons having different disease patterns and necessities. This spectrum varies from physical disabilities over mental problems such as Alzheimer's desease to being bedridden.
+Her professional care background makes her feedback about usability and comprehensibility of the visual concept especially interesting since its application and testing was done in the healthcare domain.
 
-Es wurde getestet, ob Kracker ohne entsprechende Ausbildung Constraints zu dem Beispiel des medication reminder formulieren kann.
-Zum einen möchte die Universität of Auckland die Programmierung solcher Anwendungen auch nicht-professionellen ermöglichen, und da wäre die Erfahrung einer echten Pflegekraft mit dieser Aufgabe wohl sehr interessant. Zum anderen kann so aber auch festgestellt werden, wie nicht-Softwareentwickler mit der visuellen Sprache und dem Konzept zur Constrainterstellung zurechtkommen.
+Ms Kracker was introduced to the example of medication remider, and the program behaviour was described with the help of figure~\ref{fig:medicationreminder}. Afterwards she got familiarized with surface and functionality of LTLCreator. Now, she was asked to formulate the two constraints which we postulated in the requirements, just by using the available means of the editor placed at her disposal.
+The first constraint, which ensures the state ``Polling'' always eventually to be visited again, was constructed quickly and accurately.
+The second constraint specifies, that every visit of state ``Not taken yet'' will eventually result in a visit of either state ``Well done!'' or ``Staff notified''. It turned out that this constraint held some difficulties for her, the \emph{FUTURE} operator was not considered initially. But it was also finisehd after a few consideration breaks.
 
-Kracker wurde in das Beispiel der medication reminder applikation eingeführt und das Programmverhalten anhand der Zustandsmaschine aus figure 123 erklärt. Anschließend wurde sie mit der Oberfläche und Funktionsweise des LTLCreator tools vertraut gemacht.
+%indeed
+%surprisingly
+%hm was given as a reason.
+%Probably due to 
+%Due to textnähe und einfachen lesbarkeit der vl
+%da der text nah ist und auch für ... vferständlich ist
+%not familiar with
+%As a first step,
 
-Ihr wurde nun die Aufgabe gegeben, mit den im Editor zur Verfügung stehenden Mitteln die zwei Bedingungen zu formulieren, die uns in diesem Kapitel bereits begleitet haben. Zum einen sollen Medikamenterinnerungen nie vergessen werden, also Zustand ``Polling'' muss regelmäßig besucht werden. Zum anderen muss sichergestellt sein, dass bei noch nicht vorgenommener Medikamenteinnahme das Medikament letztendlich eingenommen wird oder das Personal benachrichtigt wird. Also bei Besuch von ``Not taken yet'' muss entweder ``Well done!'' oder ``Staff notified'' besucht werden.
+Ms Kracker didn't know in beforehand what state machines are and never came in contact with LTL or model checking in general. But she dealt with this example and the visual language surprisingly well, and she's convinced that she could use it after some exercise. As reason for the success she pointed out the easy readability of the visual language and its close relationship to spoken language. Furthermore the intuitive drag and drop allowed faster editing.
+Her examination on the visual language gives us evidence that we succeeded with our approach of creating an easy to use concept for defining LTL formulas. The visual language we developed enables even non-professionals to use the usually quite complex concept of model checking.
 
-Da Kracker mit Zustandsmaschinendarstellungen nicht vertraut ist, wurden ihr die Constraintbedeutungen wie eben beschrieben anhand der Zustandsnamen erläutert. Bei der Erstellung der Constraints war sie allerdings anfänglich auf sich alleine gestellt. Die erste Bedingung erstellte sie zügig und richtig, und es schien auch keine besondere Herausforderung gewesen zu sein. 
-Auch der zweite Constraint wurde
-Bei der Frage nach der Anwendung von FUTURE hakte es dann allerdings etwas, was auf die zeitlichen (...) zurückzuführen war. Die Aufforderung, die Bedingung als deutschen Satz zu formulieren, half ihr wieder auf die Sprünge.
+%Für eine Person, die von modelchecking oder LTL noch nie etwas gehört hat, kam sie mit kleinen Hilfen gut mit der visuellen Sprache zurecht und könnte sie so mit etwas Übung auch verwenden.
 
-Für eine Person, die von modelchecking oder LTL noch nie etwas gehört hat, kam sie mit kleinen Hilfen gut mit der visuellen Sprache zurecht und könnte sie so mit etwas Übung auch verwenden.
+%Die Nähe zwischen LTL und deutschem Satz ist gut, und dadurch kann man schnell konstraints zusammen klicken (besser als mit fremden mathematischen symbolen).
 
-Die Nähe zwischen LTL und deutschem Satz ist gut, und dadurch kann man schnell konstraints zusammen klicken (besser als mit fremden mathematischen symbolen).
-
-
-Auf die Frage, ob sie solche Roboteranwendungen wie der Medicationreminder in der Kurzzeitpflege für sinnvoll erachten würde, antwortet Kracker: ``Für geistig fitte aber dennoch vergessliche und tütelige Leute kann ich mir diese Roboterapplikation super vorstellen. Ein Großteil unserer Patienten ist jedoch nicht in der Lage Entscheidungen, die der Roboter abfrägt, wahrheitsgemäß zu treffen. Aufgrund der regelmäßig wechselnden Patientenbelegung in der Kurzzeitpflege ist es vielmehr für das Betreuungspersonal eine große Herausforderung, die uhrzeitgebundenen Medikamenteinnahmen der Patienten nicht zu vergessen. Daher wäre eine solche Erinnerungsfunktion für das Personal eine große Hilfe.''.
+To the question, whether she would recommend such robotic services like the medication reminder application for use in the care facility she's working in, Ms Kracker replied: ``I can envision such robot applications beeing an excellent assistance for the elderly who are mentally fit but maybe a little doolally. However, in our facilities most of the patients aren't capable enough anymore of making decisions based on what the robots ask. In fact, due to frequent changes of the patients in our facilities it is a big issue for the care givers not to forget time-dependend medication intakes of their patients. Thus such a reminding robot application would constitute an excellent support for us staff!''.
+%Auf die Frage, ob sie solche Roboteranwendungen wie der Medicationreminder in der Kurzzeitpflege für sinnvoll erachten würde, antwortet Kracker:
+%``Für geistig fitte aber dennoch vergessliche und tütelige Leute kann ich mir diese Roboterapplikation super vorstellen. Ein Großteil unserer Patienten ist jedoch nicht in der Lage Entscheidungen, die der Roboter abfrägt, wahrheitsgemäß zu treffen. Aufgrund der regelmäßig wechselnden Patientenbelegung in der Kurzzeitpflege ist es vielmehr für das Betreuungspersonal eine große Herausforderung, die uhrzeitgebundenen Medikamenteinnahmen der Patienten nicht zu vergessen. Daher wäre eine solche Erinnerungsfunktion für das Personal eine große Hilfe.''.
