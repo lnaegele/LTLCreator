@@ -112,6 +112,7 @@ However, sholud this algorithm regardless its tailoring to the healthcare domain
 % wenn noch schreiben will, dann: linear ist cool, weil das tool eh die gefundenen constraints gleich anzeigt und nicht erst am ende alles geballt bringt.
 
 
+
 \subsection{Reasonability of generated constraints}
 
 The constraint generator algorithm found six constraints for the medication reminder application. Two of them were actually the ones we proposed in the requirements. Three of them are either intensified versions of the previous ones or just describe the behaviour of the program and thus make sense, but in matters of safety they aren't fundamental relevant.
@@ -134,22 +135,7 @@ Ms Kracker was introduced to the example of medication remider, and the program 
 The first constraint, which ensures the state ``Polling'' always eventually to be visited again, was constructed quickly and accurately.
 The second constraint specifies, that every visit of state ``Not taken yet'' will eventually result in a visit of either state ``Well done!'' or ``Staff notified''. It turned out that this constraint held some difficulties for her, the \emph{FUTURE} operator was not considered initially. But it was also finisehd after a few consideration breaks.
 
-%indeed
-%surprisingly
-%hm was given as a reason.
-%Probably due to 
-%Due to textnähe und einfachen lesbarkeit der vl
-%da der text nah ist und auch für ... vferständlich ist
-%not familiar with
-%As a first step,
-
 Ms Kracker didn't know in beforehand what state machines are and never came in contact with LTL or model checking in general. But she dealt with this example and the visual language surprisingly well, and she's convinced that she could use it after some exercise. As reason for the success she pointed out the easy readability of the visual language and its close relationship to spoken language. Furthermore the intuitive drag and drop allowed faster editing.
 Her examination on the visual language gives us evidence that we succeeded with our approach of creating an easy to use concept for defining LTL formulas. The visual language we developed enables even non-professionals to use the usually quite complex concept of model checking.
 
-%Für eine Person, die von modelchecking oder LTL noch nie etwas gehört hat, kam sie mit kleinen Hilfen gut mit der visuellen Sprache zurecht und könnte sie so mit etwas Übung auch verwenden.
-
-%Die Nähe zwischen LTL und deutschem Satz ist gut, und dadurch kann man schnell konstraints zusammen klicken (besser als mit fremden mathematischen symbolen).
-
 To the question, whether she would recommend such robotic services like the medication reminder application for use in the care facility she's working in, Ms Kracker replied: ``I can envision such robot applications beeing an excellent assistance for the elderly who are mentally fit but maybe a little doolally. However, in our facilities most of the patients aren't capable enough anymore of making decisions based on what the robots ask. In fact, due to frequent changes of the patients in our facilities it is a big issue for the care givers not to forget time-dependend medication intakes of their patients. Thus such a reminding robot application would constitute an excellent support for us staff!''.
-%Auf die Frage, ob sie solche Roboteranwendungen wie der Medicationreminder in der Kurzzeitpflege für sinnvoll erachten würde, antwortet Kracker:
-%``Für geistig fitte aber dennoch vergessliche und tütelige Leute kann ich mir diese Roboterapplikation super vorstellen. Ein Großteil unserer Patienten ist jedoch nicht in der Lage Entscheidungen, die der Roboter abfrägt, wahrheitsgemäß zu treffen. Aufgrund der regelmäßig wechselnden Patientenbelegung in der Kurzzeitpflege ist es vielmehr für das Betreuungspersonal eine große Herausforderung, die uhrzeitgebundenen Medikamenteinnahmen der Patienten nicht zu vergessen. Daher wäre eine solche Erinnerungsfunktion für das Personal eine große Hilfe.''.

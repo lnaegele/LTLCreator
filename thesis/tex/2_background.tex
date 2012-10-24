@@ -27,12 +27,6 @@ There are lots of possible tasks a robot could do such as taking the blood press
 This challenge as a goal, the healtcare robotics team at the University of Auckland researches this topic and builds service robots for supporting the elderlies in their daily life.
 
 The two newest robots IrobiQ and Cafero are shown in figure~\ref{fig:irobiq_cafero}.
-%\begin{figure}[htbp]
-%  \centering
-%  \includegraphics[width=0.6\linewidth]{irobiq_cafero} 
-%  \caption{IrobiQ and Cafero, two robots of the healtcare project.}
-%  \label{fig:irobiq_cafero}
-%\end{figure}
 These mobile 
 \begin{wrapfigure}{r}{0.60\textwidth}
   \centering
@@ -72,10 +66,9 @@ The interpreter processes programs written in Robot Behaviour Description Langua
   identifierstyle=\color{darkblue},
   keywordstyle=\color{cyan},
 	morekeywords={%no, type_, senderid, receiverid, name_, vartype, label, width, height, x, y, textsize, preconditions
-	}% list your attributes here
+	}
 }
 
-%\lstset{language=XML}
 \begin{lstlisting}[float = htbp, language=XML, captionpos=b, breaklines=true, showspaces=false, showtabs=false, tabsize=2, caption=Example of a state defined by RBDL~\cite{robostudio}., label=lst:RBDL]
 <state no="84">
 	<backgroundactions>
@@ -139,9 +132,6 @@ In the beginning all programming of the robot behaviour was done by directly edi
   \label{fig:robostudio_proceeding}
 \end{figure}
 
-%require refactoring and static analysis tools.
-
-
 Robostudio is an editor fully written in Java and implemented as a NetBeans rich client application.
 In several windows and views there are visual tools for editing and understanding robot behaviour as well as screen dialog design. As depicted in figure~\ref{fig:robostudio_vpe} the editor has got a State Navigator Window (1) in the top left corner where all existing states are listed. Underneath an overview about all incoming and outgoing transitions is given. New states can be created and existing states can be deleted. A click on one particular state id in the State Navigator Window will cause all other components to show all possible information regarding to the selected state.
 The Expected Events Editor Window (2) in the bottom left provides specifying the expected events and their effects.
@@ -157,8 +147,8 @@ Aiming for supporting the developer with helpful graphical tools the State Trans
   \label{fig:robostudio_vpe}
 \end{figure}
 
-%One challenge 
-%TODO: Vlt herausstellen, dass eine Schwierigkeit darin bestand, Verhaltensmodellierung und graphische Gestaltung unter einen Hut zu bringen (dazu Bild aus datta paper?).
+
+%TODO: Vlt herausstellen, dass eine Schwierigkeit darin bestand, Verhaltensmodellierung und graphische Gestaltung unter einen Hut zu bringen (dazu Bild aus datta paper?). One challenge...
 
 
 
@@ -167,10 +157,13 @@ Aiming for supporting the developer with helpful graphical tools the State Trans
 
 \section{Behaviour checking}
 \label{sec:behaviourchecking}
-TODO: Begriffserklärung: Funktionale Sicherheit
+
+The use of software is versatile from text editing programs running on personal computers, over control software for high-precision applications in aeronautics, right up to trigger mechanisms for deathly weapons. For most of them safety properties are irrelevant, but a few are ranked highly dangerous to their environment and also human lifes. In order to eliminate software malfunction there are a lot of mathematical concepts for verifying software behaviour.
+One of them is model checking wich allows checking for functional safety on state machine programs. Since we deal with state machines in the healthbot applications mentioned in section~\ref{sec:healthbotapplication}, this concept of behaviour checking is applicable and important for our kind of programs. At first the basic idea of state machines is described in section~\ref{sec:statemachines}, followed by an intorduction into model checking in section~\ref{sec:modelcheckingandltl}.
 
 
 \subsection{State machines}
+\label{sec:statemachines}
 
 
 
@@ -180,7 +173,7 @@ TODO: Begriffserklärung: Funktionale Sicherheit
 %CTL and LTL are important concepts for model checking and verification of statemachines. But their powerfulness is reflected in the complexity of their mathematical expressions, what makes it difficult to use for programmers who haven't got deeper expertise in this subject.
 
 
-NuSMV erwaehnen, erklaeren warum nicht CTL? ltl passt fuer healthcare besser
+%NuSMV erwaehnen, erklaeren warum nicht CTL? ltl passt fuer healthcare besser
 
 
 
