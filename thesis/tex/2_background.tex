@@ -1,16 +1,16 @@
 \chapter{Background}
 \label{chap:background}
 
-The subject of this work evolved from the situation, that the healthcare robotic applications of the University of Auckland should be equipped with mechanisms for ensuring safety.
-The motivation for it is described in section~\ref{sec:healthbotapplication} as well as the robots, the kind of applications running on them, and their technical background.
+The topic of this work evolved from the situation that the healthcare robotic applications of the University of Auckland should be equipped with mechanisms for ensuring safety.
+The motivation for it is described in section~\ref{sec:healthbotapplication} as well as the robots used, the kind of applications running on them, and their technical background.
 
 The visual programming environment used for the programming of these robots is presented in section~\ref{sec:robostudio}.
-For the understanding of safety concepts which this work is based on, a short introduction into the world of functional safety is given in section~\ref{sec:behaviourchecking}. In section~\ref{sec:relatedwork} other works and programs related to this work's topic are examined which also deal with safety aspects.
+For the understanding of safety concepts which this work is based on, a short introduction about functional safety is given in section~\ref{sec:behaviourchecking}. In section~\ref{sec:relatedwork} other work and programs related to this work are examined.
 
 
 
 
-\section{Healhbot application}
+\section{Healthbot application}
 \label{sec:healthbotapplication}
 
 %\begin{wrapfigure}{r}{0.38\textwidth}
@@ -22,9 +22,9 @@ For the understanding of safety concepts which this work is based on, a short in
 In some countries, among New Zealand and Germany, the average age of population is constantly increasing. Owing to excellent achievements in medicine as well as higher living standards, humans can enjoy longer lifes. Also decreasing birth rates contribute to an upward drift of the dominating age range. As a result, the industrial sectors of professional health care and social institutions are required more than ever.
 However, a strong deficit of professionals is denoted in the healthcare branch and availability is far behind demand. One reason for this might be below average low salaries for employees in the healthcare sector. But, just raising the salary isn't leading to the desired results since the majority of the older people can't even afford a nurse to today's prices.
 
-Aiming for fillig the constantly increasing gap in professional personnel for healtcare of the elderly and bypassing die financial burden, service robots are supposed to more and more undertake the task of care.
+Aiming for fillig the constantly increasing gap in professional personnel for healthcare of the elderly and bypassing the financial burden, service robots are supposed to more and more undertake the task of care.
 There are lots of possible tasks a robot could do such as taking the blood pressure, guiding medication intake, detecting falls or just entertaining with music, video or internet.
-This challenge as a goal, the healtcare robotics team at the University of Auckland researches this topic and builds service robots for supporting the elderlies in their daily life.
+This challenge as a goal, the healthcare robotics team at the University of Auckland researches this topic and builds service robots for supporting the elderly in their daily life.
 
 The two newest robots IrobiQ and Cafero are shown in figure~\ref{fig:irobiq_cafero}.
 These mobile 
@@ -34,14 +34,14 @@ These mobile
   \caption{IrobiQ and Cafero, two robots of the healtcare project.}
   \label{fig:irobiq_cafero}
 \end{wrapfigure}
-robots have got a touch display for presenting screens and receiving user input. Furthermore they are equipped with additional external tools such as the blood pressure measurement device.
-Applications running on the robot use the touch display to present screen dialogs to the user and use speech synthesis in order to give also accoustic feedbak. User inputs or response from devices cause dialogs to change. Figure~\ref{fig:screenflow_example} presents a little example of such a screen-flow based application, which uses response from a camera and user input for navigating through the screen-flow.
+robots are equipped with a touch display for presenting screens and receiving user input. Furthermore, they are equipped with additional external tools such as the blood pressure measurement device.
+Applications running on the robot use the touch display to present screen dialogs to the user and use speech synthesis in order to give also accoustic feedback. User inputs or response from devices cause dialogs to change. Figure~\ref{fig:screenflow_example} presents a small example of such a screen-flow based application, which uses response from a camera and user input for navigating through the screen-flow.
 
 %, and they can access devices such as the camera for face recognition or the blood pressure measurement tool. 
 
 There is a program interpreter running on the robots which can load and execute program files. Screen dialogs get generated and displayed on the touch screen.
 %This makes the program behaviour replaceable and maintenance can be done easily.
-The interpreter processes programs written in Robot Behaviour Description Language (RBDL), a particular DSL based on XML, which has been developed particularly for the healthcare robotic applications. It allows defining state machine based program behaviour and creating UI elements for screen visualizations. An example implementation of one state in RBDL is shown in listing~\ref{lst:RBDL}.
+The interpreter processes programs written in Robot Behaviour Description Language (RBDL), a domain specific language (DSL) based on XML, which has been developed particularly for the healthcare robotics applications. It allows defining state machine based program behaviour and creating UI elements for screen visualizations. An example implementation of one state in RBDL is shown in listing~\ref{lst:RBDL}.
 
 \begin{figure}[htbp]
   \centering
@@ -106,11 +106,11 @@ The interpreter processes programs written in Robot Behaviour Description Langua
 </state>
 \end{lstlisting}
 
-For each state of the program, backgroundactions can be defined. They are transparent to the user and run in background. Text messages can be sent or external devices can be acessed, for example. The latter is realized with web services to obtain a modular design.
-Some states can also have screen definitions with buttons, messages, videos, etc. on it. These are displayed to the user when the particular state is active. Once displayed, buttons can be clicked and trigger events.
-The behaviour of events can be mapped in the expectedevents tag. It lists all events which are processable by the current state and defines the correspondend behaviour such as triggering transitions to other states.
+For each state of the program, background actions can be defined. They are transparent to the user and run in background. Text messages can be sent or external devices can be acessed, for example. The latter is realized with web services~\cite{webservices} to obtain a modular design.
+Some states can also have screen definitions with buttons, messages, videos, etc., on it. These are displayed to the user when the respective state is active. Once displayed, buttons can be clicked and trigger events.
+The behaviour of events can be mapped in the expectedevents tag. It lists all events which are processable by the current state and defines the corresponding behaviour such as triggering transitions to other states.
 
-For this work the most important thing about the RBDL to remember is, that it can define state machine behaviour with states, transitions and events. This fact was basement for later decisions regarding used safety mechanisms.
+For this work the most important thing about the RBDL to remember is that it can define state machine behaviour with states, transitions and events. This fact was the basis for later decisions regarding used safety mechanisms.
 
 
 
@@ -123,7 +123,7 @@ For this work the most important thing about the RBDL to remember is, that it ca
 \section{Robostudio}
 \label{sec:robostudio}
 
-In the beginning all programming of the robot behaviour was done by directly editing the XML code mentioned in the previous section by using a text editor. But huge code files and occasional code edits made further maintenance and change requests difficult up to impossible to realise. For this reason Chandan Datta, PhD student at the University of Auckland, developed a visual programming environment for developing robot behaviour on top of RBDL: Robostudio~\cite{robostudio} allows to easily edit the program behaviour on a visual layer and generates the corresponding program file containing the RBDL code fully automatically. This file can be downloaded to the robot and executed by the interpreter. Figure~\ref{fig:robostudio_proceeding} illustrates what the steps of robot behaviour development are.
+In the beginning all programming of the robot behaviour was done by directly editing the XML code mentioned in the previous section by using a text editor. But huge code files and occasional code edits made further maintenance and change requests difficult up to impossible to realise. For this reason, Chandan Datta, PhD student at the University of Auckland, developed a visual programming environment for developing robot behaviour on top of RBDL: Robostudio~\cite{robostudio} allows to easily edit the program behaviour on a visual layer and generates the corresponding program file containing the RBDL code fully automatically. This file can be downloaded to the robot and executed by the interpreter. Figure~\ref{fig:robostudio_proceeding} illustrates the steps of robot behaviour development.
 
 \begin{figure}[htbp]
   \centering
@@ -133,12 +133,12 @@ In the beginning all programming of the robot behaviour was done by directly edi
 \end{figure}
 
 Robostudio is an editor fully written in Java and implemented as a NetBeans rich client application.
-In several windows and views there are visual tools for editing and understanding robot behaviour as well as screen dialog design. As depicted in figure~\ref{fig:robostudio_vpe} the editor has got a State Navigator Window (1) in the top left corner where all existing states are listed. Underneath an overview about all incoming and outgoing transitions is given. New states can be created and existing states can be deleted. A click on one particular state id in the State Navigator Window will cause all other components to show all possible information regarding to the selected state.
-The Expected Events Editor Window (2) in the bottom left provides specifying the expected events and their effects.
-Heart and center of the editor is the UI Component Layout Editor Window (3). It renders the screen dialog of the selected state and gives a preview of the screen presented on the robot during runtime. Components such as buttons, text boxes or images can be added, changed or removed via drag and drop.
-They are provided by the UI Components Palette Window (4) on the right side where the user can choose from all supported UI components.
-The Background Actions Editor Window (5) lets the user define background actions, which are executed trasparently to the user such as accessing external devices or sending messages.
-Aiming for supporting the developer with helpful graphical tools the State Transition Visualization Window (6) gives an overview about all connections towards and from the selected state. It helps to quickly get an understanding of the local program behaviour.
+Several windows and views provide visual tools for editing and understanding robot behaviour as well as screen dialog design. As depicted in figure~\ref{fig:robostudio_vpe}, the editor integrates a \emph{State Navigator Window} (1) in the top left corner where all existing states are listed. Below an overview about all incoming and outgoing transitions is given. New states can be created and existing states can be deleted. A click on one particular state id in the \emph{State Navigator Window} will cause all other components to show all possible information regarding the selected state.
+The \emph{Expected Events Editor Window} (2) in the bottom left can be used for specifying the expected events and their effects.
+Heart and center of the editor is the \emph{UI Component Layout Editor Window} (3). It renders the screen dialog of the selected state and gives a preview of the screen presented on the robot during runtime. Components such as buttons, text boxes or images can be added, changed or removed via drag and drop.
+They are provided by the \emph{UI Components Palette Window} (4) on the right side where the user can choose from all supported UI components.
+The \emph{Background Actions Editor Window} (5) lets the user define background actions, which are executed transparently to the user such as accessing external devices or sending messages.
+Aiming to support the developer with helpful graphical tools, the \emph{State Transition Visualization Window} (6) gives an overview about all connections towards and from the selected state. It helps to quickly get an understanding of the local program behaviour.
 
 \begin{figure}[htbp]
   \centering
@@ -192,11 +192,11 @@ One of them is model checking wich allows checking for functional safety on stat
 % 2007 A Visual Editor to Support the Use of Temporal Logic for ADL Monitoring
 
 
-A first step towards a graphical tool for designing safety constraints is taken by Sisiruca and Ionescu~\cite{332301}. They developed an object-oriented graphical environment for visually creating temporal logic sentences and rules. The tool presents temporal operators as logical modules with boolean inputs and outputs which can be connected to one big expression graph. Del Bimbo et al. worked on a visual tool for temporal logic, but with a special focus on hierarchical representation of formulas~\cite{520786}. Here each node of a tree is described by an abstract operator whose subformulas are branches to their replacement operators. Thus the root node represents the entire formula. They also explored the formula trees' 3D representation within a virtual space. Both approaches are different fundamental ideas of representing temporal formulas. Whereas having a graph  seems not to be applicable for our approach, the idea of hirarchical operator representation of Del Bimbo et al. will be a good basis for our concept of constraint creation and understanding.
+A first step towards a graphical tool for designing safety constraints is taken by Sisiruca and Ionescu~\cite{332301}. They developed an object-oriented graphical environment for visually creating temporal logic sentences and rules. The tool presents temporal operators as logical modules with boolean inputs and outputs which can be connected to one big expression graph. Del Bimbo et al. worked on a visual tool for temporal logic, but with a special focus on hierarchical representation of formulas~\cite{520786}. Here each node of a tree is described by an abstract operator whose subformulas are branches to their replacement operators. Thus, the root node represents the entire formula. They also explored the formula trees' 3D representation within a virtual space. Both approaches are different fundamental ideas of representing temporal formulas. Whereas having a graph  seems not to be applicable for our approach, the idea of hierarchical operator representation of Del Bimbo et al. will be a good basis for our concept of constraint creation and understanding.
 
 %aim for simplifying the development of constraints, but they still demand knowledge of the underlying mathematical formalism of temporal logic.
 
-The step towards a more abstract level of development is taken by HomeTL~\cite{4341725}, a visual formalism for the design of home based care. It allows healthcare professionals to specify rules and sequences of user actions in a quite nontechnical manner. Based on these conditions a monitoring system in a patient's home environment can detect and report abnormal situations within the daily routine. Even though this approach touches the subject of healthcare it barely matches our problem. HomeTL focuses more on monitoring temporal boundaries of a patient's behaviour than on ensuring functional safety of an implemented program. It does depict how nontechnical constraint design can be realised and its graphical design is a good example of handling time dependencies.
+The step towards a more abstract level of development is taken by HomeTL~\cite{4341725}, a visual formalism for the design of home based care. It allows healthcare professionals to specify rules and sequences of user actions in a quite nontechnical manner. Based on these conditions a monitoring system in a patient's home environment can detect and report abnormal situations within the daily routine. Even though this approach touches the subject of healthcare it barely matches our problem. HomeTL focuses more on monitoring temporal boundaries of a patient's behaviour than on ensuring functional safety of an implemented program. It does however depict how nontechnical constraint design can be realised and its graphical design is a good example of handling time dependencies.
 
 %There are already works about constraint generation such as one approach of NASA [4], for example. They used test oracles in order to achieve consistency between program code and specification during development. 
 % Das wollen wir auch erzielen mit unseren automatisch generierten constraints...

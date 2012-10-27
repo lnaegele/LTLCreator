@@ -1,26 +1,26 @@
 \chapter{The LTLCreator prototype}
 \label{chap:theltlcreatorprototype}
 
-As stated in chapter~\ref{chap:goals}, appropriate support by a graphical editor is important for the usefulness of the developed visual language. We therefore designed and implemented a prototype of such an editor which contains the visual language as well as the proposed constraint generation heuristics. The implementation is a java swing component and has a simple API definition, making it easy to integrate the LTLCreator tool into other java applications.
+As stated in chapter~\ref{chap:goals}, appropriate support by a graphical editor is important for the usefulness of the developed visual language. Therefore a prototype of such an editor has been designed and implemented which contains the visual language as well as the proposed constraint generation heuristics. The implementation is a Java Swing component and has a simple API definition, making it easy to integrate the LTLCreator tool into other java applications.
 
 First of all some details about the implementation of the visual language are given in section~\ref{sec:prototype:operatorconstraints}, directly followed by an explanation about the realization of the automated constraint generation functionality in section~\ref{sec:prototype:automatedconstraintgeneration}.
-The assembly of all the previous features in one tool is described in section~\ref{sec:coalescence}. However, the tool's functionality shall also be available in Robostudio in order to provide safety mechanisms for the healthcare service robots and to be a prototype for evaluation. Section~\ref{sec:integrationintorobostudio} gives a main idea how an integration into Robostudio ought to be. 
+The assembly of all the previous features in one tool is described in section~\ref{sec:coalescence}. However, the tool's functionality shall also be available in Robostudio in order to provide safety mechanisms for the healthcare service robots and to be a prototype for evaluation. Section~\ref{sec:integrationintorobostudio} gives a main idea how an integration into Robostudio is possible. 
 
 
 
 \section{Operator constraints}
 \label{sec:prototype:operatorconstraints}
 
-Each of the different operator types, i.e. \emph{IfThenOperator}, \emph{AndOperator}, \emph{OrOperator}, \emph{NotOperator}, \emph{NextOperator}, \emph{FutureOperator}, \emph{AlwaysOperator}, \emph{UntilOperator} and \emph{StateOperator}, has got its own representing class. All of them inherit from one abstract class \emph{AbstractOperator} which provides the basic functionality beeing used by all operators. The \emph{AbstractOperator} class is shown in figure~\ref{fig:abstractoperator} and its methods are described as follows:
+All different operator types, i.e. \emph{IfThenOperator}, \emph{AndOperator}, \emph{OrOperator}, \emph{NotOperator}, \emph{NextOperator}, \emph{FutureOperator}, \emph{AlwaysOperator}, \emph{UntilOperator} and \emph{StateOperator}, are realized by dedicated classes. All of them inherit from one abstract class \emph{AbstractOperator} which provides the basic functionality beeing used by all operators. The \emph{AbstractOperator} class is shown in figure~\ref{fig:abstractoperator} and its methods are described as follows:
 
 \begin{description}
 	\item[getLTL():] This function returns the LTL formula of an operator and all its children recursively. Applied to the most outer operator it returns the complete formula for the constraint. This function is abstract and implemented by each operator type separately.
-	\item[getColor():] Each operator type has got is own significant color which can be retrieved over the abstract function \emph{getColor()}.
-	\item[createNewInstance():] In order to provide operator creation over a tool bar, this function instantiates a new operator object dependet on the implementation.
+	\item[getColor():] Each operator type has got is own significant color which can be retrieved by the abstract function \emph{getColor()}.
+	\item[createNewInstance():] In order to provide operator creation over a tool bar, this function instantiates a new operator object, depending on the implementation.
 	\item[setMouseOver(boolean):] Mouse over actions cause the underlying operator to be highlighted. This function makes all operators except the hovered one appearing bleeched out.
 	\item[paintOperator(Graphics, ...):] Each operator class has to implement the abstract function \emph{paintOperator()}. It manages all color and shape painting for the respective operator. Additional parameters such as recursive painting including children can be specified.
-	\item[contains(int, int):] Given two coordinates x and y, it can be determined wheter the herewith defined point lays within an operator.
-	\item[isSimilar(AbstractOperator):] Two operators can be compared for semantic equality. That means same operators with similiar children. This functionality is important for avoiding duplicate constraints during constraint generation.
+	\item[contains(int, int):] Given two coordinates x and y, it can be determined whether the herewith defined point lays within an operator.
+	\item[isSimilar(AbstractOperator):] Two operators can be compared for semantic equality. Equality is given when the compared operators are of the same type and similarly their children. This functionality is important for avoiding duplicate constraints during constraint generation.
 	\item[addChangeListener(OperatorChangeListener):] Whenever there is a change to the operator or one of its children, an operator change listener gets notified about it. The hierarchical architecture of \emph{AbstractOperator}s propagates all change events to the root operator. The function \emph{addChangeListener()} allows registering for such change notifications.
 	\item[removeChangeListener(OperatorChangeListener):] According to \emph{addChangeListener} this function allows deregistration again.
 \end{description}
@@ -32,7 +32,7 @@ Each of the different operator types, i.e. \emph{IfThenOperator}, \emph{AndOpera
   \label{fig:abstractoperator}
 \end{figure}
 
-Whereas \emph{StateOperator}s have got no operator children and are leafs in the syntax tree of LTL formulas, all other operator types are either unary or binary operators with respective one or two possible children. 
+Whereas \emph{StateOperator}s have got no operator children and are leafs in the syntax tree of LTL formulas, all other operator types are either unary or binary operators with one or two possible children respectively. 
 The graphical representation of both unary and binary operators thus needs to have place holders and docking stations for sub operators. These are realized by buckets which display a small ``drop here'' label and allow operator adding or removing by mouse drops. For this a class Bucket is defined with get and set methods for defining a sub operator.
 Figure~\ref{fig:klassendiagramm_operators} depicts the relationship between \emph{AbstractOperator}, \emph{Bucket} and operator implementations.
 \begin{figure}[htbp]
@@ -50,11 +50,11 @@ Once operators are composed in a way that no empty buckets are left over, we ret
   \label{fig:operator_tree}
 \end{figure}
 
-All graphical components such as buckets and operators are implemented as java swing \emph{JComponent}s. Thereby a lot of functionality for the visual configuration is already available such as the complex layout and repaint concept and the container functionality which is used for unary and binary operators as well as buckets.
+All graphical components such as buckets and operators are implemented as Java Swing \emph{JComponent}s. Thereby a lot of functionality for the visual configuration is already available such as the complex layout and repaint concept and the container functionality which is used for unary and binary operators as well as buckets.
 
 %PAINT
 
-For lightweight components swing allows the implementation of a \emph{paint()} method which is responsible for rendering the component. This is used for giving every operator its special look. We hereby made use of swing's \emph{Graphics2D} functionality what gives a great support in painting rounded shapes and color gradients. An operator is displayed as a rounded rectangle with dents around sub operators and has got a flowing backgound, borders and labels in an operator type specific color. For the significant shape multiple rounded rectangles with and without border are arranged in a way that the result appears to be one peace. Figure~\ref{fig:paintprocess} demonstrates how the process of painting is: For painting the if operator first of all a blank rectangle with border is drawn, directly followed by two filled rectangles with border which are placed where later the two child operators shall be. In the third step the same rectangle as from step one just this time without border is painted on top. This makes all crossing borders disappear. Only labels and buckets have to be added yet and a complete \emph{IfThenOperator} emerges.
+For lightweight components Swing allows the implementation of a \emph{paint()} method which is responsible for rendering the component. This is used for giving every operator its special look. We hereby made use of Swing's \emph{Graphics2D} functionality what gives a great support in painting rounded shapes and color gradients. An operator is displayed as a rounded rectangle with dents around sub operators and has a flowing backgound, borders and labels in an operator type specific color. For the significant shape multiple rounded rectangles with and without border are arranged in a way that the result appears to be one piece. Figure~\ref{fig:paintprocess} demonstrates how the process of painting is: For painting the \emph{IfThenOperator}, first of all a blank rectangle with border is drawn, directly followed by two filled rectangles with border which are placed where later the two child operators shall be. In the third step the same rectangle as from step one is painted on top, this time without border. This makes all crossing borders disappear. Only labels and buckets still have to be added to create a complete \emph{IfThenOperator}.
 
 \begin{figure}[htbp]
   \centering
@@ -65,8 +65,8 @@ For lightweight components swing allows the implementation of a \emph{paint()} m
 
 %LAYOUT
 
-Swing also provides a mechanism for layouting components, that means depending on child components the aspired sizes and positions of components can be retrieved. As known from figure~\ref{fig:operators} in section~\ref{sec:operatorconstraints} constraints have particular meanings for the two dimensions: a vertical read direction and the horizontal direction for varation in time. This fact forms a special requirement for the layouting of operators.
-Whereas the operator's positioning and resizing along the logical direction is only dependend on the sizes of sub operators, the arrangement within the time axis turns out to be more difficult. Here sub operators can't just be aligned centered as it is the case vertically. To face the determination of horizontal positioning, every operator gets time reference lines as depicted in figure~\ref{fig:referencelines}. Logical operators, i.e. \emph{IfThenOperator}, \emph{AndOperator}, \emph{OrOperator}, \emph{NotOperator} and \emph{StateOperator}, have one reference line, time relevant operators, i.e. \emph{NextOperator}, \emph{FutureOperator}, \emph{AlwaysOperator} and \emph{UntilOperator}, have two such reference lines.
+Swing also provides a mechanism for layouting components, that means determining the aspired sizes and positions of components depending on child components. As known from figure~\ref{fig:operators} in section~\ref{sec:operatorconstraintformalism}, constraints have particular meanings for the two dimensions: a vertical read direction and the horizontal direction for variation in time. This fact forms a special requirement for the layouting of operators.
+Whereas the operator's positioning and resizing along the logical direction only depends on the sizes of sub operators, the arrangement within the time axis turns out to be more difficult. Here sub operators can't just be aligned centered as it is the case vertically. To face the determination of horizontal positioning, every operator gets time reference lines as depicted in figure~\ref{fig:referencelines}. Logical operators, i.e. \emph{IfThenOperator}, \emph{AndOperator}, \emph{OrOperator}, \emph{NotOperator} and \emph{StateOperator}, have one reference line, time relevant operators, i.e. \emph{NextOperator}, \emph{FutureOperator}, \emph{AlwaysOperator} and \emph{UntilOperator}, have two such reference lines.
 
 \begin{figure}[htbp]
   \centering
@@ -77,20 +77,18 @@ Whereas the operator's positioning and resizing along the logical direction is o
 
 %DRAG&DROP
 
-The inbuilt mouse support of swing was used for identifying operators laying under the current mouse position. On the one hand this is important for mouse sensitive highlighting of particular constraint parts, on the other hand this way it can be determined where operators have to be added after drag and drop. So far
-% the predefined swing drag and drop has not been used but
-a simple drag and drop handler has been implemented.
-% instead. 
-Once a \emph{JComponent} is registered to the \emph{DndHandler}, it automatically manages any drag and drop actions with \emph{JComponent}s which implement either the \emph{Draggable} or \emph{DropTarget} interface. The former is implemented by all operators, the latter by buckets and the dashboard.
-%Figure~\ref{fig:dndclassstructure} gives a short class overview.
-Furthermore there is a class \emph{DraggableProvider} which displays a kind of button in the tool bar and lets the user create new \emph{Draggable}s; in our case new operators get instantiated.
-
+The built-in mouse support of Swing was used for identifying operators positioned under the mouse cursor. On the one hand this is important for context sensitive highlighting of particular constraint parts, on the other hand this way the position where operators have to be added after drag and drop can be determined. So far
+% the predefined Swing drag and drop has not been used but
+a simple drag and drop mechanism has been implemented whose class structure is shown in figure~\ref{fig:dndclassstructure}.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\linewidth]{dndclassstructure} 
   \caption{Class definition for drag and drop functionality.}
   \label{fig:dndclassstructure}
-\end{figure}
+\end{figure}% instead. 
+Once a \emph{JComponent} is registered to the \emph{DndHandler}, it automatically manages any drag and drop actions with \emph{JComponent}s which implement either the \emph{Draggable} or \emph{DropTarget} interface. The former is implemented by all operators, the latter by buckets and the dashboard.
+%Figure~\ref{fig:dndclassstructure} gives a short class overview.
+Furthermore there is a class \emph{DraggableProvider} which displays a kind of button in the tool bar and lets the user create new \emph{Draggable}s; in our case new operators get instantiated.
 
 
 %operator werden im dashboard, einem weiteren container, zusammengeklickt und angezeigt. Das Dashboard hat dabei eine ähnliche Funktionsweise wie ein Bucket. die operatoren können dabei vom operatorprovider bezogen werden: Implementierungsdetails? trash...
@@ -103,13 +101,13 @@ Furthermore there is a class \emph{DraggableProvider} which displays a kind of b
 \section{Automated constraint generation}
 \label{sec:prototype:automatedconstraintgeneration}
 
-In section~\ref{chap:automatedconstraintgeneration} we stated that automated constraint generation is based on subgraphs. For the finding of such subgraphs an algorithm has been developed and the main idea how it works is described as follows.
+Section~\ref{sec:subgraphdefinition} states that automated constraint generation is based on subgraphs. For the finding of such subgraphs an algorithm has been developed. It is described as follows:
 
-We define one start state and generate all possible paths starting from it leading through the state machine with just one restriction that a path ends before it visits states twice.
-Thus we retrieve a finite amount of finite paths since loops are eliminated. Now every state gets a number assigned which represents the total number of occurernces of the respective state in all collected paths. In other words, the label of a state expresses the number of pahts which start in the start state and lead through the respective state. The start state itself has got the number of all paths, of course. If during walking through any of the paths a second state can be found with the same label, it means that all paths starting at start state come all together in this state again. It is uncovered as potential corresponding end state.
-A last check has to be applied whether there are incoming transitions from outside into the subgraph which don't come over start state. If no such transitions are detected, a subgraph is found.
+First of all one start state ($\alpha$) is defined and all possible paths are generated which start from it and lead through the state machine. Excluded are all paths which contain states more than once.
+The result is a finite amount of finite paths since loops are eliminated. Now every state gets assigned a number which represents the total number of occurrences of the respective state in all collected paths. In other words, the label of a state expresses the number of paths which start in the start state and lead through the respective state. The start state itself is labelsed the number of all paths. If during walking through any of the paths a second state can be found with the same label, it means that all paths starting at start state come all together in this state again. It is determined to be a potential corresponding end state.
+A last check has to be applied whether there are incoming transitions from outside into the subgraph which don't originally come from start state. If no such transitions are detected, a subgraph is found.
 If there is no state with the same label, or transitions come from outside, the state machine as a whole can be assumed as subgraph beginning with start state insofar as the state machine doesn't contain further loops or terminating end states. Figure~\ref{fig:subgraph_finding} illustrates this concept of subgraph finding and shows all possible paths as well as the number of occurrence of each state.
-This procedure is suitable for bringing to light whether a state is the beginning of a subgraph and for discovering the corresponding end state. In order to detect all subgraphs within a state machine, this procedure has to be applied to every single state.
+This procedure is suitable for checking whether a state is the beginning of a subgraph and for discovering the corresponding end state. In order to detect all subgraphs within a state machine, this procedure has to be applied to every single state.
 
 
 \begin{figure}[htbp]
@@ -233,12 +231,12 @@ This procedure is suitable for bringing to light whether a state is the beginnin
 \end{figure}
 
 
-Following the above description an algorithm has been implemented in java. Its realisation differs from the presented concept in one point that paths are not listed but states are directly labelled since saving all possible paths would be storage inefficient.
-The state machine is traversed similarly to a depht-first search and each visited state's label is incremented by one. If the currently visited state holds more than one outgoing transition and thus constitutes new paths,  all states laying on the current stack, i.e. the previously visited states on the current path, get their labels incremented by $(\textnormal{'number of outgoing transitions'} - 1)$. The algorithm turns back whenever it comes across a state which has already been visited within the same path stack of the depth-first search.
+Following the above description an algorithm has been implemented in Java. Its realisation differs from the presented concept in one point: Paths are not listed but states are directly labelled since saving all possible paths would be memory inefficient.
+The state machine is traversed similarly to a depth-first search and each visited state's label is incremented by one. If the currently visited state holds more than one outgoing transition and thus constitutes new paths,  all states on the current stack, i.e. the previously visited states on the current path, get their labels incremented by $(\textnormal{'number of outgoing transitions'} - 1)$. The algorithm turns back whenever it comes across a state which has already been visited within the same path stack of the depth-first search.
 
-The overall implemented way of subgraph finding is illustrated in pseudo code with algorithm~\ref{alg:subgraphfinding}. In line 4 the labelling process described above is executed by using one particular start state. If a state has got the same label as start state has, it is taken as potential end state. Otherwise, the entire state machine is assumed to be a subgraph and start state is taken as end state as well. Subsequent checks finally determine whether it can be considered as proper subgraph.
+The overall implemented way of subgraph finding is illustrated in pseudo code with algorithm~\ref{alg:subgraphfinding}. In line 4 the labelling process described above is executed by using one particular start state. If a state has the same label as the start state, it is assumed as potential end state. Otherwise, the entire state machine is assumed to be a subgraph and start state is defined as end state as well. Subsequent checks finally determine whether it can be considered as proper subgraph.
 There are no cycles allowed between start and end state since they're forbidden by the subgraph definition in section~\ref{sec:subgraphdefinition}.
-Furthermore also caving transitions are prohibited. Transitions coming from a state outside the subgraph are allowed to lead to the start state but not to other states of the subgraph. If all checks are successful, start and end states get added to the result list $subgraphs$. This proceeding is applied to any state of the state machine what is achieved by a surrounding foreach loop. In the end the list $subgraphs$ contains all pairs of start and end states which form subgraphs.
+Furthermore also foreign transitions are prohibited. Transitions coming from a state outside the subgraph are allowed to lead to the start state but not to other states of the subgraph. If all checks are successful, start and end states get added to the result list $subgraphs$. This procedure is applied to all states of the state machine by a surrounding foreach loop. In the end, the list $subgraphs$ contains all pairs of start and end states which form subgraphs.
 
 \begin{algorithm}
 \caption{Finding of all subgraphs.}
@@ -260,7 +258,7 @@ Furthermore also caving transitions are prohibited. Transitions coming from a st
 \end{algorithmic}
 \end{algorithm}
 
-Depending on size and grade of branch of the state machine, the algorithm for finding subgraphs may take more or less time. To improve user experience during constraint generation a dialog has been implemented which informs the developer about the current progress. This includes the number of found constraints so far and a green bar which gives a percentual estimation of execution time. Furthermore a cancel button permits premature stopping of the execution. A snapshot of the Dialog is shown in figure~\ref{fig:progressdialog}.
+The runtime of the algorithm depends on size and grade of branch of the state machineh. To improve user experience during constraint generation a dialog has been implemented which informs the developer about the current progress. This includes the number of constraints found so far and a progress bar which gives a percentual estimation of execution time. Furthermore a cancel button permits premature stopping of the execution. A snapshot of the Dialog is shown in figure~\ref{fig:progressdialog}.
 
 \begin{figure}[htbp]
   \centering
@@ -269,7 +267,7 @@ Depending on size and grade of branch of the state machine, the algorithm for fi
   \label{fig:progressdialog}
 \end{figure}
 
-The algorithm implementation has been infiltrated by code snippets which frequently interacts with so called \emph{ValidationResultListener}s (figure~\ref{fig:validationresultlistener_class}). This interface is also implemented by the progress dialog. A \emph{ValidationResultListener} has to provide three methods which allow the algorithm to publish the current progress by calling \emph{void setProgress(int)} or to notify about new found subgraphs with invoking \emph{void newSubGraphFound(SubGraph)}. The execution will become terminated whenever \emph{boolean continueGeneration()} returns true.
+The algorithm implementation has been extended by code snippets which frequently interact with so called \emph{ValidationResultListener}s (figure~\ref{fig:validationresultlistener_class}). This interface is also implemented by the progress dialog. A \emph{ValidationResultListener} has to provide three methods which allow the algorithm to publish the current progress by calling \emph{void setProgress(int)} or to notify about newly found subgraphs by invoking \emph{void newSubGraphFound(SubGraph)}. The execution will terminate whenever \emph{boolean continueGeneration()} returns false.
 
 \begin{figure}[htbp]
   \centering
@@ -285,9 +283,9 @@ The algorithm implementation has been infiltrated by code snippets which frequen
 \section{Coalescence}
 \label{sec:coalescence}
 
-Both features the visual language presented in section~\ref{sec:operatorconstraints} and the automated constraint generation in chapter~\ref{chap:automatedconstraintgeneration} have to be assembled in one tool, the LTLCreator. It shall provide a dashboard with the possibility to manage several constraints, such as a tab panel, and displays for indicating validation results. Besides a button is needed for triggering constraint generation.
+Both features, the visual language presented in section~\ref{sec:operatorconstraintformalism} and the automated constraint generation in chapter~\ref{chap:automatedgenerationofsafetyconstraints}, were assembled in one tool, the LTLCreator. It provides a dashboard with the possibility to manage several constraints, such as a tab panel, and displays for indicating validation results. Besides a button is provided for triggering constraint generation.
 
-Figure~\ref{fig:editor} shows a snapshot of the editor's environment: All functionality needed for constraint editing is provided in the tool bar on the right. It contains draggable elements for creating all operator and proposition types as well as a trashcan for deleting. Constraints can be composed in the dashboard in the center of the editor by drag\&drop which holds and displays the operator constraints. The tab functionality on the left allows multiple constraints to be managed. Each tab shows a small thumbnail of the constraint and a symbol indicating its validity; a warning shield for ``incomplete'', a green shield for ``valid'', a red cross for ``invalid'' or an animated ring for ``validation in progress.''. The magic wand button within the tab pane brings the constraint generation functionality into the editor and triggers the constraint finding process.
+Figure~\ref{fig:editor} shows a snapshot of the editor's environment: All functionality needed for constraint editing is provided in the tool bar on the right. It contains draggable elements for creating all operator and proposition types as well as a trashcan for deleting. Constraints can be composed by drag\&drop in the dashboard in the center of the editor which holds and displays the operator constraints. The tab functionality on the left allows multiple constraints to be managed. Each tab shows a small thumbnail of the constraint and a symbol indicating its validity; a warning shield for ``incomplete'', a green shield for ``valid'', a red cross for ``invalid'' or an animated ring for ``validation in progress.''. The magic wand button within the tab pane makes the constraint generation functionality accessible within the editor and triggers the constraint finding process.
 
 \begin{figure}[htbp]
   \centering
@@ -307,8 +305,8 @@ Figure~\ref{fig:editor} shows a snapshot of the editor's environment: All functi
 
 \subsection{Model checker}
 
-One main requirement of the LTLCreator tool is that all constraints can be validated immediately and allow fast feedback about the correctness of programs. For this a \emph{ConstraintValidator} class has been defined which provides a method \emph{validate(AbstractOperator)} for proving constraints.
-For the constraint validation itself a particular model checker can be specified. As a default, the symbolic model checker NuSMV~\cite{springerlink:10.1007/s100090050046,NuSMV2} is used. It is an open source project and has been designed to be an open architecture for model checking. NuSMV doesn't have a java API but it can be externally accessed over command line. For this both the state machine program and the LTL formulas have to be put into file which has to match a NuSMV specific format. An example of this input language is given in listing~\ref{lst:nusmv}.
+One main requirement to the LTLCreator tool is that all constraints can be validated immediately and allow fast feedback about the correctness of programs. For this a \emph{ConstraintValidator} class has been defined which provides a method \emph{validate(AbstractOperator)} for proving constraints.
+For the constraint validation itself a particular model checker can be specified. As a default, the symbolic model checker NuSMV~\cite{springerlink:10.1007/s100090050046,NuSMV2} is used. It is an open source project and has been designed to be an open architecture for model checking. NuSMV doesn't have a java API but it can be externally accessed over command line. For this both the state machine program and the LTL formulas have to be translated to an input file which has to match a NuSMV specific format. An example of this input language is given in listing~\ref{lst:nusmv}.
 
 \lstset{
   basicstyle=\ttfamily,
@@ -338,12 +336,13 @@ MODULE main
 
 LTLSPEC G (state = 5 -> (F (state = 8 | state = 11)))
 \end{lstlisting}
-A state machine is encoded in one variable \emph{state}, and its value represents the active state. Thus each state is identified by a number. The state machine described in the example contains eleven states what is determined by the number range for \emph{state} from one to eleven. All variable assignments are specified under \emph{ASSIGN}, what is the semantic equivalent to transition definitions. The initial state can be determined and a case distinction regulates the next possible values, i.e. transitions to reachable states. If there is more than one outgoing transition, all target state identifiers have to be surrounded by brackets. The last expression \emph{TRUE : state;} is a self transition for every state not considered in the case distinction.
+A state machine is encoded in one variable \emph{state}, and its value represents the active state. Thus each state is identified by a number. The state machine described in the example contains eleven states what is determined by the number range for \emph{state} from one to eleven. All variable assignments are specified under \emph{ASSIGN} and represent the semantic equivalent to transition definitions. The initial state can be determined and a case distinction regulates the next possible values, i.e. transitions to reachable states. If there is more than one outgoing transition, all target state identifiers have to be surrounded by brackets. The last expression \emph{TRUE : state;} is a self transition for every state not considered in the case distinction.
 The last line contains the constraint formula we want to be checked on the state machine. The prefix \emph{LTLSPEC} just says that NuSMV has to interprete the following constraint as LTL formula.
 
-This kind of output is generated by the \emph{ConstraintValidator} whenever a constraint needs validation. All states are then mapped to numbers and transitions get transormed into case distinctions. The result is stored to file and then loaded by NuSMV. The corresponding valdidation result can be subsequently read from the command line and displayed in the editor next to the visual constraint.
+This kind of output is generated by the \emph{ConstraintValidator} whenever a constraint needs validation. All states are then mapped to numbers and transitions get transformed into case distinctions. The result is stored to a file and then loaded by NuSMV. The corresponding valdidation result can be subsequently read from the command line and displayed in the editor next to the visual constraint.
 
-It can happen that there is more than one validation task at a time. This is the case when the constraint generator creates multiple constraints or a change of the state machine causes all constraints to be revalidated at once. Since model checking is a quite ressource inefficient activity, it's recommended to execute all validation tasts consecutively rather than in parallel. A second advantage is that the developer doesn't have to wait for all of them to finish before he can see any result. Since a validation task is not startet until the previous one is finished, constantly new validation results can be displayed to the developer.
+It can happen that there is more than one validation task at a time. This is the case when the constraint generator creates multiple constraints or a change of the state machine causes all constraints to be revalidated at once. Model checking is a quite ressource inefficient activity and parallel execution of several checks might overload the main memory what causes slow data swapping to start. Since each constraint is checked in a new instance of NuSMV, a parallel execution would furthermore strain the CPU scheduler and slow down the overall execution time. Thus it's recommended to execute all validation tasks consecutively rather than in parallel.
+An extra advantage is that the developer doesn't have to wait for all tasks to finish before he can see any result. Since a validation task is not startet until the previous one is finished, constantly new validation results can be displayed to the developer.
 All this is managed by the \emph{ValidatorThread}, a queue based mechanism for scheduling validations. Its class definition is presented in figure~\ref{fig:validatorthread_class}.
 \begin{figure}[htbp]
   \centering
@@ -352,7 +351,7 @@ All this is managed by the \emph{ValidatorThread}, a queue based mechanism for s
   \label{fig:validatorthread_class}
 \end{figure}
 Every validation task of a constraint gets enqueued in the \emph{ValidatorThread} after calling the method \emph{addToQueue(...)}.
-An identifier is used for each constraint what enables elimination of duplicate tasks for the same constraint in order not to strain the execution time. Tasks can also manually be removed from the queue by calling \emph{cancel(...)}. After a validation task is finished the result is published via callback to the \emph{ValidationResultListener}.
+An identifier is used for each constraint which enables elimination of duplicate tasks for the same constraint in order not to strain the execution time. Tasks can also manually be removed from the queue by calling \emph{cancel(...)}. After a validation task is finished the result is published via callback to the \emph{ValidationResultListener}.
 
 
 
@@ -365,9 +364,9 @@ An identifier is used for each constraint what enables elimination of duplicate 
 \subsection{Ease of integration}
 \label{sec:easeofintegration}
 
-LTLCreator should be available for other state machine based programming environments for integration what is ensured by its implementation as a java swing component and a clear API enabling the tool for a wide range of use.
+LTLCreator should be integratable into other state machine based programming environments, what is ensured by its implementation as a Java Swing component and a clear API enabling a wide range of use of the tool.
 
-Figure~\ref{fig:coalescence} points out how interaction between LTLCreator and programming environments where it is integrated in can be.
+Figure~\ref{fig:coalescence} points out interactions between LTLCreator and programming environments it is integrated in.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.7\linewidth]{coalescence}
@@ -375,7 +374,7 @@ Figure~\ref{fig:coalescence} points out how interaction between LTLCreator and p
   \label{fig:coalescence}
 \end{figure}
 LTLCreator consists of a dashboard where constraints can be edited visually and an graphical output of validation results. The constraint generator as well as the validator are non UI parts of LTLCreator.
-The programming environment provides the state machine model and notifies the LTLCreator component about all changes made to the program. This will automatically revalidate all existing constraints and always provide the up-to-date model for constraint generation.
+The programming environment provides the state machine model and notifies the LTLCreator component about all changes made to the model. This will automatically revalidate all existing constraints and always provide the up-to-date model for constraint generation.
 For load and save functionality, all existing constraints can be received and new ones can be added to the LTLCreator component programmatically.
 All this functionality can be accessed through methods provided by the component \emph{LTLCreator}. Its class definition is shown in figure~\ref{fig:ltlcreator_class}. Whenever there is a change to the state machine, \emph{setModel(Fsm)} has to be called with the current state machine as parameter. This will cause the editor to revalidate where necessary. Constraint exchange can be done by using the methods \emph{addNewDashboard(AbstractOperator, ...)} and \emph{getOperators()}.
 
@@ -395,10 +394,10 @@ All this functionality can be accessed through methods provided by the component
 \section{Integration into Robostudio}
 \label{sec:integrationintorobostudio}
 
-As statet in the previous section the LTLCreator provides an API for integration into other java based applications. Robostudio is such an application which shall be used for evaluating the visual language as well as the automated constraint generation feature and is also supposed to provide all this functionality for development of service robot behaviour in future.
+As stated in the previous section, the LTLCreator provides an API for integration into other Java based applications. Robostudio is such an application which was used for evaluating the visual language as well as the automated constraint generation feature and is also supposed to provide all this functionality for development of service robot behaviour in future.
 
-Robostudio uses NetBeans~\cite{netbeans} as a platform and organizes all tools and features in windows. Thus also LTLCreator has to be put into a window and added to the Robostudio platform. This is done by placing it into a NetBeans module which is added to Robostudio's modules. This module imports the as jar archived LTLCreator tool and further consists of only two classes: \emph{LTLCreatorTopComponent} and \emph{XmlDataToLTLEditorDataWrapper}. The former implements the \emph{TopComponent} provided by NetBeans which can be used for displaying UI elements. In order to visualize the LTLCreator component it is directly placed on the \emph{LTLCreatorTopComponent}. It retreives changes of the model and passes them to the \emph{LTLCreator} component. Since the defining of safety constraints is an important issue not only after but also during the process of developing service robot behaviour, the LTLCreator window as a vital tool has been positioned in the center of the platform where also the \emph{UI Component Layout Editor Window} is.
-The \emph{XmlDataToLTLEditorDataWrapper} forms the bridge between Robostudio's own model and the state machine model used by \emph{LTLCreator}. All complex data coming from Robostudio has to be detached from unimportant graphical information and transformed to an elementary state machine representation before it can be processed by \emph{LTLCreator}.
+Robostudio uses NetBeans~\cite{netbeans} as a platform and organizes all tools and features in windows. Thus also LTLCreator was put into a window and added to the Robostudio platform. This was done by placing it into a NetBeans module which was added to Robostudio's modules. This module imports the as jar archived LTLCreator tool, archived as a jar file, and further consists of only two classes: \emph{LTLCreatorTopComponent} and \emph{XmlDataToLTLEditorDataWrapper}. The former implements the \emph{TopComponent} provided by NetBeans which can be used for displaying UI elements. In order to visualize the LTLCreator component it is directly placed on the \emph{LTLCreatorTopComponent}. It retrieves changes of the model and passes them to the \emph{LTLCreator} component. Since the defining of safety constraints is an important issue not only after but also during the process of developing service robot behaviour, the LTLCreator window as a vital tool has been positioned in the center of the platform where also the \emph{UI Component Layout Editor Window} is located.
+The \emph{XmlDataToLTLEditorDataWrapper} forms the bridge between Robostudio's own model and the state machine model used by \emph{LTLCreator}. All complex data coming from Robostudio has to be cleaned from unimportant layout information and transformed to an elementary state machine representation before it can be processed by \emph{LTLCreator}.
 
 
 
@@ -408,18 +407,18 @@ The \emph{XmlDataToLTLEditorDataWrapper} forms the bridge between Robostudio's o
 
 \subsection{Problems}
 
-As already proposed in section~\ref{sec:easeofintegration}, all changes to the state machine program made within Robostudio must of course cause the LTLCreator window to revalidate all existing constraints. This demands a concept of change notification management which is responsible for receiving all chages and making this information available as a service. Thus we tried to extend all parts of the code where model changes are made with short code snippets.
+As already proposed in section~\ref{sec:easeofintegration}, all changes to the state machine program made within Robostudio must of course cause the LTLCreator window to revalidate all existing constraints. This demands a concept of change notification management which is responsible for receiving all changes and making this information available as a service. Thus we tried to extend all parts of the code where model changes are made with short code snippets.
 However this is not as easy to realise in Robostudio since some of the relevant code was generated or imported as external jars what forbids code manipulation.
 
-A second challenge is the current data handling policy in Robostudio. Since this platform is mainly made for developers who used to edit RBDL xml code manually, Robostudio aims for visual rapid editing rather than syntax checks. Thus syntax errors are not detected or even avoided by static analysis ore input restrictions. In fact, such features haven't been requirements for Robostudio. During integration of \emph{LTLCreator} into Robostudio we encountered problems like transitions leading to non existing states, transitions leading to nowhere (null) or transitions whose target is depending on runtime facts.
-Well, this characteristic seems to be a problem for the \emph{LTLCreator} which needs a complete state machine as input and doesn't know how to cope with inconsistend data retrieved from Robostudio.
+A second challenge is the current data handling policy in Robostudio. Since this platform is mainly made for developers who used to edit RBDL xml code manually, Robostudio aims for visual rapid editing rather than syntax checks. Thus syntax errors are not detected or even ignored by static analysis or input restrictions. In fact, such features haven't been requirements for Robostudio. During integration of \emph{LTLCreator} into Robostudio we encountered problems like transitions leading to non existing states, transitions leading to nowhere (null) or transitions whose target is depending on runtime facts.
+This characteristic seems to be a problem for the \emph{LTLCreator} which needs a complete state machine as input and doesn't know how to cope with inconsistend data retrieved from Robostudio.
 
 
 
 
 \subsection{Solutions}
 
-To guarantee any all model change causes the constraints to revalidate, all relevant code parts have to report on this. But modification of the code hasn't been possible in all cases. Whereas all state changes are announced, transition changes stay unnoticed. This decision is straight for the prototype, but for later the developers of Robostudio announced an adapted architecture to solve this problem in the next version.
+To guarantee that all model changes cause the constraints to revalidate, all relevant code parts have to report on this. But modification of the code hasn't been possible in all cases. Whereas all state changes are announced, transition changes stay unnoticed. This decision is straight for the prototype, but the developers of Robostudio announced an adapted architecture to solve this problem in the next version.
 
 
-The problem with inconsistend data could be solved by plausibility and syntax checks during the transformation process of \emph{XmlDataToLTLEditorDataWrapper}. After successful transformation the state machine is passed to the \emph{LTLCreator} component. Otherwise no validation result is displayed for constraints and an appearing dialog lists all identified syntax errors. In matter of safety and reliability a restrictive approach which gives no result at all seemed more applicable than an attempt to interprete the inconsistent data. 
+The problem with inconsistend data could be solved by plausibility and syntax checks during the transformation process of \emph{XmlDataToLTLEditorDataWrapper}. After successful transformation the state machine is passed to the \emph{LTLCreator} component. Otherwise no validation result is displayed for constraints and a dialog lists all identified syntax errors. In the context of safety and reliability a restrictive approach which gives no result at all seemed more applicable than an attempt to interpret the inconsistent data. 
