@@ -158,12 +158,96 @@ Aiming to support the developer with helpful graphical tools, the \emph{State Tr
 \section{Behaviour checking}
 \label{sec:behaviourchecking}
 
-The use of software is versatile from text editing programs running on personal computers, over control software for high-precision applications in aeronautics, right up to trigger mechanisms for deathly weapons. For most of them safety properties are irrelevant, but a few are ranked highly dangerous to their environment and also human lifes. In order to eliminate software malfunction there are a lot of mathematical concepts for verifying software behaviour.
-One of them is model checking wich allows checking for functional safety on state machine programs. Since we deal with state machines in the healthbot applications mentioned in section~\ref{sec:healthbotapplication}, this concept of behaviour checking is applicable and important for our kind of programs. At first the basic idea of state machines is described in section~\ref{sec:statemachines}, followed by an intorduction into model checking in section~\ref{sec:modelcheckingandltl}.
+The use of software is versatile from text editing programs running on personal computers, over control software for high-precision applications in aeronautics, right up to trigger mechanisms for deathly weapons. For most of them safety properties are irrelevant, but a few are ranked highly dangerous to their environment and also human lifes. In order to eliminate software malfunction there are different mathematical concepts for verifying software behaviour.
+One of them is model checking wich allows checking state machine programs for functional safety. Since the healthbot applications mentioned in section~\ref{sec:healthbotapplication} are realised wth state machines, this concept of behaviour checking is applicable and important for our kind of programs. At first the basic idea of state machines is described in section~\ref{sec:statemachines}, followed by an intorduction into model checking in section~\ref{sec:modelcheckingandltl}.
 
 
 \subsection{State machines}
 \label{sec:statemachines}
+
+A state machine is a model which can describe the behaviour of a system. It contains an aggregation of all different statuses of a system and possible changeovers from one status to another.
+
+Each system status is represented by one \emph{state} which stands for a particular and unique constellation of system variables and properties. One state can be declared as \emph{start state} which is the very first state when the system starts working. The state representing the current system status is called \emph{current state}.
+The current state changes whenever there is a modification to the system. Such transfers of the system from the current state to another one are defined by \emph{transitions}. Thus, they define the possible system behaviour.
+All influences of the environment which cause a change to the system are called \emph{events}. They trigger transitions which transfer the system into a new state (current state). The fact that a state machine reacts to events is the reason why state machines are also called \emph{reactive systems}.
+
+State machines can be visualized, as shown in figure~\ref{fig:statemachine} which gives a small example of a state machine.
+\begin{figure}[htbp]
+  \centering
+  \tikzstyle{state} = [circle,fill=white,draw]
+  \tikzstyle{stateblack} = [circle,fill=black!100,draw]
+  \tikzstyle{every path} = [font=\sffamily\small]
+  
+	\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=25mm]
+	  \node[state] (1) {state 1};
+	  \node[state] (2) [below right of=1] {state 2};
+	  \node[state] (3) [above right of=2] {state 3};
+	  \node[stateblack] (4) [above of=1,node distance=17mm] {};
+	  
+	  \path[]
+	  	(1) edge [bend right] node [left] {event b} (2)
+	        edge [bend left] node [above] {event a} (3)
+	    (2) edge [bend right] node [right] {event d} (3)
+	    (3) edge [bend left] node [above] {event c} (1)
+	        edge [loop right] node {event e} (3)
+	    (4) edge [right] node [right] {} (1)
+	    ;
+	\end{tikzpicture}
+  \caption{General example for a state machine.}
+  \label{fig:statemachine}
+\end{figure}
+All states are drawn as circles which contain their names. Transitions are painted as arrows between source and destination states, and the regarding trigger event names are written next to it.
+
+The following example clarifies the concept of state machines. Assuming a door which can be opened, closed and locked by a key-operated bolt lock, the behaviour can be reduced to a state machine as shown in figure~\ref{fig:doorstatemachine}.
+\begin{figure}[htbp]
+  \centering
+  \tikzstyle{state} = [circle,fill=white,draw]
+  \tikzstyle{stateblack} = [circle,fill=black!100,draw]
+  \tikzstyle{every path} = [font=\sffamily\small]
+  
+	\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=35mm]
+	  \node[state] (1) {closed};
+	  \node[state] (2) [below of=1] {locked};
+	  \node[state] (3) [right of=1] {opened};
+	  \node[state] (4) [below of=3] {blocked};
+	  \node[stateblack] (5) [left of=1,node distance=16mm] {};
+	  
+	  \path[]
+	  	(1) edge [bend left] node [above] {open door} (3)
+	        edge [bend left] node [above right] {turn key} (2)
+	    (2) edge [bend left] node [left] {turn key} (1)
+	    (3) edge [bend left] node [above] {close door} (1)
+	        edge [bend left] node [right] {turn key} (4)
+	    (4) edge [bend left] node [below left] {turn key} (3)
+	    (5) edge [right] node [right] {} (1)    
+	    ;
+	\end{tikzpicture}
+  \caption{Door behaviour as a state machine.}
+  \label{fig:doorstatemachine}
+\end{figure}
+Four states represent the ``system statuses'' of a lockable door: closed but unlocked (closed), opened and unlocked (opened), closed and locked (locked), opened but locked (blocked). The latter case is when the extended bolt prevents the door from being closed.
+
+The black dot defines the point of entry for this state machine, the door is closed but unlocked in the beginning. Through an event of the environment - in this case a human acting at the door - the door can be opened ,what makes ``opened'' the current state, and later be closed again. A turn of the key locks respectively blocks the door and no further opening or closing is possible. A second turn of the key un(b)locks the door again.
+
+The short description given in this section does not contain a complete explanation about the concept of statemachines at all, but it gives a basic overview which is needed as background information for this work. Also the formal definition of state machine is not relevant and can be read in other literature~\cite{statemachines, statemachinesandformalmethods}.
+
+%There is also a mathematical way of expressing state machines
+
+
+
+
+
+%mathematical model of computation
+%program behaviour
+%finite (endliche anzahl zustände)
+
+%States
+%Events
+%Transitions
+%Mathematical expression
+%Graphic
+%Incomplete description
+
 
 
 
