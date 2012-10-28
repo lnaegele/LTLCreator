@@ -229,24 +229,10 @@ Four states represent the ``system statuses'' of a lockable door: closed but unl
 
 The black dot defines the point of entry for this state machine, the door is closed but unlocked in the beginning. Through an event of the environment - in this case a human acting at the door - the door can be opened ,what makes ``opened'' the current state, and later be closed again. A turn of the key locks respectively blocks the door and no further opening or closing is possible. A second turn of the key un(b)locks the door again.
 
-The short description given in this section does not contain a complete explanation about the concept of statemachines at all, but it gives a basic overview which is needed as background information for this work. Also the formal definition of state machine is not relevant and can be read in other literature~\cite{statemachines, statemachinesandformalmethods}.
-
-%There is also a mathematical way of expressing state machines
-
-
-
-
+The short description given in this section does not contain a complete explanation about the concept of statemachines at all, but it gives a basic overview which is needed as background information for this work. Also the formal definition of state machines is not relevant and can be read in other literature~\cite{statemachines, statemachinesandformalmethods}.
 
 %mathematical model of computation
-%program behaviour
 %finite (endliche anzahl zustände)
-
-%States
-%Events
-%Transitions
-%Mathematical expression
-%Graphic
-%Incomplete description
 
 
 
@@ -254,10 +240,59 @@ The short description given in this section does not contain a complete explanat
 \subsection{Model checking \& LTL}
 \label{sec:modelcheckingandltl}
 
-%CTL and LTL are important concepts for model checking and verification of statemachines. But their powerfulness is reflected in the complexity of their mathematical expressions, what makes it difficult to use for programmers who haven't got deeper expertise in this subject.
+Whenever a software or hardware system has a special requirement in robustness and reliability, different formal methods are available to be used in order to verify the design.
+Model checking is such a method which allows automatically verifying a system description against a specification by means of an exhaustive search of all states which could possibly be visited by the system during its execution. As a result, either the system description fulfills all propositions or a counter example is provided which gives evidence about a broken property. Figure~\ref{fig:modelchecking} gives a schematic view about the concept of model checking.
 
+\begin{figure}[htbp]
+  \centering
+  \tikzstyle{state} = [circle,fill=white,draw]
+  \tikzstyle{stateblack} = [circle,fill=black!100,draw]
+  \tikzstyle{every path} = [font=\sffamily\small]
+  \definecolor{egg}{RGB}{252,253,206}
+  
+	\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=30mm]
+	  
+		\node[cloud, cloud puffs=15.7, cloud ignores aspect, align=center, draw, fill=egg] (model) at (0,5) {\parbox{2cm}{\centering system\\model}};
+		
+		\node[ellipse, draw, fill=egg] (properties) at (5,5) {\parbox{2cm}{\centering system\\properties}};
+		
+		\node[rectangle, draw, minimum width=2cm, minimum height=2cm, fill=egg] (checker) at (2.5,3) {\parbox{2cm}{\centering model\\checker}};
+		
+		\node[state, minimum width=2cm, minimum height=2cm,fill=red!40] (no) at (0,0) {\parbox{1.3cm}{\centering counter\\example}};
+		
+		\node[state, minimum width=2cm, minimum height=2cm,fill=green!40] (yes) at (5,0) {};
+		
+		\path[]
+	  	(model)      edge [bend right] node {} (checker)
+	    (properties) edge [bend left]  node {} (checker)
+	    (checker)    edge [bend left]  node [above left] {not satisfied} (no)
+	    						 edge [bend right] node [above right] {satisfied} (yes)
+	    ;
+		
+	\end{tikzpicture}
+  \caption{Concept of model checking.}
+  \label{fig:modelchecking}
+\end{figure}
 
-%NuSMV erwaehnen, erklaeren warum nicht CTL? ltl passt fuer healthcare besser
+For representing the system description - which can be a computer program, for example - a formal language is used. Also state machines are applicable to serve as a formal system description. In contrast, the specification used for model checking contains certain properties that express the desired and safe system behaviour in form of mathematical formulas. Linear temporal logic (LTL) is an example for a logic that is used to define such formulas on state machines. It is a temporal logic which can express formulas concerning the future of paths, for example, that something will eventually happen.
+
+LTL is based on propositional logic, thus, it can express propositional variables ($p_1$, $p_2$, ...) and logical connectives ($\wedge$, $\vee$, $\neg$, $\rightarrow$ and $\leftrightarrow$). Additionally further temporal modal operators are provided which enable propositions concerning the future of paths, among three unary operators:
+
+\begin{description}
+	\item[$\Box \varphi$] This formula expresses that $\varphi$ is true now and in all following states. The meaning of the rectangle is ``GLOBALLY''.
+	\item[$\medcircle \varphi$] With a circle representing ``NEXT'', $\varphi$ will be true in the next state.
+	\item[$\Diamond \varphi$] At least one time - now or eventually in a later state - $\varphi$ is or will be true. The diamond stands for ``FUTURE''.
+\end{description}
+
+Furthermore, LTL provides binary operators as follows:
+
+\begin{description}
+	\item[$\varphi \mathcal{U} \psi$] The ``UNTIL'' operator makes $\varphi$ true until the first occurrence of a state where $\psi$ is true. Besides, $\psi$ will eventually be true.
+	\item[$\varphi \mathcal{R} \psi$] It expresses that $\psi$ is true through the first occurrence of a state where $\varphi$ is true. Its meaning is $\varphi$ ``RELEASES'' $\psi$.
+	\item[$\varphi \mathcal{W} \psi$] ``WEAK UNTIL'' represents the same as ``UNTIL'', except that an occurrence of $\psi$	is not necessary. In this case, $\varphi$ is true infinetely.
+\end{description}
+
+%Verknüpfung von operatoren?
 
 
 
@@ -266,7 +301,6 @@ The short description given in this section does not contain a complete explanat
 
 \section{Related work}
 \label{sec:relatedwork}
-
 
 %Was gibt es schon alles?
 
