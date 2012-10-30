@@ -309,22 +309,102 @@ Furthermore, LTL provides binary operators as follows:
 % 2007 HomeTL: A visual formalism, based on temporal logic, for the design of home based care
 % 2007 A Visual Editor to Support the Use of Temporal Logic for ADL Monitoring
 
-
-A first step towards a graphical tool for designing safety constraints is taken by Sisiruca and Ionescu~\cite{332301}. They developed an object-oriented graphical environment for visually creating temporal logic sentences and rules. The tool presents temporal operators as logical modules with boolean inputs and outputs which can be connected to one big expression graph. Del Bimbo et al. worked on a visual tool for temporal logic, but with a special focus on hierarchical representation of formulas~\cite{520786}. Here each node of a tree is described by an abstract operator whose subformulas are branches to their replacement operators. Thus, the root node represents the entire formula. They also explored the formula trees' 3D representation within a virtual space. Both approaches are different fundamental ideas of representing temporal formulas. Whereas having a graph  seems not to be applicable for our approach, the idea of hierarchical operator representation of Del Bimbo et al. will be a good basis for our concept of constraint creation and understanding.
-
 %aim for simplifying the development of constraints, but they still demand knowledge of the underlying mathematical formalism of temporal logic.
 
-The step towards a more abstract level of development is taken by HomeTL~\cite{4341725}, a visual formalism for the design of home based care. It allows healthcare professionals to specify rules and sequences of user actions in a quite nontechnical manner. Based on these conditions a monitoring system in a patient's home environment can detect and report abnormal situations within the daily routine. Even though this approach touches the subject of healthcare it barely matches our problem. HomeTL focuses more on monitoring temporal boundaries of a patient's behaviour than on ensuring functional safety of an implemented program. It does however depict how nontechnical constraint design can be realised and its graphical design is a good example of handling time dependencies.
+The idea of a visual environment for the defining of system properties is not new and already pursued by some researchers. Although their focus does not completely match the subject of safety for healthcare robots, they present concepts of visualisation which might be relevant
+% can be quite interesting 
+for this work.
+In section~\ref{sec:sisiruca}, the work of Sisirucá and Ionescu is presented. Section~\ref{sec:delbimbo} dexcribes a three dimensional concept by Del Bimbo et al., followed by an introduction of HomeTL in section~\ref{sec:hometl}.
+
+\subsection{Sisirucá and Ionescu}
+\label{sec:sisiruca}
+
+A first step towards a graphical tool for designing safety constraints is taken by Sisirucá and Ionescu~\cite{332301}. They developed an object-oriented graphical environment for visually creating temporal logic sentences and rules.
+As shown in figure~\ref{fig:sisirucaandionescu}, the tool presents all operators as blocks which have inputs and outputs. 
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.6\linewidth]{sisirucaandionescu} 
+  \caption{The visual programming environment. An example showing the ruel construction process~\cite{332301}.}
+  \label{fig:sisirucaandionescu}
+\end{figure}
+Whereas logical operators such as \emph{AND} and \emph{OR} have their boolean output and inputs represented by arrows pointing to the right, generic blocks for temporal expressions additionally have an input symbolized by an arrow pointing downward where the temporal operator itself is to be attached. By adding and connecting the operators a big expression graph can be built. In case that a diagram becomes too complex, an implode feature allows to compress the graph to a single box. It is also applicable for the reuse of diagrams.
+
+The presented environment aims to be an effective tool for developing temporal logic sentences and rules. In fact, it gives a schematic overview of even complex formulas and allows substitution and reuse. The visual formalism is an alienation of LTL which might be suitable for researchers, but probably not for novices.
+
+%The tool presents temporal operators as logical modules with boolean inputs and outputs which can be connected to one big expression graph.
+
+
+
+\subsection{Del Bimbo et al. (3D)}
+\label{sec:delbimbo}
+
+Del Bimbo and his colleagues worked on a visual tool for temporal logic, too, but with a special focus on hierarchical representation of formulas~\cite{520786}.
+It is based on computation tree logic (CTL) which is a branching-time logic with support for quantifiers. In contrast to LTL where properties are fulfilled by all possible paths, CTL expresses properties which depend on the future branching, for example, that at least one path is existend which has a particular property.
+As indicated by figure~\ref{fig:delbimbo}, the visual tool provides all operators known from LTL 
+%The visual tool provides visual operators as shown in figure~\ref{fig:delbimbo}.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\linewidth]{delbimbo} 
+  \caption{Some of the visual operators of Del Bimbo et al.~\cite{520786}.}
+  \label{fig:delbimbo}
+\end{figure}
+except that temporal operators are extended by an existential or universal quantifier (``at least on one path...'', ``on all paths...'').
+
+
+Except propositions all operators are abstract and have placeholders representing their subformulas which can be connected to other operators.
+%Here each node of a tree is described by an abstract operator whose subformulas are represented by placeholders which can be connected to other operators.
+The positioning of these operators is organized in layers where the parent operator lays one level above its children. It can be compared to a tree upside down with the topmost operator as root.
+This formula structure can be visualized as a 3D branching tree within a virual space. Figure~\ref{fig:delbimbo3d} shows the result of considerations done by Del Bimbo and his colleagues.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\linewidth]{delbimbo3d} 
+  \caption{Formula trees' 3D representation within a virual space~\cite{520786}.}
+  \label{fig:delbimbo3d}
+\end{figure}
+
+The presented visual formalism directly maps the syntax of the temporal logic onto graphic symbols and composition patterns. The researchers found well expressive graphical representations for all operator especially the temporal ones, what makes the tool fairly intuitive. The tree dimensional visualisation gives a good overview of the structure, although it shuld not be used for editing. Computer monitors can naturally display only two dimensions and input devices such as mouse and keyboard are customised to it. Editing of the third dimension needs special gesture definitions and 3D modelling techniques the most users might not be familiar with. Thus, a 3D representation for editing should only be used if necessary. This perception has been tried to be considered in this work.
+
+
+%Die visualisierungen der Operatoren sind aussagekräftig, da sie Zukunft von Pfaden andeuten.
+%A visual formalism has been presented which embeds the formal nucleus of this tool within a visual shell providing a one-to-one mapping of the syntax of the model onto graphic symbols and composition patterns.
+
+%By exploiting 3D graphics, this visual representation breaks the native sequentiality of textual expressions and provides an explicit and intuitive representation for the three natural dimensions of branching time Temporal Formulae, i.e. time progression, parallelism among execution paths, and condition nesting.
+
+%Both approaches are different fundamental ideas of representing temporal formulas. Whereas having a graph  seems not to be applicable for our approach, the idea of hierarchical operator representation of Del Bimbo et al. will be a good basis for our concept of constraint creation and understanding.
+
+
+
+\subsection{HomeTL}
+\label{sec:hometl}
+
+The step towards a more abstract level of development is taken by HomeTL~\cite{4341725}, a visual formalism for the design of home based care. It allows healthcare professionals to specify rules and sequences of user actions in a quite nontechnical manner. Based on these conditions a monitoring system in a patient's home environment can detect and report abnormal situations within the daily routine.
+The visual notation provides propositional variables and logical connectives, the latter is shown in figure~\ref{fig:hometloperators}. In contrast to LTL, the temporal operators of HomeTL use absolute time limits (seconds, for example) which are defined by $\tau$. Thus, not only the relative order of states is defined but also a time by which a particular action has to happen.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\linewidth]{hometloperators} 
+  \caption{Graphical representation of visual notation for temporal
+operators within HomeTL user interface~\cite{4341725}.}
+  \label{fig:hometloperators}
+\end{figure}
+
+This notation uses special meanings for the two dimensions: The horizontal dimension shows the temporal evolution of states, while the vertical dimension expresses the logical relationships at the respective current state. A programming environment allows editing and creating of constraints by using the atomar operators. Figure~\ref{fig:hometleditor} presents a snapshot of this editor.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{hometleditor} 
+  \caption{HomeTL Visual Editor~\cite{4341725}.}
+  \label{fig:hometleditor}
+\end{figure}
+
+Even though this approach touches the subject of healthcare it barely matches the problem stated in this work. HomeTL focuses more on monitoring temporal boundaries of a patient's behaviour than on ensuring functional safety of an implemented program. It does however depict how nontechnical constraint design can be realised and its graphical design is a good example of handling time dependencies.
+
+
+
+
+
 
 %There are already works about constraint generation such as one approach of NASA [4], for example. They used test oracles in order to achieve consistency between program code and specification during development. 
 % Das wollen wir auch erzielen mit unseren automatisch generierten constraints...
-
 %But these kind of oracles are for automated test purpose and are rather complex than intuitive. However, our goal is to find nonmathematical and just intuitive ones. An intelligent heuristic must determine key states and possible conjunctions of them in order to build reasonable constraints. Afterwards they get filtered by an algorithm which computes importances for each constraint based on state weights. Finally the developer obtains a set of visual constraints which he can then check for plausibility.
-
-
-
-
-
-\subsection{Sisiruca and Ionescu}
-\subsection{Del Bimbo (3D)}
-\subsection{HomeTL}

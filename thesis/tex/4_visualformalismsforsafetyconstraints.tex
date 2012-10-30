@@ -56,17 +56,7 @@ Figure~\ref{fig:templateconstraints} gives a visual suggestion how the two const
   \label{fig:templateconstraint_dropdown}
 \end{figure}
 
-This visual language was presented to potential users for evaluation and feedback. Though most of them named it a good concept, soon it turned out that there are some problems and disagreements. The presented constraints were interpreted differently, the semantic seemed to be unclear and ambiguous.
-An attempt to solve this problem was to equip both constraint templates with textual explanations which are updated automatically whenever there is a change in parameterization. These additional expressions are also shown in figure~\ref{fig:templateconstraints}.
-But unfortunately even the textual explanations do not seem to be a satisfying solution. For example, one question came up whether the first constraint template allows state (x) to be visited more than once before state (z) is reached.
 
-However, there is a second problem with the template constraints.
-Whereas lots of safety constraints specific to the healthcare domain mentioned in section~\ref{sec:healthbotapplication} are expressable by this visual language, there are a lot of other common constraints which have no matching template and thus can't be described. Not even the check of a state being visited never or at least once is possible. This lack of expressiveness appears to be too big and for this reason the approach of template constraints got dismissed.
-
-%idee: einfache verwendung
-%sehr spezialisiert auf healthcare anwendung
-
-weitere constraint templates...
 
 
 
@@ -91,12 +81,12 @@ To provide the required functionality, the fundamental logical operators are req
 	\item[(b)] \emph{OR} Operator: $\varphi \vee \psi$.
 	\item[(c)] \emph{IF} operator: $\varphi \Rightarrow \psi$.\\Instead of an \emph{IMPLIES} operator an \emph{IF} operator is provided. Its meaning seems to be more intuitive for non-experts since it is a common construct in almost every programming language.
 	\item[(d)] \emph{NOT} operator: $\neg \varphi$.
-	\item[(e)] Proposition: $\rho$.\\Until now there is only the \emph{state proposition} type, which gives evidence about the currently active state. Other types such as numeric or string equations may be added but are less important for our healthcare subject.
-	
+	\item[(e)] Proposition: $\rho$.\\Until now there is only the \emph{state proposition} type, which gives evidence about the currently active state. Other types such as numeric or string equations may be added but are less important for the healthcare subject.
+\end{description}
 	
 In addition the visual language should be capable of expressing constraints about future steps, both ``any future state'' (h) and ``the next state'' (g), that ``events should always happen'' (f), and that ``a property must be true until some future event'' (i).
 	
-	
+\begin{description}
 	\item[(f)] \emph{ALWAYS} operator: $\Box \varphi$.\\$\varphi$ must be true now and in all following states.
 	%\Box \Diamond \medcircle
 	\item[(g)] \emph{NEXT} operator: $\medcircle \varphi$.\\$\varphi$ has to be true in the next state.
@@ -128,8 +118,15 @@ To meet the requirements the visual language should be very easy to use, especia
 
 \begin{figure}[htbp]
   \centering
+  \includegraphics[scale=0.65]{directions}
+  \caption{Easy understanding of visual constraints due to intuitive read directions: ``ALWAYS is true: IF state \emph{'Not taken yet'} is active THEN state \emph{'Polling'} can NOT be visited UNTIL state \emph{'Staff notified'} OR state \emph{'Well done!'} is reached.''}
+  \label{fig:directions}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
   \includegraphics[scale=0.65]{and_simplify} %width=0.7\linewidth
-  \caption{In order to simplify the appearance of constraints certain operators might be merged. Merged nested \emph{AND} operators (center) are less complex as default ones (left). However nested \emph{AND} operators with mouse over (right) are displayed separated in order to retain full editability.}
+  \caption{In order to simplify the appearance of constraints certain operators might be merged. Merged nested \emph{AND} operators (center) are less complex as default ones (left). However, nested \emph{AND} operators with mouse over (right) are displayed separated in order to retain full editability.}
   \label{fig:nested_and}
 \end{figure}
 
@@ -144,12 +141,6 @@ Also an editor for this visual language can contribute to usability and clarity.
 \end{itemize}
 
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[scale=0.65]{directions}
-  \caption{Easy understanding of visual constraints due to intuitive read directions: ``ALWAYS is true: IF state \emph{'Not taken yet'} is active THEN state \emph{'Polling'} can NOT be visited UNTIL state \emph{'Staff notified'} OR state \emph{'Well done!'} is reached.''}
-  \label{fig:directions}
-\end{figure}
 
 \begin{figure}[htbp]
   \centering
@@ -157,3 +148,24 @@ Also an editor for this visual language can contribute to usability and clarity.
   \caption{Status indicators displaying validation results: incomplete, validation in pro\-gress, invalid and valid.}
   \label{fig:results}
 \end{figure}
+
+
+
+
+
+
+
+
+
+
+
+\section{Comparison}
+
+The visual language for template constraints was presented to potential users for evaluation and feedback. Though most of them named it a good concept, soon it turned out that there are some problems and disagreements. The presented constraints were interpreted differently, the semantic seemed to be unclear and ambiguous.
+An attempt to solve this problem was to equip both constraint templates with textual explanations which are updated automatically whenever there is a change in parameterization. These additional expressions are also shown in figure~\ref{fig:templateconstraints} of section~\ref{sec:templateconstraintformalism}.
+But unfortunately even the textual explanations do not seem to be a satisfying solution. For example, one question came up whether the first constraint template allows state (x) to be visited more than once before state (z) is reached.
+
+However, there is a second problem with the template constraints.
+Whereas lots of safety constraints specific to the healthcare domain mentioned in section~\ref{sec:healthbotapplication} are expressable by this visual language, there are a lot of other common constraints which have no matching template and thus can not be described. Not even the check of a state being visited never or at least once is possible. This lack of expressiveness appears to be too big and for this reason the approach of template constraints was discarded.
+
+%In contrast, the operator constraints were successful.
