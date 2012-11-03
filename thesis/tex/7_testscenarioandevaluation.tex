@@ -20,10 +20,11 @@ This state machine with all its states, transitions and screen dialogs has been 
 Before constraints can be created it might be useful to think about a reasonable term to express. Let's take the example ``Whenever there is a pending reminder, medication will be finally taken or caregivers will get notified in case of the patient refusing medication intake.'' given as a requirement in chapter~\ref{chap:goals}.
 
 In order to find a corresponding graphical constraint the sentence has to be analyzed just as developers read it. Since ``whenever'' is a semantic equivalent to ``always if'' first of all a \emph{ALWAYS} operator gets dragged to the dashboard directly followed by an \emph{IF} as shown in figure~\ref{fig:sampleconstraint}. The condition for this \emph{IF} is that there is a pending reminder, so a state ``Not taken yet'' has to be added to the upper bucket of the \emph{IF} operator.
-Whenever the just mentioned condition becomes true, there also has to be true in future: Medication is taken properly or caregivers get notified about refuse. Accordingly a \emph{FUTURE} operator containing an \emph{OR} forms the second part of the \emph{IF} operator. Finally two states 'Well done!' and 'Staff notified' get added to the disjunction. The resulting visual constraint can now automatically be translated to the corresponding LTL formula by the editor:
+Whenever the just mentioned condition becomes true, there also has to be true in future: Medication is taken properly or caregivers get notified about refuse. Accordingly a \emph{FUTURE} operator containing an \emph{OR} forms the second part of the \emph{IF} operator. Finally two states 'Well done!' and 'Staff notified' get added to the disjunction.
+As soon as the visual constraint is complete, it is translated to the following corresponding textual LTL formula by the editor:
 
 \begin{equation} \label{eq:sampleconstraint}
-  \models \Box (\textnormal{'Not taken yet'} \Rightarrow \Diamond (\textnormal{'Well done!'} \vee \textnormal{'Staff notified'}))
+  \models \Box (\textnormal{'Not taken yet'} \rightarrow \Diamond (\textnormal{'Well done!'} \vee \textnormal{'Staff notified'}))
 \end{equation}
 
 \begin{figure}[htbp]
@@ -113,8 +114,12 @@ O(\textnormal{``subgraph finding''})=O(|V|)*O((|V|-1)!)=O(|V|!)
 For all the healthcare applications that we examined the presented algorithm works efficient and fast. But their program sizes are still quite manageable. The test program has eleven states, an average branch grade of $1.\overline{63}$ outgoing transitions per state and a constraint finding execution time of a split second on a standard computer.
 Of course an exponential or factorial execution time is bad if the number of states arises. A clear slowdown can be felt when the algorithm runs on larger state machines with plenty of states and a high grade of branching. A test on a state machine with over 250 states and partially high branch grade resulted in approximately five minutes execution time.
 
-However, in case that this algorithm is used for other huge programs regardless its tailoring to the healthcare domain, it keeps a lot of potential to be improved in efficiency. With a sophisticated approach it might be enough to execute just one depth-first search for finding all subgraphs at once what would lead to a linear execution time.
+However, this algorithm for subgraph finding is not sophisticated regarding efficiency. It is rather a prototype to show the concept of automated constraint generation working and to provide this feature in the editor for evaluation. In case that this algorithm shall be used for other huge programs regardless its tailoring to the healthcare domain, the author is convinced that a more efficient algorithm for subgraph finding might be found by researchers.
+
+%it keeps a lot of potential to be improved in efficiency. With a sophisticated approach it might be enough to execute just one depth-first search for finding all subgraphs at once what would lead to a linear execution time.
 % wenn noch schreiben will, dann: linear ist cool, weil das tool eh die gefundenen constraints gleich anzeigt und nicht erst am ende alles geballt bringt.
+
+
 
 
 

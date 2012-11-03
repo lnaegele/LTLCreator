@@ -45,8 +45,6 @@
 
 
 
-
-\onehalfspacing
 \newpage
 \thispagestyle{empty}
 
@@ -74,13 +72,21 @@ Augsburg, den \today \hfill Ludwig Nägele
 
 
 
+
 \newpage
+\onehalfspacing
+
+\input{tex/0_abstract}
+
+\chapter*{Acknowledgment}
+%\thispagestyle{empty}
+
 
 
 %select english as language!
 \selectlanguage{english}
 %\pagenumbering{roman}
-\pagenumbering{arabic}
+%\pagenumbering{arabic}
 
 \pdfbookmark[1]{Inhaltsverzeichnis}{toc}
 \tableofcontents
@@ -95,7 +101,6 @@ Augsburg, den \today \hfill Ludwig Nägele
 \DeclareGraphicsExtensions{.jpg}
 
 
-\input{tex/0_abstract}
 \input{tex/1_introduction}
 \input{tex/2_background}
 \input{tex/3_goals}
@@ -105,7 +110,10 @@ Augsburg, den \today \hfill Ludwig Nägele
 \input{tex/7_testscenarioandevaluation}
 \input{tex/8_conclusionandfuturework}
 
-\chapter*{Acknowledgment}
+
+
+
+
 
 %This work evolved from a master thesis project provided by the Elite Graduate Program Software Engineering. 
 %For the received support I would like to thank the people of this program and the three patron universities: University of Augsburg, Technical University Munich and Ludwig-Maximilians-University Munich.

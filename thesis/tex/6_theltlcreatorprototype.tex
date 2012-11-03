@@ -65,15 +65,15 @@ For lightweight components Swing allows the implementation of a \emph{paint()} m
 
 %LAYOUT
 
-Swing also provides a mechanism for layouting components, that means determining the aspired sizes and positions of components depending on child components. As known from figure~\ref{fig:operators} in section~\ref{sec:operatorconstraintformalism}, constraints have particular meanings for the two dimensions: a vertical read direction and the horizontal direction for variation in time. This fact forms a special requirement for the layouting of operators.
-Whereas the operator's positioning and resizing along the logical direction only depends on the sizes of sub operators, the arrangement within the time axis turns out to be more difficult. Here sub operators can't just be aligned centered as it is the case vertically. To face the determination of horizontal positioning, every operator gets time reference lines as depicted in figure~\ref{fig:referencelines}. Logical operators, i.e. \emph{IfThenOperator}, \emph{AndOperator}, \emph{OrOperator}, \emph{NotOperator} and \emph{StateOperator}, have one reference line, time relevant operators, i.e. \emph{NextOperator}, \emph{FutureOperator}, \emph{AlwaysOperator} and \emph{UntilOperator}, have two such reference lines.
+%Swing also provides a mechanism for layouting components, that means determining the aspired sizes and positions of components depending on child components. As known from figure~\ref{fig:operators} in section~\ref{sec:operatorconstraintformalism}, constraints have particular meanings for the two dimensions: a vertical read direction and the horizontal direction for variation in time. This fact forms a special requirement for the layouting of operators.
+%Whereas the operator's positioning and resizing along the logical direction only depends on the sizes of sub operators, the arrangement within the time axis turns out to be more difficult. Here sub operators can't just be aligned centered as it is the case vertically. To face the determination of horizontal positioning, every operator gets time reference lines as depicted in figure~\ref{fig:referencelines}. Logical operators, i.e. \emph{IfThenOperator}, \emph{AndOperator}, \emph{OrOperator}, \emph{NotOperator} and \emph{StateOperator}, have one reference line, time relevant operators, i.e. \emph{NextOperator}, \emph{FutureOperator}, \emph{AlwaysOperator} and \emph{UntilOperator}, have two such reference lines.
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[scale=0.65]{referencelines} 
-  \caption{Time reference lines and their adjustments.}
-  \label{fig:referencelines}
-\end{figure}
+%\begin{figure}[htbp]
+%  \centering
+%  \includegraphics[scale=0.65]{referencelines} 
+%  \caption{Time reference lines and their adjustments.}
+%  \label{fig:referencelines}
+%\end{figure}
 
 %DRAG&DROP
 
@@ -92,6 +92,29 @@ Furthermore there is a class \emph{DraggableProvider} which displays a kind of b
 
 
 %operator werden im dashboard, einem weiteren container, zusammengeklickt und angezeigt. Das Dashboard hat dabei eine ähnliche Funktionsweise wie ein Bucket. die operatoren können dabei vom operatorprovider bezogen werden: Implementierungsdetails? trash...
+
+TODO
+
+trash can
+
+
+%In order to simplify the reading of constraints an operator can be hovered over by the mouse pointer.
+All higher operators become bleached out so that the hovered operator and its children appear highlighted.
+%It is intended to be similar to line coloring when reading a digital text.
+
+
+
+%As postulated in the requirements for the visual language, constraints shall be easy to read. In fact, there is a possibility to improve the presentation of certain visual constraints. Multiple nested operators of the same kind which have no order priorities such as \emph{OR} or \emph{AND} appear graphically unnecessarily complex. These operators can be visually merged in the manner of unifying their border lines, for example. As a result, all associated operators appear as just one operator with a couple of sub operators (see~figure~\ref{fig:nested_and}).
+
+In order to retain full editability, hovered operators are still displayed separated (see~figure~\ref{fig:nested_and_mouseover}).
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.65]{and_simplify_mouseover}
+  \caption{Default nested \emph{AND} operator, visually merged nested \emph{AND} operator and visually nested \emph{AND} operator with mouse over.
+  }
+  \label{fig:nested_and_mouseover}
+\end{figure}
+
 
 
 
@@ -295,6 +318,16 @@ Figure~\ref{fig:editor} shows a snapshot of the editor's environment: All functi
 \end{figure}
 
 
+TODO
+
+There are different statuses which inform about validation result: For syntactically invalid constraints, an ``incomplete'' sign is displayed. Otherwise, an animated ring indicates that validation is in pro\-gress and will finally result in either a ``valid'' or ``invalid'' sign (see~figure~\ref{fig:results}).
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.65]{results}
+  \caption{Status indicators displaying validation results: incomplete, validation in pro\-gress, invalid and valid.}
+  \label{fig:results}
+\end{figure}	
+
 
 
 
@@ -407,8 +440,8 @@ The \emph{XmlDataToLTLEditorDataWrapper} forms the bridge between Robostudio's o
 
 \subsection{Problems}
 
-As already proposed in section~\ref{sec:easeofintegration}, all changes to the state machine program made within Robostudio must of course cause the LTLCreator window to revalidate all existing constraints. This demands a concept of change notification management which is responsible for receiving all changes and making this information available as a service. Thus we tried to extend all parts of the code where model changes are made with short code snippets.
-However this is not as easy to realise in Robostudio since some of the relevant code was generated or imported as external jars what forbids code manipulation.
+As already proposed in section~\ref{sec:easeofintegration}, all changes to the state machine program made within Robostudio must of course cause the LTLCreator window to revalidate all existing constraints. This demands a concept of change notification management which is responsible for receiving all changes and making this information available for the \emph{LTLCreator} component. As a solution, all parts of the code where model changes are made should be extended with short code snippets which send notifications.
+However, this is not as easy to realise in Robostudio since some of the relevant code was generated or even imported as external jars which makes code manipulation impossible.
 
 A second challenge is the current data handling policy in Robostudio. Since this platform is mainly made for developers who used to edit RBDL xml code manually, Robostudio aims for visual rapid editing rather than syntax checks. Thus syntax errors are not detected or even ignored by static analysis or input restrictions. In fact, such features haven't been requirements for Robostudio. During integration of \emph{LTLCreator} into Robostudio we encountered problems like transitions leading to non existing states, transitions leading to nowhere (null) or transitions whose target is depending on runtime facts.
 This characteristic seems to be a problem for the \emph{LTLCreator} which needs a complete state machine as input and doesn't know how to cope with inconsistend data retrieved from Robostudio.

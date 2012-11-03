@@ -132,21 +132,21 @@ For the healthcare applications, all important states which concern safety const
 For each subgraph the following valid LTL formulas can be derived if it contains neither inner (infinite) loops nor final states (states having no outgoing transition). In the following $\alpha$ is proposition for ``$\alpha$ is current state'' and similarly $\beta$ and $\gamma$:
 
 \begin{equation} \label{eq:first}
-  \models \Box (\alpha \Rightarrow \Diamond \beta)
+  \models \Box (\alpha \rightarrow \Diamond \beta)
 \end{equation}
 
 \begin{equation} \label{eq:second}
-  \models \Box (\alpha \Rightarrow \Diamond (\bigvee_{\gamma} \gamma))
+  \models \Box (\alpha \rightarrow \Diamond (\bigvee_{\gamma} \gamma))
 \end{equation}
 
 \begin{equation} \label{eq:third}
-  \models \Box (\alpha \Rightarrow [\neg \beta \mathcal{U} \bigvee_{\gamma} \gamma])
+  \models \Box (\alpha \rightarrow [\neg \beta \mathcal{U} \bigvee_{\gamma} \gamma])
 \end{equation}
 
 Additionally, for all states not contained in the subgraph (let's call them $\delta$-states, and the proposition $\delta$ stands for ``$\delta$ is current state'') the following formula is true: 
 
 \begin{equation} \label{eq:fourth}
-  \models \Box (\alpha \Rightarrow [(\bigwedge_{\delta} \neg \delta) \mathcal{U} \beta])
+  \models \Box (\alpha \rightarrow [(\bigwedge_{\delta} \neg \delta) \mathcal{U} \beta])
 \end{equation}
 
 In case of $\alpha = \beta$ - i.e. when all paths starting from $\alpha$-state eventually return again (cycle) - even another constraint can be assumed to be true:
@@ -165,7 +165,7 @@ All formulas can be translated to the visual formalism presented in section~\ref
 \end{equation}
 
 \begin{equation} \label{eq:seventh}
-	\models \Box (\textnormal{'Not taken yet'} \Rightarrow \Diamond (\textnormal{'Well done!'} \vee \textnormal{'Staff notified'})
+	\models \Box (\textnormal{'Not taken yet'} \rightarrow \Diamond (\textnormal{'Well done!'} \vee \textnormal{'Staff notified'})
 \end{equation}
 %	\item The program will always eventually check the database for new reminder jobs. Thus we avoid that pending reminder are never processed.
 %	\item Either a reminded medication is taken properly or caregivers get notified whenever a patient refuses medication intake.
