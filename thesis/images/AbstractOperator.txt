@@ -1,4 +1,4 @@
 yuml.me
 
-[;AbstractOperator||+ getLTL() : String;+ getColor() : Color;+ createNewInstance() : AbstractOperator;+ setMouseOver(boolean) : void;+ paintOperator(Graphics ...) : void;+ contains(int int) : boolean;+ isSimilar(AbstractOperator) : boolean;+ addChangeListener(OperatorChangeListener) : void;+ removeChangeListener(OperatorChangeListener) : void]
+[;AbstractOperator||+ getLTL() : String;+ getColor() : Color;+ createNewInstance() : AbstractOperator;+ isSimilar(AbstractOperator) : boolean;+ addChangeListener(OperatorChangeListener) : void;+ removeChangeListener(OperatorChangeListener) : void]
 [uh]

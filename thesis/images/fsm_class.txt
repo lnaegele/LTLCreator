@@ -1,0 +1,5 @@
+yuml.me
+
+[;Fsm|- startState : State;- states : List|]0..1-0..*[;State|- id : String;- incomingTransitions : List;- outgoingTransitions : List|]
+[;State]++-[;Transition|- source : State;- target : state|]
+[;Transition]0..*-2[;State]

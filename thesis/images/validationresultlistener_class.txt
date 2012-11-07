@@ -1,5 +1,0 @@
-yuml.me
-
-
-[;ValidationResultListener;||+ setProgress(int) : void;+ newSubGraphFound(SubGraph) : void;+ continueGeneration() : boolean]
-[dummy]

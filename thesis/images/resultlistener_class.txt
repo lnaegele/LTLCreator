@@ -1,0 +1,4 @@
+yuml.me
+
+[;ResultListener;||+ setProgress(int) : void;+ newSubGraphFound(SubGraph) : void;+ continueGeneration() : boolean]
+[dummy]

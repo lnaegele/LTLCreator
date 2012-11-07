@@ -69,7 +69,7 @@ The automated constraint generation can be triggered by a click on the magic wan
 The constraint used for demonstration in the previous section is also generated, however \emph{b)} forms an intensified restriction of it. 
 Constraint \emph{a)} ensures the ``Polling'' state is always eventually visited again. If a pending medication is not already taken, constraint \emph{b)} guarantees intake or staff notification before the next reminders can be read from the database.
 
-The search and generation process finishes within less than a second and thus doesn't let developers wait for a long time.
+The search and generation process finishes within less than a second and thus does not let developers wait for a long time.
 
 It was showed that the subgraph approach is working for the medication reminder application, and there was even one more reasonable constraint found by the heuristic: Constraint \emph{c)} ensures that during the medication intake process the program can not switch back to the menu or other services such as entertainment or blood pressure measurement.
 
@@ -88,6 +88,7 @@ It was showed that the subgraph approach is working for the medication reminder 
 
 
 \subsection{Performance}
+\label{sec:performance}
 
 In order to examine the performance of subgraph finding and constraint generation, we need to have a second look at the implementation details again. The subgraph finding algorithm is realized similar to a depth-first search. Indeed all healthcare programs are infinite and contain cycles and a depth-first walk-through would never end, but as stated in section~\ref{sec:prototype:automatedconstraintgeneration} the algorithm does not revisit already visited states.
 

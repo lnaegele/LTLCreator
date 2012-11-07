@@ -100,10 +100,10 @@ It is designed as a visual formalism for linear temporal logic having a visual o
 To provide the required functionality, the fundamental logical operators are required, as shown in (a) through (e) below.
 
 \begin{description}
-	\item[(a)] \emph{AND} operator: $\varphi \wedge \psi$.
-	\item[(b)] \emph{OR} Operator: $\varphi \vee \psi$.
+	\item[(a)] \emph{AND} operator: $\varphi \wedge \psi$.\\This conjunction evaluates to true only when both $\varphi$ and $\psi$ are true.
+	\item[(b)] \emph{OR} Operator: $\varphi \vee \psi$.\\At least one $\varphi$ or $\psi$ being true makes this construct true. The result is false when both parameters are false.
 	\item[(c)] \emph{IF} operator: $\varphi \rightarrow \psi$.\\Instead of an \emph{IMPLIES} operator an \emph{IF} operator is provided. Its meaning seems to be more intuitive for non-experts since it is a common construct in almost every programming language.
-	\item[(d)] \emph{NOT} operator: $\neg \varphi$.
+	\item[(d)] \emph{NOT} operator: $\neg \varphi$. This operator negates the value of $\varphi$.
 	\item[(e)] Proposition: $\rho$.\\Until now there is only the \emph{state proposition} type, which gives evidence about the currently active state. Other types such as numeric or string equations may be added but are less important for the healthcare subject.
 \end{description}
 	
@@ -123,6 +123,7 @@ All the operators mentioned above shall be suitable for constraint editing in a 
 
 
 \subsection{Design decisions}
+\label{sec:designdecisions}
 
 Like the formula representation introduced by Del Bimbo et al.~\cite{520786}, a constraint consists of nested operators and propositions in a hierarchy. However, the new visual formalism surrenders the three dimensional idea and focuses on two dimensional blocks and their compositions instead, which is used by HomeTL~\cite{4341725} as well. Each operator of the visual language is represented by such a block.
 

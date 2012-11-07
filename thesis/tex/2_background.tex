@@ -5,7 +5,7 @@ The topic of this work evolved from the situation that the healthcare robotic ap
 The motivation for it is described in section~\ref{sec:healthbotapplication} as well as the robots used, the kind of applications running on them, and their technical background.
 
 The visual programming environment used for the programming of these robots is presented in section~\ref{sec:robostudio}.
-For the understanding of safety concepts which this work is based on, a short introduction about functional safety is given in section~\ref{sec:behaviourchecking}. In section~\ref{sec:relatedwork} other work and programs related to this work are examined.
+For the understanding of safety concepts which this work is based on, a short introduction about functional safety is given in section~\ref{sec:behaviourchecking}. In section~\ref{sec:relatedwork} other works and programs related to this work are examined.
 
 
 
@@ -20,33 +20,33 @@ For the understanding of safety concepts which this work is based on, a short in
 %  \label{fig:populationpyramide}
 %\end{wrapfigure}
 In some countries, among New Zealand and Germany, the average age of population is constantly increasing. Owing to excellent achievements in medicine as well as higher living standards, humans can enjoy longer lifes. Also decreasing birth rates contribute to an upward drift of the dominating age range. As a result, the industrial sectors of professional health care and social institutions are required more than ever.
-However, a strong deficit of professionals is denoted in the healthcare branch and availability is far behind demand. One reason for this might be below average low salaries for employees in the healthcare sector. But, just raising the salary isn't leading to the desired results since the majority of the older people can't even afford a nurse to today's prices.
+However, a strong deficit of professionals is denoted in the healthcare branch and availability is far behind demand. One reason for this might be below average low salaries for employees in the healthcare sector. But, just raising the salary will not lead to the desired results since the majority of the older people can not even afford a nurse to today's prices.
 
-Aiming for fillig the constantly increasing gap in professional personnel for healthcare of the elderly and bypassing the financial burden, service robots are supposed to more and more undertake the task of care.
+Aiming for fillig the constantly increasing gap in professional personnel for healthcare of the elderly and bypassing the financial burden, service robots are supposed to undertake more and more the task of care.
 There are lots of possible tasks a robot could do such as taking the blood pressure, guiding medication intake, detecting falls or just entertaining with music, video or internet.
-This challenge as a goal, the healthcare robotics team at the University of Auckland researches this topic and builds service robots for supporting the elderly in their daily life.
+This challenge as a goal, the healthcare robotics team at the University of Auckland researches this topic and develops service robots for supporting the elderly in their daily life.
 
 The two newest robots IrobiQ and Cafero are shown in figure~\ref{fig:irobiq_cafero}.
 These mobile 
 \begin{wrapfigure}{r}{0.60\textwidth}
   \centering
   \includegraphics[width=0.56\textwidth]{irobiq_cafero}
-  \caption{IrobiQ and Cafero, two robots of the healtcare project.}
+  \caption{IrobiQ and Cafero, two robots of the healthcare project.}
   \label{fig:irobiq_cafero}
 \end{wrapfigure}
 robots are equipped with a touch display for presenting screens and receiving user input. Furthermore, they are equipped with additional external tools such as the blood pressure measurement device.
-Applications running on the robot use the touch display to present screen dialogs to the user and use speech synthesis in order to give also accoustic feedback. User inputs or response from devices cause dialogs to change. Figure~\ref{fig:screenflow_example} presents a small example of such a screen-flow based application, which uses response from a camera and user input for navigating through the screen-flow.
+Applications running on the robots use the touch display to present screen dialogs to the user and use speech synthesis in order to give also accoustic feedback. User inputs or responses from devices cause dialogs to change. Figure~\ref{fig:screenflow_example} presents a small example of such a screen-flow based application, which uses response from a camera and user input for navigating through the screen-flow.
 
 %, and they can access devices such as the camera for face recognition or the blood pressure measurement tool. 
 
 There is a program interpreter running on the robots which can load and execute program files. Screen dialogs get generated and displayed on the touch screen.
 %This makes the program behaviour replaceable and maintenance can be done easily.
-The interpreter processes programs written in Robot Behaviour Description Language (RBDL), a domain specific language (DSL) based on XML, which has been developed particularly for the healthcare robotics applications. It allows defining state machine based program behaviour and creating UI elements for screen visualizations. An example implementation of one state in RBDL is shown in listing~\ref{lst:RBDL}.
+The interpreter processes programs written in Robot Behaviour Description Language (RBDL), a domain specific language (DSL) based on XML, which has been developed particularly for the healthcare robotics applications. It allows defining state machine based program behaviour and creating user interface (UI) elements for screen visualizations. An example implementation of one state in RBDL is shown in listing~\ref{lst:RBDL}.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\linewidth]{screenflow_example} 
-  \caption{Robot screen-flow dialog based interaction example~\cite{robostudio}.}
+  \caption{Interaction example based on robot screen-flow dialogs~\cite{robostudio}.}
   \label{fig:screenflow_example}
 \end{figure}
 
@@ -69,7 +69,7 @@ The interpreter processes programs written in Robot Behaviour Description Langua
 	}
 }
 
-\begin{lstlisting}[float = htbp, language=XML, captionpos=b, breaklines=true, showspaces=false, showtabs=false, tabsize=2, caption=Example of a state defined by RBDL~\cite{robostudio}., label=lst:RBDL]
+\begin{lstlisting}[float = htbp, language=XML, captionpos=b, breaklines=true, showspaces=false, showtabs=false, tabsize=2, caption=Example of a state defined with RBDL~\cite{robostudio}., label=lst:RBDL]
 <state no="84">
 	<backgroundactions>
 		<rocosmessage type="EVENT MESSAGE" senderid="RCP" receiverid="NA" name="FDSessionStart">
@@ -110,7 +110,8 @@ For each state of the program, background actions can be defined. They are trans
 Some states can also have screen definitions with buttons, messages, videos, etc., on it. These are displayed to the user when the respective state is active. Once displayed, buttons can be clicked and trigger events.
 The behaviour of events can be mapped in the expectedevents tag. It lists all events which are processable by the current state and defines the corresponding behaviour such as triggering transitions to other states.
 
-For this work the most important thing about the RBDL to remember is that it can define state machine behaviour with states, transitions and events. This fact was the basis for later decisions regarding used safety mechanisms.
+
+Very important for this work is a fundamental feature of RBDL, the ability to define state machine behaviour with states, transitions and events. This fact was the basis for later decisions regarding the applied safety mechanisms.
 
 
 
@@ -123,7 +124,7 @@ For this work the most important thing about the RBDL to remember is that it can
 \section{Robostudio}
 \label{sec:robostudio}
 
-In the beginning all programming of the robot behaviour was done by directly editing the XML code mentioned in the previous section by using a text editor. But huge code files and occasional code edits made further maintenance and change requests difficult up to impossible to realise. For this reason, Chandan Datta, PhD student at the University of Auckland, developed a visual programming environment for developing robot behaviour on top of RBDL: Robostudio~\cite{robostudio} allows to easily edit the program behaviour on a visual layer and generates the corresponding program file containing the RBDL code fully automatically. This file can be downloaded to the robot and executed by the interpreter. Figure~\ref{fig:robostudio_proceeding} illustrates the steps of robot behaviour development.
+In the beginning all programming of the robot behaviour was done by directly editing the XML code mentioned in the previous section by using a text editor. However, huge code files and occasional code edits made further maintenance and change requests difficult up to impossible to realise. For this reason, Chandan Datta, PhD student at the University of Auckland, developed a visual programming environment for developing robot behaviour on top of RBDL. This environment- it is called Robostudio~\cite{robostudio} - allows to edit easily the program behaviour on a visual layer and generates the corresponding program file containing the RBDL code fully automatically. This file can be downloaded to the robot and executed by the interpreter. Figure~\ref{fig:robostudio_proceeding} illustrates the steps of robot behaviour development.
 
 \begin{figure}[htbp]
   \centering
@@ -136,9 +137,9 @@ Robostudio is an editor fully written in Java and implemented as a NetBeans rich
 Several windows and views provide visual tools for editing and understanding robot behaviour as well as screen dialog design. As depicted in figure~\ref{fig:robostudio_vpe}, the editor integrates a \emph{State Navigator Window} (1) in the top left corner where all existing states are listed. Below an overview about all incoming and outgoing transitions is given. New states can be created and existing states can be deleted. A click on one particular state id in the \emph{State Navigator Window} will cause all other components to show all possible information regarding the selected state.
 The \emph{Expected Events Editor Window} (2) in the bottom left can be used for specifying the expected events and their effects.
 Heart and center of the editor is the \emph{UI Component Layout Editor Window} (3). It renders the screen dialog of the selected state and gives a preview of the screen presented on the robot during runtime. Components such as buttons, text boxes or images can be added, changed or removed via drag and drop.
-They are provided by the \emph{UI Components Palette Window} (4) on the right side where the user can choose from all supported UI components.
-The \emph{Background Actions Editor Window} (5) lets the user define background actions, which are executed transparently to the user such as accessing external devices or sending messages.
-Aiming to support the developer with helpful graphical tools, the \emph{State Transition Visualization Window} (6) gives an overview about all connections towards and from the selected state. It helps to quickly get an understanding of the local program behaviour.
+They are provided by the \emph{UI Components Palette Window} (4) on the right side where the developer can choose from all supported UI components.
+The \emph{Background Actions Editor Window} (5) lets the developer define background actions, which are executed transparently to the developer such as accessing external devices or sending messages.
+Aiming to support the developer with helpful graphical tools, the \emph{State Transition Visualization Window} (6) gives an overview about all connections towards and from the selected state. It helps to get quickly an understanding of the local program behaviour.
 
 \begin{figure}[htbp]
   \centering
@@ -158,8 +159,8 @@ Aiming to support the developer with helpful graphical tools, the \emph{State Tr
 \section{Behaviour checking}
 \label{sec:behaviourchecking}
 
-The use of software is versatile from text editing programs running on personal computers, over control software for high-precision applications in aeronautics, right up to trigger mechanisms for deathly weapons. For most of them safety properties are irrelevant, but a few are ranked highly dangerous to their environment and also human lifes. In order to eliminate software malfunction there are different mathematical concepts for verifying software behaviour.
-One of them is model checking wich allows checking state machine programs for functional safety. Since the healthbot applications mentioned in section~\ref{sec:healthbotapplication} are realised wth state machines, this concept of behaviour checking is applicable and important for our kind of programs. At first the basic idea of state machines is described in section~\ref{sec:statemachines}, followed by an intorduction into model checking in section~\ref{sec:modelcheckingandltl}.
+The use and application of software is versatile and varies from text editing programs running on personal computers, over control software for high-precision applications in aeronautics, right up to trigger mechanisms for deathly weapons. For most of them safety properties are irrelevant, but a few are ranked highly dangerous to their environment and also to human lifes. In order to eliminate software malfunction there are different mathematical concepts for verifying software behaviour.
+One of them is model checking which allows checking state machine programs for functional safety. Since the healthbot applications mentioned in section~\ref{sec:healthbotapplication} are realised wth state machines, this concept of behaviour checking is applicable and important for our kind of programs. At first the basic idea of state machines is described in section~\ref{sec:statemachines}, followed by an introduction into model checking in section~\ref{sec:modelcheckingandltl}.
 
 
 \subsection{State machines}
