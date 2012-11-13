@@ -19,7 +19,7 @@ For the understanding of safety concepts which this work is based on, a short in
 %  \caption{Age structure.}%Population pyramide of germany.}
 %  \label{fig:populationpyramide}
 %\end{wrapfigure}
-In some countries, among New Zealand and Germany, the average age of population is constantly increasing. Owing to excellent achievements in medicine as well as higher living standards, humans can enjoy longer lifes. Also decreasing birth rates contribute to an upward drift of the dominating age range. As a result, the industrial sectors of professional health care and social institutions are required more than ever.
+In some countries, among New Zealand and Germany, the average age of population is constantly increasing~\cite{altersstatistik,altersstatistik2}. Owing to excellent achievements in medicine as well as higher living standards, humans can enjoy longer lifes. Also decreasing birth rates contribute to an upward drift of the dominating age range. As a result, the industrial sectors of professional health care and social institutions are required more than ever.
 However, a strong deficit of professionals is denoted in the healthcare branch and availability is far behind demand. One reason for this might be below average low salaries for employees in the healthcare sector. But, just raising the salary will not lead to the desired results since the majority of the older people can not even afford a nurse to today's prices.
 
 Aiming for fillig the constantly increasing gap in professional personnel for healthcare of the elderly and bypassing the financial burden, service robots are supposed to undertake more and more the task of care.
@@ -34,7 +34,7 @@ These mobile
   \caption{IrobiQ and Cafero, two robots of the healthcare project.}
   \label{fig:irobiq_cafero}
 \end{wrapfigure}
-robots are equipped with a touch display for presenting screens and receiving user input. Furthermore, they are equipped with additional external tools such as the blood pressure measurement device.
+robots are equip\-ped with a touch display for presenting screens and receiving user input. Furthermore, they are equipped with additional external tools such as the blood pressure measurement device.
 Applications running on the robots use the touch display to present screen dialogs to the user and use speech synthesis in order to give also accoustic feedback. User inputs or responses from devices cause dialogs to change. Figure~\ref{fig:screenflow_example} presents a small example of such a screen-flow based application, which uses response from a camera and user input for navigating through the screen-flow.
 
 %, and they can access devices such as the camera for face recognition or the blood pressure measurement tool. 
@@ -106,7 +106,7 @@ The interpreter processes programs written in Robot Behaviour Description Langua
 </state>
 \end{lstlisting}
 
-For each state of the program, background actions can be defined. They are transparent to the user and run in background. Text messages can be sent or external devices can be acessed, for example. The latter is realized with web services~\cite{webservices} to obtain a modular design.
+For each state of the program, background actions can be defined. They are transparent to the user and run in background. Text messages can be sent or external devices can be accessed, for example. The latter is realized with web services~\cite{webservices} to obtain a modular design.
 Some states can also have screen definitions with buttons, messages, videos, etc., on it. These are displayed to the user when the respective state is active. Once displayed, buttons can be clicked and trigger events.
 The behaviour of events can be mapped in the expectedevents tag. It lists all events which are processable by the current state and defines the corresponding behaviour such as triggering transitions to other states.
 
@@ -133,7 +133,7 @@ In the beginning all programming of the robot behaviour was done by directly edi
   \label{fig:robostudio_proceeding}
 \end{figure}
 
-Robostudio is an editor fully written in Java and implemented as a NetBeans rich client application.
+Robostudio is an editor fully written in Java and implemented as a NetBeans rich client application~\cite{netbeans}.
 Several windows and views provide visual tools for editing and understanding robot behaviour as well as screen dialog design. As depicted in figure~\ref{fig:robostudio_vpe}, the editor integrates a \emph{State Navigator Window} (1) in the top left corner where all existing states are listed. Below an overview about all incoming and outgoing transitions is given. New states can be created and existing states can be deleted. A click on one particular state id in the \emph{State Navigator Window} will cause all other components to show all possible information regarding the selected state.
 The \emph{Expected Events Editor Window} (2) in the bottom left can be used for specifying the expected events and their effects.
 Heart and center of the editor is the \emph{UI Component Layout Editor Window} (3). It renders the screen dialog of the selected state and gives a preview of the screen presented on the robot during runtime. Components such as buttons, text boxes or images can be added, changed or removed via drag and drop.
@@ -156,11 +156,11 @@ Aiming to support the developer with helpful graphical tools, the \emph{State Tr
 
 
 
-\section{Behaviour checking}
+\section{Behaviour description and analysis}
 \label{sec:behaviourchecking}
 
-The use and application of software is versatile and varies from text editing programs running on personal computers, over control software for high-precision applications in aeronautics, right up to trigger mechanisms for deathly weapons. For most of them safety properties are irrelevant, but a few are ranked highly dangerous to their environment and also to human lifes. In order to eliminate software malfunction there are different mathematical concepts for verifying software behaviour.
-One of them is model checking which allows checking state machine programs for functional safety. Since the healthbot applications mentioned in section~\ref{sec:healthbotapplication} are realised wth state machines, this concept of behaviour checking is applicable and important for our kind of programs. At first the basic idea of state machines is described in section~\ref{sec:statemachines}, followed by an introduction into model checking in section~\ref{sec:modelcheckingandltl}.
+The use and application of software is versatile and varies from text editing programs running on personal computers, over control software for high-precision applications in aeronautics, right up to trigger mechanisms for deathly weapons. For most of them safety properties are irrelevant, but a few are ranked highly dangerous to their environment and also to human lifes. In order to eliminate software malfunction, there are different mathematical concepts for verifying software behaviour.
+One of them is model checking which allows checking state machine programs for functional safety. Since the healthbot applications mentioned in section~\ref{sec:healthbotapplication} are realised with state machines, the concept of behaviour checking is applicable and important for this kind of programs. At first the basic idea of state machines is described in section~\ref{sec:statemachines}, followed by an introduction into model checking in section~\ref{sec:modelcheckingandltl}.
 
 
 \subsection{State machines}
@@ -169,8 +169,8 @@ One of them is model checking which allows checking state machine programs for f
 A state machine is a model which can describe the behaviour of a system. It contains an aggregation of all different statuses of a system and possible changeovers from one status to another.
 
 Each system status is represented by one \emph{state} which stands for a particular and unique constellation of system variables and properties. One state can be declared as \emph{start state} which is the very first state when the system starts working. The state representing the current system status is called \emph{current state}.
-The current state changes whenever there is a modification to the system. Such transfers of the system from the current state to another one are defined by \emph{transitions}. Thus, they define the possible system behaviour.
-All influences of the environment which cause a change to the system are called \emph{events}. They trigger transitions which transfer the system into a new state (current state). The fact that a state machine reacts to events is the reason why state machines are also called \emph{reactive systems}.
+The current state changes (maybe into itself) whenever there is a modification to the system. Such transfers of the system from the current state to another one are defined by \emph{transitions}. Thus, they define the possible system behaviour.
+All influences of the environment which cause a change to the system are called \emph{events}. They trigger transitions which transfer the system into a new (current) state. The fact that a state machine reacts to events is the reason why state machines are also called \emph{reactive systems}.
 
 State machines can be visualized, as shown in figure~\ref{fig:statemachine} which gives a small example of a state machine.
 \begin{figure}[htbp]
@@ -197,7 +197,7 @@ State machines can be visualized, as shown in figure~\ref{fig:statemachine} whic
   \caption{General example for a state machine.}
   \label{fig:statemachine}
 \end{figure}
-All states are drawn as circles which contain their names. Transitions are painted as arrows between source and destination states, and the regarding trigger event names are written next to it.
+All states are represented by circles which contain their names. Transitions are drawm as arrows between source and destination states, and the regarding trigger event names are written next to it.
 
 The following example clarifies the concept of state machines. Assuming a door which can be opened, closed and locked by a key-operated bolt lock, the behaviour can be reduced to a state machine as shown in figure~\ref{fig:doorstatemachine}.
 \begin{figure}[htbp]
@@ -228,9 +228,11 @@ The following example clarifies the concept of state machines. Assuming a door w
 \end{figure}
 Four states represent the ``system statuses'' of a lockable door: closed but unlocked (closed), opened and unlocked (opened), closed and locked (locked), opened but locked (blocked). The latter case is when the extended bolt prevents the door from being closed.
 
-The black dot defines the point of entry for this state machine, the door is closed but unlocked in the beginning. Through an event of the environment - in this case a human acting at the door - the door can be opened ,what makes ``opened'' the current state, and later be closed again. A turn of the key locks respectively blocks the door and no further opening or closing is possible. A second turn of the key un(b)locks the door again.
+The black circle defines the point of entry for this state machine, the door is closed but unlocked in the beginning. By an event of the environment - in this case a human acting at the door - the door can be opened, which turns ``opened'' into the current state, and closed later on again. A turn of the key locks respectively blocks the door and no further opening or closing is possible. A second turn of the key unlocks respective unblocks the door again.
 
-The short description given in this section does not contain a complete explanation about the concept of statemachines at all, but it gives a basic overview which is needed as background information for this work. Also the formal definition of state machines is not relevant and can be read in other literature~\cite{statemachines, statemachinesandformalmethods}.
+The short description given in this section does not contain a complete explanation about the concept of state machines at all, but it gives a basic overview which is needed as background information for this work.
+Also the explanation of state machines above is no formal definition; it can be read found in literature~\cite{statemachines, statemachinesandformalmethods}.
+%Also the formal definition of state machines is not relevant and can be found in literature~\cite{statemachines, statemachinesandformalmethods}.
 
 %mathematical model of computation
 %finite (endliche anzahl zustände)
@@ -241,8 +243,8 @@ The short description given in this section does not contain a complete explanat
 \subsection{Model checking \& LTL}
 \label{sec:modelcheckingandltl}
 
-Whenever a software or hardware system has a special requirement in robustness and reliability, different formal methods are available to be used in order to verify the design.
-Model checking is such a method which allows automatically verifying a system description against a specification by means of an exhaustive search of all states which could possibly be visited by the system during its execution. As a result, either the system description fulfills all propositions or a counter example is provided which gives evidence about a broken property. Figure~\ref{fig:modelchecking} gives a schematic view about the concept of model checking.
+Whenever a software or hardware system has a special requirement regarding robustness and reliability, different formal methods are available to be used in order to verify the design.
+Model checking~\cite{principles-of-model-checking} is such a method which allows automatically verifying a system description against a specification by means of an exhaustive search for all states which could possibly be visited by the system during its execution. As a result, either the system description fulfills all propositions or a counter example is provided which gives evidence about a broken property. Figure~\ref{fig:modelchecking} gives a schematic view about the concept of model checking.
 
 \begin{figure}[htbp]
   \centering
@@ -275,22 +277,22 @@ Model checking is such a method which allows automatically verifying a system de
   \label{fig:modelchecking}
 \end{figure}
 
-For representing the system description - which can be a computer program, for example - a formal language is used. Also state machines are applicable to serve as a formal system description. In contrast, the specification used for model checking contains certain properties that express the desired and safe system behaviour in form of mathematical formulas. Linear temporal logic (LTL) is an example for a logic that is used to define such formulas on state machines. It is a temporal logic which can express formulas concerning the future of paths, for example, that something will eventually happen.
+For representing the system description - which can be a computer program, for example - a formal language is used. Also state machines are applicable to serve as a formal system description. In contrast, the specification used for model checking contains certain properties that express the desired and safe system behaviour in form of mathematical formulas. Linear temporal logic (LTL)~\cite{principles-of-model-checking} is an example for a logic that is used to define such formulas on state machines. It is a temporal logic which can express formulas concerning the future of paths, for example, that something will eventually happen.
 
 LTL is based on propositional logic, thus, it can express propositional variables ($p_1$, $p_2$, ...) and logical connectives ($\wedge$, $\vee$, $\neg$, $\rightarrow$ and $\leftrightarrow$). Additionally further temporal modal operators are provided which enable propositions concerning the future of paths, among three unary operators:
 
 \begin{description}
-	\item[$\Box \varphi$] This formula expresses that $\varphi$ is true now and in all following states. The meaning of the rectangle is ``GLOBALLY''.
-	\item[$\medcircle \varphi$] With a circle representing ``NEXT'', $\varphi$ will be true in the next state.
-	\item[$\Diamond \varphi$] At least one time - now or eventually in a later state - $\varphi$ is or will be true. The diamond stands for ``FUTURE''.
+	\item[$\Box \varphi \textnormal{ }$] This formula expresses that $\varphi$ is true now and in all following states. The meaning of the rectangle is ``GLOBALLY''.
+	\item[$\medcircle \varphi \textnormal{ }$] With a circle representing ``NEXT'', $\varphi$ will be true in the next state.
+	\item[$\Diamond \varphi \textnormal{ }$] At least one time - now or eventually in a later state - $\varphi$ is or will be true. The diamond stands for ``FUTURE''.
 \end{description}
 
 Furthermore, LTL provides binary operators as follows:
 
 \begin{description}
 	\item[$\varphi \mathcal{U} \psi$] The ``UNTIL'' operator makes $\varphi$ true at least until the first occurrence of a state where $\psi$ is true. Besides, $\psi$ will eventually be true.
-	\item[$\varphi \mathcal{R} \psi$] It expresses that $\psi$ is true through the first occurrence of a state where $\varphi$ is true. Its meaning is $\varphi$ ``RELEASES'' $\psi$.
-	\item[$\varphi \mathcal{W} \psi$] ``WEAK UNTIL'' represents the same as ``UNTIL'', except that an occurrence of $\psi$	is not necessary. In this case, $\varphi$ is true infinetely.
+	\item[$\varphi \mathcal{R} \psi$] It expresses that $\psi$ is true caused by the first occurrence of a state where $\varphi$ is true. Its meaning is $\varphi$ ``RELEASES'' $\psi$.
+	\item[$\varphi \mathcal{W} \psi$] ``WEAK UNTIL'' represents the same as ``UNTIL'', except that an occurrence of $\psi$	is not necessary. In this case, $\varphi$ remains true infinitely.
 \end{description}
 
 %Verknüpfung von operatoren?
@@ -312,7 +314,7 @@ Furthermore, LTL provides binary operators as follows:
 
 %aim for simplifying the development of constraints, but they still demand knowledge of the underlying mathematical formalism of temporal logic.
 
-The idea of a visual environment for the defining of system properties is not new and already pursued by some researchers. Although their focus does not completely match the subject of safety for healthcare robots, they present concepts of visualisation which might be relevant
+The idea of a visual environment for the defining of system properties is not new and already pursued by some researchers. Although their focus does not completely match the subject of safety for healthcare robots, they present concepts of visualization which might be relevant
 % can be quite interesting 
 for this work.
 In section~\ref{sec:sisiruca}, the work of Sisirucá and Ionescu is presented. Section~\ref{sec:delbimbo} dexcribes a three dimensional concept by Del Bimbo et al., followed by an introduction of HomeTL in section~\ref{sec:hometl}.
@@ -320,17 +322,17 @@ In section~\ref{sec:sisiruca}, the work of Sisirucá and Ionescu is presented. Se
 \subsection{Sisirucá and Ionescu}
 \label{sec:sisiruca}
 
-A first step towards a graphical tool for designing safety constraints is taken by Sisirucá and Ionescu~\cite{332301}. They developed an object-oriented graphical environment for visually creating temporal logic sentences and rules.
+A first step towards a graphical tool for designing safety constraints is taken by Sisirucá and Ionescu~\cite{332301}. They developed an object-oriented graphical environment for creating temporal logic sentences and rules visually.
 As shown in figure~\ref{fig:sisirucaandionescu}, the tool presents all operators as blocks which have inputs and outputs. 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.6\linewidth]{sisirucaandionescu} 
-  \caption{The visual programming environment. An example showing the ruel construction process~\cite{332301}.}
+  \caption{The visual programming environment. An example showing the rule construction process~\cite{332301}.}
   \label{fig:sisirucaandionescu}
 \end{figure}
-Whereas logical operators such as \emph{AND} and \emph{OR} have their boolean output and inputs represented by arrows pointing to the right, generic blocks for temporal expressions additionally have an input symbolized by an arrow pointing downward where the temporal operator itself is to be attached. By adding and connecting the operators a big expression graph can be built. In case that a diagram becomes too complex, an implode feature allows to compress the graph to a single box. It is also applicable for the reuse of diagrams.
+Whereas logical operators such as \emph{AND} and \emph{OR} have each one boolean output and several boolean inputs represented by arrows pointing to the right, generic blocks for temporal expressions additionally have an input symbolized by an arrow pointing downward where the temporal operator itself is to be attached. By adding and connecting the operators a big expression graph can be built. In case that a diagram becomes too complex, an implode feature allows to compress the graph to a single box. It is also applicable for the reuse of diagrams.
 
-The presented environment aims to be an effective tool for developing temporal logic sentences and rules. In fact, it gives a schematic overview of even complex formulas and allows substitution and reuse. The visual formalism is an alienation of LTL which might be suitable for researchers, but probably not for novices.
+The presented environment aims to be an effective tool for developing temporal logic sentences and rules. In fact, it gives a schematic overview of even complex formulas and allows substitution and reuse. The visual formalism is an alienation of LTL which might be suitable for researchers, but probably not for non-experts.
 
 %The tool presents temporal operators as logical modules with boolean inputs and outputs which can be connected to one big expression graph.
 
@@ -340,31 +342,31 @@ The presented environment aims to be an effective tool for developing temporal l
 \label{sec:delbimbo}
 
 Del Bimbo and his colleagues worked on a visual tool for temporal logic, too, but with a special focus on hierarchical representation of formulas~\cite{520786}.
-It is based on computation tree logic (CTL) which is a branching-time logic with support for quantifiers. In contrast to LTL where properties are fulfilled by all possible paths, CTL expresses properties which depend on the future branching, for example, that at least one path is existend which has a particular property.
+It is based on computation tree logic (CTL) which is a branching-time logic with support for quantifiers. In contrast to LTL where properties are fulfilled by all possible paths, CTL expresses properties which depend on the future branching, for example, that at least one path exists which has a particular property.
 As indicated by figure~\ref{fig:delbimbo}, the visual tool provides all operators known from LTL 
 %The visual tool provides visual operators as shown in figure~\ref{fig:delbimbo}.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.8\linewidth]{delbimbo} 
-  \caption{Some of the visual operators of Del Bimbo et al.~\cite{520786}.}
+  \caption{Visual representation of some of the operators of Del Bimbo et al.~\cite{520786}.}
   \label{fig:delbimbo}
 \end{figure}
-except that temporal operators are extended by an existential or universal quantifier (``at least on one path...'', ``on all paths...'').
+except that temporal operators are extended by an existential quantifier (e.g.\ ``at least on one path...'') or an universal quantifier (e.g.\ ``on all paths...'').
 
 
 Except propositions all operators are abstract and have placeholders representing their subformulas which can be connected to other operators.
 %Here each node of a tree is described by an abstract operator whose subformulas are represented by placeholders which can be connected to other operators.
 The positioning of these operators is organized in layers where the parent operator lays one level above its children. It can be compared to a tree upside down with the topmost operator as root.
-This formula structure can be visualized as a 3D branching tree within a virual space. Figure~\ref{fig:delbimbo3d} shows the result of considerations done by Del Bimbo and his colleagues.
+This formula structure can be visualized as a 3D branching tree within a virtual space. Figure~\ref{fig:delbimbo3d} shows the result of considerations done by Del Bimbo and his colleagues.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=1\linewidth]{delbimbo3d} 
-  \caption{Formula trees' 3D representation within a virual space~\cite{520786}.}
+  \includegraphics[width=0.98\linewidth]{delbimbo3d} 
+  \caption{Formula trees' 3D representation within a virtual space~\cite{520786}.}
   \label{fig:delbimbo3d}
 \end{figure}
 
-The presented visual formalism directly maps the syntax of the temporal logic onto graphic symbols and composition patterns. The researchers found well expressive graphical representations for all operator especially the temporal ones, what makes the tool fairly intuitive. The tree dimensional visualisation gives a good overview of the structure, although it shuld not be used for editing. Computer monitors can naturally display only two dimensions and input devices such as mouse and keyboard are customised to it. Editing of the third dimension needs special gesture definitions and 3D modelling techniques the most users might not be familiar with. Thus, a 3D representation for editing should only be used if necessary. This perception has been tried to be considered in this work.
+The presented visual formalism directly maps the syntax of the temporal logic onto graphic symbols and composition patterns. The researchers found well expressive graphical representations for all operator especially for the temporal ones, which makes the tool fairly intuitive. The three dimensional visualization gives a good overview of the structure, although it shuld not be used for editing. Computer monitors can naturally display only two dimensions and also input devices such as mouse and keyboard are customised to it. Editing of the third dimension needs special gesture definitions and 3D modelling techniques the most users might not be familiar with. Thus, a 3D representation for editing should only be used if necessary. This perception has been tried to be considered in this work.
 
 
 %Die visualisierungen der Operatoren sind aussagekräftig, da sie Zukunft von Pfaden andeuten.
@@ -379,18 +381,17 @@ The presented visual formalism directly maps the syntax of the temporal logic on
 \subsection{HomeTL}
 \label{sec:hometl}
 
-The step towards a more abstract level of development is taken by HomeTL~\cite{4341725}, a visual formalism for the design of home based care. It allows healthcare professionals to specify rules and sequences of user actions in a quite nontechnical manner. Based on these conditions a monitoring system in a patient's home environment can detect and report abnormal situations within the daily routine.
-The visual notation provides propositional variables and logical connectives, the latter is shown in figure~\ref{fig:hometloperators}. In contrast to LTL, the temporal operators of HomeTL use absolute time limits (seconds, for example) which are defined by $\tau$. Thus, not only the relative order of states is defined but also a time by which a particular action has to happen.
+The step towards a more abstract level of development is taken by HomeTL~\cite{4341725}, a visual formalism for the design of home based care. It allows healthcare professionals to specify rules and sequences of actions in a quite nontechnical manner. Based on these conditions a monitoring system in a patient's home environment can detect and report abnormal situations within the daily routine.
+The visual notation provides propositional variables and logical connectives, the latter is shown in figure~\ref{fig:hometloperators}. In contrast to LTL, the temporal operators of HomeTL use absolute time limits (seconds, for example) which are represented by $\tau$ in figure~\ref{fig:hometloperators}. Thus, not only the relative order of states is defined but also a time by which a particular action has to happen.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.5\linewidth]{hometloperators} 
-  \caption{Graphical representation of visual notation for temporal
-operators within HomeTL user interface~\cite{4341725}.}
+  \includegraphics[width=0.54\linewidth]{hometloperators} 
+  \caption{Visual notation for temporal operators within HomeTL user interface~\cite{4341725}.}
   \label{fig:hometloperators}
 \end{figure}
 
-This notation uses special meanings for the two dimensions: The horizontal dimension shows the temporal evolution of states, while the vertical dimension expresses the logical relationships at the respective current state. A programming environment allows editing and creating of constraints by using the atomar operators. Figure~\ref{fig:hometleditor} presents a snapshot of this editor.
+This notation gives special meanings to the two dimensions: The horizontal dimension shows the temporal evolution of states, while the vertical dimension (see~figure~\ref{fig:hometleditor}) expresses the logical relationships at the respective current state. A programming environment allows editing and creating of constraints by using the elementary operators shown in figure~\ref{fig:hometloperators}. Figure~\ref{fig:hometleditor} presents a snapshot of this editor.
 
 \begin{figure}[htbp]
   \centering

@@ -1,7 +1,7 @@
 \chapter{Automated generation of safety constraints}
 \label{chap:automatedgenerationofsafetyconstraints}
 
-Safety constraints primarily constitute essential properties which describe correct and safe behaviour of safety critical software applications. In order to discover whether a program meets its safety requirements, its behaviour is checked by the constraints. This happens mostly as a last check before software gets released. 
+Safety constraints primarily constitute essential properties which describe correct and safe behaviour of safety critical software applications. In order to discover whether a program meets certain safety requirements, its behaviour is checked by the constraints. This happens mostly as a last check before software gets released. 
 But regarding updating and maintenace work, often further changes are made to the software even after release.
 %But even after possible changes to the software in the context of updating and maintenance work,
 However, safety constraints can be applied again and assure the adherence of all properties. Safety constraints thus are also suitable for sustaining consistency during the different phases of software life. In fact, not only safety constraints, also properties of program behaviour which are not safety relevant at all are applicable for that. The more constraints are defined the the better can be the reliability.
@@ -10,12 +10,11 @@ constraints by hand. % which are needed for full safety covery.
 In this case it can happen that a prior correct software version becomes faulty over time because of minor adjustments once in a while which are not covered by constraints.
 %To help prevent this to happen
 
-As a solution to this problem, the concept of automated constraint generation for state machines is proposed. Once the initial implementation of a program is finished, its behaviour can be analysed. Sgnificant parts of it can be determined automatically and put into constraint representation which are valid on the current program of course.
-%constraint suggestions which are valid on the current program can be computed fully automatically. 
-On the one hand, the constraint suggestions may help the developer identifying reasonable constraints he did not think about as well as contradictions between program and specification, eg. if a computed constraint does not make sense at all.
+As a solution to this problem, the concept of automated constraint generation for state machines is proposed. Once the initial implementation of a program is finished, the behaviour of this state machine can be analyzed. In particular heuristics can be elaborated which determine significant parts of the state machine automatically and put them into constraint representation. These constraints are of course valid on the current program.
+On the one hand, the constraint suggestions may help the developer identifying reasonable constraints he did not think about as well as contradictions between program and specification, eg.\ if a computed constraint does not make sense at all.
 On the other hand, all constraints can be revalidated after each change to the software and thus ensure consistency.
 
-In order to support the developer in developing safe programs and to simplify maintainability, automated generation and suggestion of constraints might be helpful. But it's helpful only if the suggested constraints are relevant and reasonable.
+In order to support the developer in developing safe programs and to simplify maintainability, automated generation and suggestion of constraints for state machines might be helpful. But it is helpful only if the suggested constraints are relevant and reasonable.
 
 
 \section{Subgraph definition}
@@ -23,8 +22,8 @@ In order to support the developer in developing safe programs and to simplify ma
 
 Whether suggested constraints are relevant and reasonable
 %This however
-depends on the domain and use case. It has to be mentioned that the approach of finding an algorithm for constraint generation presented in this work has a special focus on the healtcare use cases and may not be applicable for other domains.
-Regarding the important safety constraints postulated in chapter~\ref{chap:goals}, all the relevant states seem to fall into one of the following categories:
+depends on the domain and use case. It has to be mentioned that the approach of finding an algorithm for constraint generation presented in this work has a special focus on the healtcare use cases and is not necessarily applicable for other domains.
+Among others, each safety constraint postulated in chapter~\ref{chap:goals} was analyzed on a state machine program which represents the medication reminder application of the health care project. It turned out that all states which are named in the constraint are always connected in an identical manner and seem to fall into one of the following categories:
 
 \begin{enumerate}
 	\item States having two or more outgoing transitions ($\alpha$-states).
@@ -33,15 +32,16 @@ Regarding the important safety constraints postulated in chapter~\ref{chap:goals
 \end{enumerate}
 
 %All associated states which match these properties can be combined to a 
-In order to compute the required constraints automatically, and possibly additional ones, for each $\alpha$-state all associated $\beta$-states and the one $\gamma$-state have to be determined. Such a group of states is named subgrap from now on. It is defined as follows:
+In order to compute the required constraints automatically, and possibly additional ones, for each $\alpha$-state all associated $\beta$-states and the one $\gamma$-state have to be determined. Such a group of states of a state machine is named subgraph from now on. It is defined as follows:
 %Each $\alpha$-, the corresponding $\beta$- and several $\gamma$-states form a part of a state set called \emph{subgraph}. In order to retreive valid constraints a subgraph is defined by the following requirements: %as follows
 
 \begin{itemize}
 	\item There is a start state ($\alpha$-state) with at least two outgoing transitions.
-	\item There is one end state ($\beta$-state) in which all possible paths starting from start state come together again.
-	\item All states between the start and end states have no other incoming transitions than the ones originally coming from the start state. That means there is no path to visit these states except through the start state.
+	\item There is one end state ($\beta$-state) which is the first state where all possible paths of the state machine starting from start state come together again.
+	\item All states between the start and end state also belong to the subgraph. They have no other incoming transitions than the ones originally coming from the start state. That means there is no path to visit these states except through the start state.
 	\item The start state may have incoming transitions from states not contained in the subgraph.
-	\item The end state may have incoming and outgoing transitions from and to states not contained in the subgraph.
+	\item The end state may have self transitions or incoming and outgoing transitions from and to states which are not contained in the subgraph. Transitions back into the subgraph are not allowed except to the start state.
+	\item Except self transitions of the end state, no cycles are allowed in the subgraph.
 \end{itemize}
 
 A graphical example of such a subgraph is shown in Fig.~\ref{fig:subgraph}. Using this specification all possible subgraphs of this kind can be detected within a state machine. An algorithm how subgraphs can be computed programmatically is discussed later in section~\ref{sec:prototype:automatedconstraintgeneration}.
