@@ -3,6 +3,8 @@ package editor.validator.impl;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,8 +26,24 @@ import editor.validator.ValidationCanceledException;
 public class NuSMVModelCheckerWrapper extends ConstraintValidator {
 	
 	private boolean askForNuSmv = true;
-	private String nuSmvFile = "C:\\Users\\ludwig\\Documents\\TUM\\12 SS\\Thesis\\NuSMV\\bin\\NuSMV.exe";
+//	private String nuSmvFile = "C:\\Users\\ludwig\\Documents\\TUM\\12 SS\\Thesis\\NuSMV\\bin\\NuSMV.exe";
+	private String nuSmvFile = null;
 	private Map<String, String> replacementNames = new HashMap<String, String>();
+	
+	public NuSMVModelCheckerWrapper() {
+		try {
+			this.nuSmvFile = new File(ClassLoader.getSystemClassLoader().getResource("./NuSMV/NuSMV.exe").toURI()).getPath();
+			System.out.println(this.nuSmvFile);
+			try {
+				this.nuSmvFile = URLDecoder.decode(this.nuSmvFile, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			System.out.println(this.nuSmvFile);
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
+	}
 	
 	@Override
 	public String getLTLForVariable(String variable) {
@@ -84,8 +102,8 @@ public class NuSMVModelCheckerWrapper extends ConstraintValidator {
 	 * 
 	 * @return
 	 */
-	private String getNuSmvFile() {
-		if (this.nuSmvFile!=null && new File(this.nuSmvFile).isFile()) {
+	private String getNuSmvFile() {		
+		if (this.nuSmvFile!=null && new File(this.nuSmvFile).isFile() && new File(this.nuSmvFile).exists()) {
 			return this.nuSmvFile;
 		}
 		
