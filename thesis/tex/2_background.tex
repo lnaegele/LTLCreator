@@ -115,16 +115,11 @@ Very important for this work is a fundamental feature of RBDL, the ability to de
 
 
 
-%Zugriff auf devices via web services
-%Windows is used as operating system on the robots and the programs are executed in Adobe flash and Actionscript. External devices are accessed over web
-
-
-
 
 \section{Robostudio}
 \label{sec:robostudio}
 
-In the beginning all programming of the robot behaviour was done by directly editing the XML code mentioned in the previous section by using a text editor. However, huge code files and occasional code edits made further maintenance and change requests difficult up to impossible to realise. For this reason, Chandan Datta, PhD student at the University of Auckland, developed a visual programming environment for developing robot behaviour on top of RBDL. This environment- it is called Robostudio~\cite{robostudio} - allows to edit easily the program behaviour on a visual layer and generates the corresponding program file containing the RBDL code fully automatically. This file can be downloaded to the robot and executed by the interpreter. Figure~\ref{fig:robostudio_proceeding} illustrates the steps of robot behaviour development.
+In the beginning all programming of the robot behaviour was done by directly editing the RBDL code mentioned in the previous section by using a text editor. However, huge code files and occasional code edits made further maintenance and change requests difficult up to impossible to realise. For this reason, Chandan Datta, PhD student at the University of Auckland, developed a visual programming environment for developing robot behaviour on top of RBDL. This environment - it is called Robostudio~\cite{robostudio} - allows to easily edit the program behaviour on a visual layer and generates the corresponding program file containing the RBDL code fully automatically. This file can be downloaded to the robot and executed by the interpreter. Figure~\ref{fig:robostudio_proceeding} illustrates the steps of robot behaviour development.
 
 \begin{figure}[htbp]
   \centering
@@ -138,8 +133,8 @@ Several windows and views provide visual tools for editing and understanding rob
 The \emph{Expected Events Editor Window} (2) in the bottom left can be used for specifying the expected events and their effects.
 Heart and center of the editor is the \emph{UI Component Layout Editor Window} (3). It renders the screen dialog of the selected state and gives a preview of the screen presented on the robot during runtime. Components such as buttons, text boxes or images can be added, changed or removed via drag and drop.
 They are provided by the \emph{UI Components Palette Window} (4) on the right side where the developer can choose from all supported UI components.
-The \emph{Background Actions Editor Window} (5) lets the developer define background actions, which are executed transparently to the developer such as accessing external devices or sending messages.
-Aiming to support the developer with helpful graphical tools, the \emph{State Transition Visualization Window} (6) gives an overview about all connections towards and from the selected state. It helps to get quickly an understanding of the local program behaviour.
+The \emph{Background Actions Editor Window} (5) lets the developer define background actions, which are executed transparently such as accessing external devices or sending messages.
+Aiming to support the developer with helpful graphical tools, the \emph{State Transition Visualization Window} (6) gives an overview about all connections towards and from the selected state. It helps to quickly get an understanding of the local program behaviour.
 
 \begin{figure}[htbp]
   \centering
@@ -160,7 +155,7 @@ Aiming to support the developer with helpful graphical tools, the \emph{State Tr
 \label{sec:behaviourchecking}
 
 The use and application of software is versatile and varies from text editing programs running on personal computers, over control software for high-precision applications in aeronautics, right up to trigger mechanisms for deathly weapons. For most of them safety properties are irrelevant, but a few are ranked highly dangerous to their environment and also to human lifes. In order to eliminate software malfunction, there are different mathematical concepts for verifying software behaviour.
-One of them is model checking which allows checking state machine programs for functional safety. Since the healthbot applications mentioned in section~\ref{sec:healthbotapplication} are realised with state machines, the concept of behaviour checking is applicable and important for this kind of programs. At first the basic idea of state machines is described in section~\ref{sec:statemachines}, followed by an introduction into model checking in section~\ref{sec:modelcheckingandltl}.
+One of them is model checking which allows checking state machine programs for functional safety. Since the healthbot applications mentioned in section~\ref{sec:healthbotapplication} are realized with state machines, the concept of behaviour checking is applicable and important for this kind of programs. At first the basic idea of state machines is described in section~\ref{sec:statemachines}, followed by an introduction into model checking in section~\ref{sec:modelcheckingandltl}.
 
 
 \subsection{State machines}
@@ -170,7 +165,7 @@ A state machine is a model which can describe the behaviour of a system. It cont
 
 Each system status is represented by one \emph{state} which stands for a particular and unique constellation of system variables and properties. One state can be declared as \emph{start state} which is the very first state when the system starts working. The state representing the current system status is called \emph{current state}.
 The current state changes (maybe into itself) whenever there is a modification to the system. Such transfers of the system from the current state to another one are defined by \emph{transitions}. Thus, they define the possible system behaviour.
-All influences of the environment which cause a change to the system are called \emph{events}. They trigger transitions which transfer the system into a new (current) state. The fact that a state machine reacts to events is the reason why state machines are also called \emph{reactive systems}.
+All influences of the environment which cause a change to the system are called \emph{events}. They trigger transitions which transfer the system into a new (current) state. The fact that a state machine reacts to events is the reason why state machines are also known as \emph{reactive systems}.
 
 State machines can be visualized, as shown in figure~\ref{fig:statemachine} which gives a small example of a state machine.
 \begin{figure}[htbp]
@@ -231,12 +226,7 @@ Four states represent the ``system statuses'' of a lockable door: closed but unl
 The black circle defines the point of entry for this state machine, the door is closed but unlocked in the beginning. By an event of the environment - in this case a human acting at the door - the door can be opened, which turns ``opened'' into the current state, and closed later on again. A turn of the key locks respectively blocks the door and no further opening or closing is possible. A second turn of the key unlocks respective unblocks the door again.
 
 The short description given in this section does not contain a complete explanation about the concept of state machines at all, but it gives a basic overview which is needed as background information for this work.
-Also the explanation of state machines above is no formal definition; it can be read found in literature~\cite{statemachines, statemachinesandformalmethods}.
-%Also the formal definition of state machines is not relevant and can be found in literature~\cite{statemachines, statemachinesandformalmethods}.
-
-%mathematical model of computation
-%finite (endliche anzahl zustände)
-
+Also the explanation of state machines above is no formal definition; it can be found in literature~\cite{statemachines, statemachinesandformalmethods}.
 
 
 
@@ -291,7 +281,7 @@ Furthermore, LTL provides binary operators as follows:
 
 \begin{description}
 	\item[$\varphi \mathcal{U} \psi$] The ``UNTIL'' operator makes $\varphi$ true at least until the first occurrence of a state where $\psi$ is true. Besides, $\psi$ will eventually be true.
-	\item[$\varphi \mathcal{R} \psi$] It expresses that $\psi$ is true caused by the first occurrence of a state where $\varphi$ is true. Its meaning is $\varphi$ ``RELEASES'' $\psi$.
+	\item[$\varphi \mathcal{R} \psi$] It expresses that $\psi$ is true at least as long as there is no occurrence of a state where $\varphi$ is true. Its meaning is $\varphi$ ``RELEASES'' $\psi$.
 	\item[$\varphi \mathcal{W} \psi$] ``WEAK UNTIL'' represents the same as ``UNTIL'', except that an occurrence of $\psi$	is not necessary. In this case, $\varphi$ remains true infinitely.
 \end{description}
 
@@ -400,7 +390,7 @@ This notation gives special meanings to the two dimensions: The horizontal dimen
   \label{fig:hometleditor}
 \end{figure}
 
-Even though this approach touches the subject of healthcare it barely matches the problem stated in this work. HomeTL focuses more on monitoring temporal boundaries of a patient's behaviour than on ensuring functional safety of an implemented program. It does however depict how nontechnical constraint design can be realised and its graphical design is a good example of handling time dependencies.
+Even though this approach touches the subject of healthcare it barely matches the problem stated in this work. HomeTL focuses more on monitoring temporal boundaries of a patient's behaviour than on ensuring functional safety of an implemented program. It does however depict how nontechnical constraint design can be realized and its graphical design is a good example of handling time dependencies.
 
 
 

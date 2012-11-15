@@ -4,13 +4,13 @@
 Safety constraints primarily constitute essential properties which describe correct and safe behaviour of safety critical software applications. In order to discover whether a program meets certain safety requirements, its behaviour is checked by the constraints. This happens mostly as a last check before software gets released. 
 But regarding updating and maintenace work, often further changes are made to the software even after release.
 %But even after possible changes to the software in the context of updating and maintenance work,
-However, safety constraints can be applied again and assure the adherence of all properties. Safety constraints thus are also suitable for sustaining consistency during the different phases of software life. In fact, not only safety constraints, also properties of program behaviour which are not safety relevant at all are applicable for that. The more constraints are defined the the better can be the reliability.
+However, safety constraints can be applied again and assure the adherence of all properties. Safety constraints thus are also suitable for sustaining consistency during the different phases of software life. In fact, not only safety constraints, also properties of program behaviour which are not safety relevant at all are applicable for that. The more constraints are defined the better can be the reliability.
 But as already mentioned before, it might be difficult for developers to find all reasonable %safety
 constraints by hand. % which are needed for full safety covery.
 In this case it can happen that a prior correct software version becomes faulty over time because of minor adjustments once in a while which are not covered by constraints.
 %To help prevent this to happen
 
-As a solution to this problem, the concept of automated constraint generation for state machines is proposed. Once the initial implementation of a program is finished, the behaviour of this state machine can be analyzed. In particular heuristics can be elaborated which determine significant parts of the state machine automatically and put them into constraint representation. These constraints are of course valid on the current program.
+As a solution to this problem, the concept of automated constraint generation for state machines is proposed. Once the initial implementation of a program is finished, the behaviour of this state machine can be analyzed. In particular, heuristics can be elaborated which determine significant parts of the state machine automatically and put them into constraint representation. These constraints are of course valid on the current program.
 On the one hand, the constraint suggestions may help the developer identifying reasonable constraints he did not think about as well as contradictions between program and specification, eg.\ if a computed constraint does not make sense at all.
 On the other hand, all constraints can be revalidated after each change to the software and thus ensure consistency.
 
@@ -32,7 +32,7 @@ Among others, each safety constraint postulated in chapter~\ref{chap:goals} was 
 \end{enumerate}
 
 %All associated states which match these properties can be combined to a 
-In order to compute the required constraints automatically, and possibly additional ones, for each $\alpha$-state all associated $\beta$-states and the one $\gamma$-state have to be determined. Such a group of states of a state machine is named subgraph from now on. It is defined as follows:
+In order to compute the required constraints automatically, and possibly additional ones, for each $\alpha$-state all associated $\gamma$-states and the one $\beta$-state have to be determined. Such a group of states of a state machine is named subgraph from now on. It is defined as follows:
 %Each $\alpha$-, the corresponding $\beta$- and several $\gamma$-states form a part of a state set called \emph{subgraph}. In order to retreive valid constraints a subgraph is defined by the following requirements: %as follows
 
 \begin{itemize}
@@ -157,7 +157,7 @@ In case of $\alpha = \beta$ - i.e. when all paths starting from $\alpha$-state e
 \end{equation}
  
 
-These five constraints apply to each subgraph matching the conditions mentioned above. Formula~\ref{eq:first} says that an $\alpha$-state is always eventually followed by a $\beta$-state. Formula~\ref{eq:second} ensures that there will always at least one $\gamma$-state be eventually visited after each visit of an $\alpha$-state. The quite similar but stricter formula~\ref{eq:third} additionally demands a visit of at least one $\gamma$-state before the $\beta$-state can be reached. Formula~\ref{eq:fourth} simply says that a state not contained in the subgraph can't be visited between $\alpha$- and $\beta$-states. The constraint that the $\alpha$-state will always eventually be visited again is expressed by formula~\ref{eq:fifth}.
+These five constraints apply to each subgraph matching the conditions mentioned above. Formula~\ref{eq:first} says that an $\alpha$-state is always eventually followed by a $\beta$-state. Formula~\ref{eq:second} ensures that there will always at least one $\gamma$-state be eventually visited after each visit of an $\alpha$-state. The quite similar but stricter formula~\ref{eq:third} additionally demands a visit of at least one $\gamma$-state before the $\beta$-state can be reached. Formula~\ref{eq:fourth} simply says that a state not contained in the subgraph can not be visited between $\alpha$- and $\beta$-states. The constraint that the $\alpha$-state will always eventually be visited again is expressed by formula~\ref{eq:fifth}.
 
 All formulas can be translated to the visual formalism presented in section~\ref{sec:operatorconstraintformalism} and shown to the user. The appropriate LTL formulas for the constraints postulated in chapter~\ref{chap:goals} relate to number \ref{eq:second} and \ref{eq:fifth} of the subgraph based formula templates and are as follows:
 

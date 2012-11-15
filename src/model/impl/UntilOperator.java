@@ -89,11 +89,13 @@ public class UntilOperator extends AbstractOperator {
 		Dimension ps1 = this.a.getPreferredSize();
 		Dimension ps2 = this.b.getPreferredSize();
 		
-		int top1 = (this.getHeight() - ps1.height) / 2;
-		int top2 = (this.getHeight() - ps2.height) / 2;
+		int max_height = Math.max(ps1.height, ps2.height);
 		
-		this.a.setBounds(insets.left, top1, ps1.width, ps1.height);
-		this.b.setBounds(insets.left + ps1.width + space_between_buckets, top2, ps2.width, ps2.height);
+		int top1 = (max_height - ps1.height) / 2;
+		int top2 = (max_height - ps2.height) / 2;
+		
+		this.a.setBounds(insets.left, insets.top + top1, ps1.width, ps1.height);
+		this.b.setBounds(insets.left + ps1.width + space_between_buckets, insets.top + top2, ps2.width, ps2.height);
 	}
 
 	@Override

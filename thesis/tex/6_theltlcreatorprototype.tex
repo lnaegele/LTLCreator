@@ -10,7 +10,7 @@ The assembly of all the previous features in one tool is described in section~\r
 \section{State machine model}
 \label{sec:statemachinemodel}
 
-For the checking of constraints as well as for the constraint generation a model is needed which represents the state machine program. Three classes are responsible for holding the state machine program with all its necessary information: The class \emph{Fsm} represents the finite state machine and lists all contained states. It is called finite state machine, because the number of states is finite which applies to the domain of this work. \emph{State} represents the states of the machine and holds all transitions from and to the respective state. Transitions are represented by the class \emph{Transition} which specifies the source and a target state. Figure~\ref{fig:fsm_class} shows all three class definitions for the state machine model.
+For the checking of constraints as well as for the constraint generation a model is needed which represents the state machine program. Three classes are responsible for holding the state machine program with all its necessary information: The class \emph{Fsm} represents the finite state machine and lists all contained states. It is called finite state machine, because the number of states is finite which applies to the domain of this work. \emph{State} represents the states of the machine and holds a list of all transitions from or to itself. Transitions are represented by the class \emph{Transition} which specifies the source and a target state. Figure~\ref{fig:fsm_class} shows all three class definitions for the state machine model.
 
 \begin{figure}[htbp]
   \centering
@@ -87,8 +87,8 @@ Swing allows the implementation of a \emph{paint()} method which is responsible 
 
 %LAYOUT
 
-As proposed in the requirements for the visual language in section~\ref{sec:operatorconstraintformalism}, constraints have particular meanings for the two dimensions: A vertical read direction and the horizontal direction for variation in time. 
-Swing's mechanism for layouting components is used for the positioning of operators. After determining the aspired sizes of child components which represent sub operators, reference lines which have been already demonstrated with figure~\ref{fig:referencelines} in section~\ref{sec:operatorconstraintformalism} are computed mathematically. Based on this information operators are sized and positioned correctly.
+As proposed in the design decisions for the visual language in section~\ref{sec:designdecisions}, constraints have particular meanings for the two dimensions: A vertical read direction and the horizontal direction for variation in time. 
+Swing's mechanism for layouting components is used for the positioning of operators. After determining the aspired sizes of child components which represent sub operators, reference lines which have been already demonstrated with figure~\ref{fig:referencelines} in section~\ref{sec:designdecisions} are computed mathematically. Based on this information operators are sized and positioned correctly.
 
 %MOUSE OVER
 
@@ -302,7 +302,7 @@ The overall implemented way of subgraph finding is illustrated in pseudo code wi
 Line 1 defines a variable $subgraphs$ which will contain all results of the algorithm after execution.
 In line 4 the labelling process described above is executed by using one particular start state. Line 5 checks whether there is a state having the same label as the start state. If so, it is assumed as potential end state (line 6). Otherwise, the entire state machine is assumed to be a subgraph and the start state is defined as end state as well (line 8). Subsequent checks in line 9 finally determine whether it can be considered as proper subgraph.
 There are no cycles allowed between start and end state since they are forbidden by the subgraph definition in section~\ref{sec:subgraphdefinition}.
-Furthermore also foreign transitions are prohibited: Transitions coming from a state outside the subgraph are allowed to lead to the start state but not to other states of the subgraph. If all checks are successful, start and end states get added to the result list $subgraphs$ in line 11. This procedure is applied to all states of the state machine by the surrounding foreach loop (line 2). In the end, the list $subgraphs$ contains all pairs of start and end states which form subgraphs.
+Furthermore also foreign transitions are prohibited: Transitions coming from a state outside the subgraph are allowed to lead to the start state or the end state but not to other states of the subgraph. If all checks are successful, start and end states get added to the result list $subgraphs$ in line 11. This procedure is applied to all states of the state machine by the surrounding foreach loop (line 2). In the end, the list $subgraphs$ contains all pairs of start and end states which form subgraphs.
 
 
 \subsection{Constraint generation}
@@ -368,7 +368,7 @@ As a second approach aiming for better user experience during constraint generat
 \label{sec:coalescence}
 
 Both features, the editor for the visual language presented in section~\ref{sec:operatorconstraintformalism} and the automated constraint generation in chapter~\ref{chap:automatedgenerationofsafetyconstraints}, were assembled in one tool, the \emph{LTLCreator}.
-Figure~\ref{fig:LTLCreator} shows the assembled parts of LTLCreator: A dashboard is provided where constraints can be edited visually by the developer and result displays indicate the validation results of constraints graphically. For validating the constraints an external model checker is linked to \emph{LTLCreator}. This component does not have an UI as well as the constraint generator, which is also part of \emph{LTLCreator}. 
+Figure~\ref{fig:LTLCreator} shows the assembled parts of \emph{LTLCreator}: A dashboard is provided where constraints can be edited visually by the developer and result displays indicate the validation results of constraints graphically. For validating the constraints an external model checker is linked to \emph{LTLCreator}. This component does not have an UI as well as the constraint generator, which is also part of \emph{LTLCreator}. 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.65\linewidth]{LTLCreator}
@@ -398,7 +398,7 @@ The magic wand button within the tab pane makes the constraint generation functi
 \subsection{Model checker}
 
 A main requirement to the \emph{LTLCreator} tool is that all constraints can be validated immediately and allow fast feedback about the correctness of programs. For this a \emph{ConstraintValidator} class has been defined which provides a method \emph{validate(AbstractOperator)} for proving constraints.
-For the constraint validation itself a particular model checker can be specified. As a default, the symbolic model checker NuSMV~\cite{springerlink:10.1007/s100090050046,NuSMV2} is used. It is an open source project and has been designed to be an open architecture for model checking. NuSMV does not have a java API but it can be externally accessed over command line. For this both the state machine program and the LTL formulas have to be translated to an input file which has to match a NuSMV specific format. For LTL formulas NuSMV uses the char ``G'' (for globally) instead of $\Box$ and the char ``F'' (for future) instead of $\Diamond$. An example of this input language is given in listing~\ref{lst:nusmv}.
+For the constraint validation itself a particular model checker can be specified. As a default, the symbolic model checker NuSMV~\cite{springerlink:10.1007/s100090050046,NuSMV2} is used. It is an open source project and has been designed to be an open architecture for model checking. NuSMV does not have a Java API but it can be externally accessed over command line. For this both the state machine program and the LTL formulas have to be translated to an input file which has to match a NuSMV specific format. For LTL formulas NuSMV uses the char ``G'' (for globally) instead of $\Box$ and the char ``F'' (for future) instead of $\Diamond$. An example of this input language is given in listing~\ref{lst:nusmv}.
 
 \lstset{
   basicstyle=\ttfamily,
@@ -429,7 +429,7 @@ MODULE main
 LTLSPEC G (state = 5 -> (F (state = 8 | state = 11)))
 \end{lstlisting}
 A state machine is encoded in the variable \emph{state}, and its value represents the active state. Thus, each state is identified by a number. The state machine described in the example of listing~\ref{lst:nusmv} contains eleven states, this is determined by the number range for \emph{state} from one to eleven. All variable assignments are specified under \emph{ASSIGN} and represent the semantic equivalent to transition definitions. The initial state can be determined and a case distinction regulates the next possible values, i.e. transitions to reachable states. If there are more than one outgoing transition, all target state identifiers have to be surrounded by brackets. The last expression \emph{TRUE : state;} is a self transition for every state not considered in the case distinction.
-The last line contains the constraint formula we want to be checked on the state machine. The prefix \emph{LTLSPEC} just says that NuSMV has to interprete the following constraint as LTL formula.
+The last line contains the constraint formula which has to be checked on the state machine. The prefix \emph{LTLSPEC} just says that NuSMV has to interprete the following constraint as LTL formula.
 
 This kind of output is generated by the \emph{ConstraintValidator} whenever a constraint needs validation. All states are then mapped to numbers and transitions get transformed into case distinctions. The result is stored to a file and then loaded by NuSMV. The corresponding valdidation result can be subsequently read from the command line and displayed in the editor next to the visual constraint. Due to issues of this command line API, each constraint is checked in a new NuSMV instance.
 
@@ -502,10 +502,10 @@ The \emph{XmlDataToLTLEditorDataWrapper} forms the bridge between Robostudio's o
 \subsection{Problems}
 
 As already proposed in section~\ref{sec:easeofintegration}, all changes to the state machine program made within Robostudio must of course cause the \emph{LTLCreator} module to revalidate all existing constraints. This demands a concept of change notification management which is responsible for receiving all changes and making this information available for the \emph{LTLCreator} component. As a solution, all parts of the code where model changes are made should be extended with short code snippets which send notifications.
-However, this is not as easy to realise in Robostudio since some of the relevant code was generated or even imported as external jars which makes code manipulation impossible.
+However, this is not as easy to realize in Robostudio since some of the relevant code was generated or even imported as external jars which makes code manipulation impossible.
 
-A second challenge is the current data handling policy in Robostudio. Since this platform is mainly made for developers who used to edit RBDL xml code manually, Robostudio aims for visual rapid editing rather than for syntax checks. Thus syntax errors are not detected or even ignored by static analysis or input restrictions. In fact, such features haven't been requirements for Robostudio. During integration of \emph{LTLCreator} into Robostudio problems came up like transitions leading to non existing states, transitions leading to nowhere (null) or transitions whose target is depending on runtime facts.
-This characteristic seems to be a problem for the \emph{LTLCreator} which needs a complete state machine as input and doesn't know how to cope with inconsistent data retrieved from Robostudio.
+A second challenge is the current data handling policy in Robostudio. Since this platform is mainly made for developers who used to edit RBDL xml code manually, Robostudio aims for visual rapid editing rather than for syntax checks. Thus, syntax errors are not detected or even ignored by methods like static analysis or input restrictions. In fact, such features have not been requirements for Robostudio. During integration of \emph{LTLCreator} into Robostudio problems came up when loading already existing RBDL programs of the healthbot project: Transitions leading to non existing states, transitions leading to nowhere (null) or transitions whose target is depending on runtime facts.
+This characteristic seems to be a problem for the \emph{LTLCreator} which needs a complete and correct state machine as input and does not know how to cope with inconsistent data retrieved from Robostudio.
 
 
 
