@@ -33,16 +33,13 @@ public class NuSMVModelCheckerWrapper extends ConstraintValidator {
 	public NuSMVModelCheckerWrapper() {
 		try {
 			this.nuSmvFile = new File(ClassLoader.getSystemClassLoader().getResource("./NuSMV/NuSMV.exe").toURI()).getPath();
-			System.out.println(this.nuSmvFile);
 			try {
 				this.nuSmvFile = URLDecoder.decode(this.nuSmvFile, "UTF-8");
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
 			System.out.println(this.nuSmvFile);
-		} catch (Exception e2) {
-			e2.printStackTrace();
-		}
+		} catch (Exception e2) {}
 	}
 	
 	@Override
@@ -110,20 +107,7 @@ public class NuSMVModelCheckerWrapper extends ConstraintValidator {
 		String result = null;
 		if (this.askForNuSmv) {
 			int r = JOptionPane.showConfirmDialog(null, "Do you want to connect a NuSMV model checker so that constraints can be directly checked?", "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-			if (r==JOptionPane.YES_OPTION) {
-//				File tmp = new File("LTLCreator.tmp");
-//				String lastNuSmvFile = null;
-//					if (tmp.isFile()) {
-//					try {
-//						BufferedReader br = new BufferedReader(new FileReader(tmp));
-//						String s = br.readLine();
-//						br.close();
-//						if (s!=null && new File(s).isFile()) {
-//							
-//						}
-//					} catch (Exception e) {}
-//				}
-				
+			if (r==JOptionPane.YES_OPTION) {				
 				JFileChooser fc = new JFileChooser(this.nuSmvFile==null ? null : new File(this.nuSmvFile));
 				fc.setFileFilter(new FileFilter() {
 					@Override
