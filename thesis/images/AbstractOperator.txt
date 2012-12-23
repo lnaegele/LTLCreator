@@ -1,4 +1,0 @@
-yuml.me
-
-[;AbstractOperator||+ getLTL() : String;+ getColor() : Color;+ createNewInstance() : AbstractOperator;+ isSimilar(AbstractOperator) : boolean;+ addChangeListener(OperatorChangeListener) : void;+ removeChangeListener(OperatorChangeListener) : void]
-[uh]
